@@ -4,13 +4,16 @@ EXTENDS Integers,
 CONSTANT NODES  \* The set of nodes in the system
 
 VARIABLES
-  rmState,       \* rmState[r, transcationNumber] is the state of node r for transcation transcationNumber.
+  rmState,       \* rmState[r, transactionNumber] is the state of node r for transcation transactionNumber.
   tmState,       \* The state of the leader.
   tmPrepared,    \* The set of nodes from which the leader has received "Prepared"
                  \* messages.
-  leaders,        \* leaders[transcationNumber] is the leader in the system for transcation transcationNumber.
+  leaders,        \* leaders[transactionNumber] is the leader in the system for transactionNumber transactionNumber.
+ 
   msgs,
   localTransactionHistory,\*  localTransactionHistory[nodes] is the transcation history graph for the corresponding node 
+                          \* localTransactionHistory[nodes][transactionNumber]["committed"] is the set of local committed transactions
+                          \* localTransactionHistory[nodes][transactionNumber]["prepared"]is the set of local prepared transactions
   transactionNumbers \* all transcations happened in the system
  
 
@@ -58,8 +61,10 @@ GRAPHTypeOK ==
   (* received by all nodes.  The set msgs contains just a single copy of     *)
   (* such a message.                                                       *)
   (*************************************************************************)
-  [type : {"Prepared"}, prepareN:  transactionNumbers, dependency : SUBSET transactionNumbers,  rm : NODES ]  \cup  [type : {"Commit", "Abort"}, tn: transactionNumbers]
+  [type : {"responsePhase2"}, prepareN:  transactionNumbers, dependency : SUBSET transactionNumbers,  rm : NODES, val:{"prepared", "aborted"} ]  \cup  [type : {"Commit", "Abort"}, tn: transactionNumbers]
   \cup [type : {"Prepared"}, prepareN:  transactionNumbers, dependency : SUBSET transactionNumbers,  leader : NODES]
+  \cup [type: {"aborted"}, tn : transactionNumbers]
+  \cup [type: {"committed"}, tn: transactionNumbers]
   
   GraphInit ==   
   (*************************************************************************)
@@ -76,7 +81,7 @@ GRAPHTypeOK ==
   (*************************************************************************)
   /\ rmState[r, prepareInfo] = "working"
   /\ rmState' = [rmState EXCEPT ![r, prepareInfo] = "prepared"]
-  /\ msgs' = msgs \cup {[type |-> "Prepared", prepareN |->prepareInfo, dependency |-> depdencyInfo, rm |-> r]}
+  /\ msgs' = msgs \cup {[type |-> "responsePhase2", prepareN |->prepareInfo, dependency |-> depdencyInfo, rm |-> r, val |-> "prepared"]}
   
   /\ UNCHANGED <<tmState, tmPrepared, transactionNumbers>>
   
@@ -89,19 +94,38 @@ GRAPHTypeOK ==
   /\ tmState' = "prepared"
   /\ transactionNumbers' = <<Head(transactionNumbers) + 1>> \o transactionNumbers
   /\ msgs' = msgs \cup {[type |-> "Prepared", prepareN |->prepareInfo, dependency |-> depdencyInfo, leadr |-> 0]}
-  /\ UNCHANGED <<rmState, tmPrepared, transactionNumbers>>
+  /\ UNCHANGED <<rmState, tmPrepared>>
   
   
   
-  ParticipantChooseToAbort(r, abortInfo) ==
+  ParticipantChooseToAbort(r, abortInfo, depdencyInfo) ==
   (*************************************************************************)
-  (* node r spontaneously decides to abort.  As noted above, r *)
-  (* does not send any message in our simplified spec.                     *)
+  (* node r spontaneously decides to abort.                      *)
   (*************************************************************************)
-  /\ rmState[r] = "working"
+  /\ rmState[r, abortInfo] = "working"
   /\ rmState' = [rmState EXCEPT ![r, abortInfo] = "aborted"]
-  /\ UNCHANGED <<tmState, tmPrepared, msgs>>
+  /\ msgs' = msgs \cup {[type |-> "responsePhase2", prepareN |->abortInfo, dependency |-> depdencyInfo, rm |-> r, val |-> "aborted"]}
+  /\ UNCHANGED <<tmState, tmPrepared>>
+  
+  
+  
+  ParticipantRecvPhase1(r, prepareInfo, depdencyInfo) == 
+  IF depdencyInfo \subseteq localTransactionHistory[r]["committed"] \cup localTransactionHistory[r]["prepared"]
+  THEN
+     ParticipantPrepare(r, prepareInfo, depdencyInfo)
+  ELSE
+     ParticipantChooseToAbort(r, prepareInfo, depdencyInfo)
+  
+  
+  
+  ParticipantRcvAbortMsg(r, tn) == 
+  localTransactionHistory[r]["prepared"]' =  localTransactionHistory[r]["prepared"] \ {tn}
+  
+\*  ParticipantRecvPhase2(r, tn) == 
+  
+  
+  
 =============================================================================
 \* Modification History
-\* Last modified Thu Feb 20 14:41:51 CST 2025 by junhaohu
+\* Last modified Mon Feb 24 22:43:27 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
