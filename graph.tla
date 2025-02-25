@@ -5,10 +5,8 @@ CONSTANT NODES  \* The set of nodes in the system
 
 VARIABLES
   rmState,       \* rmState[r, transactionNumber] is the state of node r for transcation transactionNumber.
-  tmState,       \* The state of the leader.
   tmPrepared,    \* The set of nodes from which the leader has received "Prepared"
                  \* messages.
-  leaders,        \* leaders[transactionNumber] is the leader in the system for transactionNumber transactionNumber.
  
   msgs,
   localTransactionHistory,\*  localTransactionHistory[nodes] is the transcation history graph for the corresponding node 
@@ -23,7 +21,7 @@ GRAPHTypeOK ==
   (*************************************************************************)
   (* The type-correctness invariant                                        *)
   (*************************************************************************)
-  rmState \in [NODES -> {"working", "prepared", "committed", "aborted"}]
+  rmState \in [transactionNumbers -> [NODES -> {"follower", "leader"}]]
  GRAPHConsistency ==
   (*************************************************************************)
   (* A state predicate asserting that two nodes have not arrived at          *)
@@ -70,8 +68,7 @@ GRAPHTypeOK ==
   (*************************************************************************)
   (* The initial predicate.                                                *)
   (*************************************************************************)
-  /\ rmState = [r \in NODES, y \in Int |-> "working"]
-  /\ tmState = "init"
+  /\ rmState = [r \in NODES, y \in Int |-> "follower"]
   /\ tmPrepared   = {}
   /\ msgs = {}
   
@@ -83,15 +80,15 @@ GRAPHTypeOK ==
   /\ rmState' = [rmState EXCEPT ![r, prepareInfo] = "prepared"]
   /\ msgs' = msgs \cup {[type |-> "responsePhase2", prepareN |->prepareInfo, dependency |-> depdencyInfo, rm |-> r, val |-> "prepared"]}
   
-  /\ UNCHANGED <<tmState, tmPrepared, transactionNumbers>>
+  /\ UNCHANGED <<tmPrepared, transactionNumbers>>
   
   
- LeaderPrepare(prepareInfo, depdencyInfo) == 
+ LeaderPrepare(prepareInfo, depdencyInfo, i, j) == 
   (*************************************************************************)
   (* leader send prepare message                                    *)
   (*************************************************************************)
-  /\ tmState = "working"
-  /\ tmState' = "prepared"
+  /\ rmState[prepareInfo][i] = "leader"
+  /\ rmState[prepareInfo][j] = "follower"
   /\ transactionNumbers' = <<Head(transactionNumbers) + 1>> \o transactionNumbers
   /\ msgs' = msgs \cup {[type |-> "Prepared", prepareN |->prepareInfo, dependency |-> depdencyInfo, leadr |-> 0]}
   /\ UNCHANGED <<rmState, tmPrepared>>
@@ -105,7 +102,7 @@ GRAPHTypeOK ==
   /\ rmState[r, abortInfo] = "working"
   /\ rmState' = [rmState EXCEPT ![r, abortInfo] = "aborted"]
   /\ msgs' = msgs \cup {[type |-> "responsePhase2", prepareN |->abortInfo, dependency |-> depdencyInfo, rm |-> r, val |-> "aborted"]}
-  /\ UNCHANGED <<tmState, tmPrepared>>
+  /\ UNCHANGED << tmPrepared>>
   
   
   
@@ -120,6 +117,7 @@ GRAPHTypeOK ==
   
   ParticipantRcvAbortMsg(r, tn) == 
   localTransactionHistory[r]["prepared"]' =  localTransactionHistory[r]["prepared"] \ {tn}
+\*  /\ UNCHANGED <<tmState, 
   
 \*  ParticipantRecvPhase2(r, tn) == 
   
@@ -127,5 +125,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Mon Feb 24 22:43:27 CST 2025 by junhaohu
+\* Last modified Tue Feb 25 21:29:20 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
