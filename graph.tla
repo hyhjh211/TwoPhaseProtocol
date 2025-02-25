@@ -96,23 +96,35 @@ GRAPHTypeOK ==
   (*************************************************************************)
   (* node r spontaneously decides to abort.                                *)
   (*************************************************************************)
-  /\ rmState[abortInfo][r] = "follower"
+  /\ rmState[abortInfo][s] = "follower"
+  /\ rmState[abortInfo][r] = "leader"
   /\ msgs' = msgs \cup {[type |-> "responsePhase2", prepareN |->abortInfo, dependency |-> depdencyInfo, rm |-> r, val |-> "aborted"]}
   /\ UNCHANGED << rmState>>
   
   
   
-  ParticipantRecvPhase1(r, s, prepareInfo, depdencyInfo) == 
+  ParticipantRecvPhase1(r, s, tnInfo, depdencyInfo) == 
+  (*************************************************************************)
+  (* node r receive message from leader s                                  *)
+  (*************************************************************************)
   IF depdencyInfo \subseteq localTransactionHistory[r]["committed"] \cup localTransactionHistory[r]["prepared"]
   THEN
-     ParticipantPrepare(r, prepareInfo, depdencyInfo)
+     ParticipantPrepare(r, tnInfo, depdencyInfo)
   ELSE
-     ParticipantChooseToAbort(r, s, prepareInfo, depdencyInfo)
+     ParticipantChooseToAbort(r, s, tnInfo, depdencyInfo)
   
   
+  ParticipantRecvAbort(r, s, tnInfo, depdencyInfo) ==
+   /\ rmState[tnInfo][r] = "follower"
+   /\ rmState[tnInfo][s] = "leader"
+   /\ localTransactionHistory[r]["prepared"]' = localTransactionHistory[r]["prepared"] \ {tnInfo}
   
-  ParticipantRcvAbortMsg(r, tn) == 
-  localTransactionHistory[r]["prepared"]' =  localTransactionHistory[r]["prepared"] \ {tn}
+  
+  ParticipantRcvCommittMsg(r, s, tnInfo) == 
+  /\ rmState[tnInfo][r] = "follower"
+  /\ rmState[tnInfo][s] = "leader"
+  /\ localTransactionHistory[r]["prepared"]' =  localTransactionHistory[r]["prepared"] \ {tnInfo}
+  /\ localTransactionHistory[r]["committed"]' = localTransactionHistory[r]["committed"] \cup {tnInfo}
 \*  /\ UNCHANGED <<tmState, 
   
 \*  ParticipantRecvPhase2(r, tn) == 
@@ -121,5 +133,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Tue Feb 25 22:17:03 CST 2025 by junhaohu
+\* Last modified Tue Feb 25 23:41:54 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
