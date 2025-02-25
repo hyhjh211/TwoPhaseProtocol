@@ -5,9 +5,7 @@ CONSTANT NODES  \* The set of nodes in the system
 
 VARIABLES
   rmState,       \* rmState[r, transactionNumber] is the state of node r for transcation transactionNumber.
-  tmPrepared,    \* The set of nodes from which the leader has received "Prepared"
-                 \* messages.
- 
+
   msgs,
   localTransactionHistory,\*  localTransactionHistory[nodes] is the transcation history graph for the corresponding node 
                           \* localTransactionHistory[nodes][transactionNumber]["committed"] is the set of local committed transactions
@@ -69,7 +67,6 @@ GRAPHTypeOK ==
   (* The initial predicate.                                                *)
   (*************************************************************************)
   /\ rmState = [r \in NODES, y \in Int |-> "follower"]
-  /\ tmPrepared   = {}
   /\ msgs = {}
   
   ParticipantPrepare(r, prepareInfo, depdencyInfo) == 
@@ -80,38 +77,37 @@ GRAPHTypeOK ==
   /\ rmState' = [rmState EXCEPT ![r, prepareInfo] = "prepared"]
   /\ msgs' = msgs \cup {[type |-> "responsePhase2", prepareN |->prepareInfo, dependency |-> depdencyInfo, rm |-> r, val |-> "prepared"]}
   
-  /\ UNCHANGED <<tmPrepared, transactionNumbers>>
+  /\ UNCHANGED <<transactionNumbers>>
   
   
- LeaderPrepare(prepareInfo, depdencyInfo, i, j) == 
+ LeaderPrepare(prepareInfo, depdencyInfo, s, r) == 
   (*************************************************************************)
-  (* leader send prepare message                                    *)
+  (* leader i send prepare message to follower j                           *)
   (*************************************************************************)
-  /\ rmState[prepareInfo][i] = "leader"
-  /\ rmState[prepareInfo][j] = "follower"
+  /\ rmState[prepareInfo][s] = "leader"
+  /\ rmState[prepareInfo][r] = "follower"
   /\ transactionNumbers' = <<Head(transactionNumbers) + 1>> \o transactionNumbers
   /\ msgs' = msgs \cup {[type |-> "Prepared", prepareN |->prepareInfo, dependency |-> depdencyInfo, leadr |-> 0]}
-  /\ UNCHANGED <<rmState, tmPrepared>>
+  /\ UNCHANGED <<rmState>>
   
   
   
-  ParticipantChooseToAbort(r, abortInfo, depdencyInfo) ==
+  ParticipantChooseToAbort(r,s,abortInfo, depdencyInfo) ==
   (*************************************************************************)
-  (* node r spontaneously decides to abort.                      *)
+  (* node r spontaneously decides to abort.                                *)
   (*************************************************************************)
-  /\ rmState[r, abortInfo] = "working"
-  /\ rmState' = [rmState EXCEPT ![r, abortInfo] = "aborted"]
+  /\ rmState[abortInfo][r] = "follower"
   /\ msgs' = msgs \cup {[type |-> "responsePhase2", prepareN |->abortInfo, dependency |-> depdencyInfo, rm |-> r, val |-> "aborted"]}
-  /\ UNCHANGED << tmPrepared>>
+  /\ UNCHANGED << rmState>>
   
   
   
-  ParticipantRecvPhase1(r, prepareInfo, depdencyInfo) == 
+  ParticipantRecvPhase1(r, s, prepareInfo, depdencyInfo) == 
   IF depdencyInfo \subseteq localTransactionHistory[r]["committed"] \cup localTransactionHistory[r]["prepared"]
   THEN
      ParticipantPrepare(r, prepareInfo, depdencyInfo)
   ELSE
-     ParticipantChooseToAbort(r, prepareInfo, depdencyInfo)
+     ParticipantChooseToAbort(r, s, prepareInfo, depdencyInfo)
   
   
   
@@ -125,5 +121,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Tue Feb 25 21:29:20 CST 2025 by junhaohu
+\* Last modified Tue Feb 25 22:17:03 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
