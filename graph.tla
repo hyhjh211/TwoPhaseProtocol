@@ -59,8 +59,8 @@ GRAPHTypeOK ==
   (*************************************************************************)
   [type : {"responsePhase2"}, prepareN:  transactionNumbers, dependency : SUBSET transactionNumbers,  rm : NODES, val:{"prepared", "aborted"} ]  \cup  [type : {"Commit", "Abort"}, tn: transactionNumbers]
   \cup [type : {"Prepared"}, prepareN:  transactionNumbers, dependency : SUBSET transactionNumbers,  leader : NODES]
-  \cup [type: {"aborted"}, tn : transactionNumbers]
-  \cup [type: {"committed"}, tn: transactionNumbers]
+  \cup [type: {"aborted"}, tn : transactionNumbers, rm: NODES]
+  \cup [type: {"committed"}, tn: transactionNumbers, rm: NODES]
   
   GraphInit ==   
   (*************************************************************************)
@@ -82,13 +82,22 @@ GRAPHTypeOK ==
   
  LeaderPrepare(prepareInfo, depdencyInfo, s, r) == 
   (*************************************************************************)
-  (* leader i send prepare message to follower j                           *)
+  (* leader s send prepare message to follower r                           *)
   (*************************************************************************)
   /\ rmState[prepareInfo][s] = "leader"
   /\ rmState[prepareInfo][r] = "follower"
   /\ transactionNumbers' = <<Head(transactionNumbers) + 1>> \o transactionNumbers
   /\ msgs' = msgs \cup {[type |-> "Prepared", prepareN |->prepareInfo, dependency |-> depdencyInfo, leadr |-> 0]}
   /\ UNCHANGED <<rmState>>
+  
+  
+  LeaderCommit(tnInfo, s, r) == 
+  (*************************************************************************)
+  (* leader s send prepare message to follower r                           *)
+  (*************************************************************************)
+  /\ rmState[tnInfo][s] = "leader"
+  /\ rmState[tnInfo][r] = "follower"
+  /\ msgs' = msgs \cup {[type: {"committed"}, tn: transactionNumbers, rm:r]}
   
   
   
@@ -143,5 +152,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Wed Feb 26 00:03:33 CST 2025 by junhaohu
+\* Last modified Wed Feb 26 00:54:40 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
