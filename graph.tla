@@ -6,12 +6,12 @@ CONSTANT NODES,  \* The set of nodes in the system,
         transactionsDependency \* all transcations happened in the system
 
 VARIABLES
-  rmState,       \* rmState[r, transactionNumber] is the state of node r for transcation transactionNumber.
+  rmState,       \* rmState[r, transactionNumber] is the state of node r for transcation transactionNumber "leader" or "follower".
 
   msgs,
   localTransactionHistory\*  localTransactionHistory[nodes] is the transcation history graph for the corresponding node 
-                          \* localTransactionHistory[nodes][transactionNumber]["committed"] is the set of local committed transactions
-                          \* localTransactionHistory[nodes][transactionNumber]["prepared"]is the set of local prepared transactions
+                          \* localTransactionHistory[nodes]["committed"] is the set of local committed transactions
+                          \* localTransactionHistory[nodes]["prepared"]is the set of local prepared transactions
   
  
 
@@ -64,6 +64,8 @@ GRAPHTypeOK ==
   \cup [type: {"aborted"}, tn : transactionNumbers, rm: NODES]
   \cup [type: {"committed"}, tn: transactionNumbers, rm: NODES]
   
+  Quorum == {i \in SUBSET(NODES) : Cardinality(i) * 2 > Cardinality(NODES)}
+  
   GraphInit ==   
   (*************************************************************************)
   (* The initial predicate.                                                *)
@@ -75,8 +77,8 @@ GRAPHTypeOK ==
   (*************************************************************************)
   (* participant r send prepare message                                    *)
   (*************************************************************************)
-  /\ rmState[r, prepareInfo] = "working"
-  /\ rmState' = [rmState EXCEPT ![r, prepareInfo] = "prepared"]
+  /\ rmState[r, prepareInfo] = "follower"
+\*  /\ rmState' = [rmState EXCEPT ![r, prepareInfo] = "prepared"]
   /\ msgs' = msgs \cup {[type |-> "responsePhase2", prepareN |->prepareInfo, dependency |-> depdencyInfo, rm |-> r, val |-> "prepared"]}
   
   /\ UNCHANGED <<transactionNumbers>>
@@ -98,6 +100,7 @@ GRAPHTypeOK ==
   (*************************************************************************)
   /\ rmState[tnInfo][s] = "leader"
   /\ rmState[tnInfo][r] = "follower"
+  /\ {x \in NODES: tnInfo \in localTransactionHistory[x]["committed"]} \in Quorum
   /\ msgs' = msgs \cup {[type: {"committed"}, tn: transactionNumbers, rm:r]}
   
   
@@ -155,5 +158,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Wed Feb 26 21:25:58 CST 2025 by junhaohu
+\* Last modified Thu Feb 27 00:49:34 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
