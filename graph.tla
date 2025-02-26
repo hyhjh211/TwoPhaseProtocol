@@ -137,6 +137,7 @@ GRAPHTypeOK ==
   ParticipantRcvCommittMsg(r, s, tnInfo) == 
   /\ rmState[tnInfo][r] = "follower"
   /\ rmState[tnInfo][s] = "leader"
+  /\ [type |-> "committed", tn |-> tnInfo, rm |-> r] \in msgs
   /\ localTransactionHistory[r]["prepared"]' =  localTransactionHistory[r]["prepared"] \ {tnInfo}
   /\ localTransactionHistory[r]["committed"]' = localTransactionHistory[r]["committed"] \cup {tnInfo}
 \*  /\ UNCHANGED <<tmState, 
@@ -152,5 +153,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Wed Feb 26 00:54:40 CST 2025 by junhaohu
+\* Last modified Wed Feb 26 21:10:52 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
