@@ -1,16 +1,18 @@
 ------------------------------- MODULE graph -------------------------------
 EXTENDS Integers,
          Sequences, TLC, FiniteSets
-CONSTANT NODES  \* The set of nodes in the system
+CONSTANT NODES,  \* The set of nodes in the system,
+        transactionNumbers, \* all transcations happened in the system
+        transactionsDependency \* all transcations happened in the system
 
 VARIABLES
   rmState,       \* rmState[r, transactionNumber] is the state of node r for transcation transactionNumber.
 
   msgs,
-  localTransactionHistory,\*  localTransactionHistory[nodes] is the transcation history graph for the corresponding node 
+  localTransactionHistory\*  localTransactionHistory[nodes] is the transcation history graph for the corresponding node 
                           \* localTransactionHistory[nodes][transactionNumber]["committed"] is the set of local committed transactions
                           \* localTransactionHistory[nodes][transactionNumber]["prepared"]is the set of local prepared transactions
-  transactionNumbers \* all transcations happened in the system
+  
  
 
 \*msgs' = msgs \cup {[type |-> "Prepared", prepareN |->prepareInfo, dependency |-> depdencyInfo, rm |-> r]}
@@ -86,7 +88,6 @@ GRAPHTypeOK ==
   (*************************************************************************)
   /\ rmState[prepareInfo][s] = "leader"
   /\ rmState[prepareInfo][r] = "follower"
-  /\ transactionNumbers' = <<Head(transactionNumbers) + 1>> \o transactionNumbers
   /\ msgs' = msgs \cup {[type |-> "Prepared", prepareN |->prepareInfo, dependency |-> depdencyInfo, leadr |-> 0]}
   /\ UNCHANGED <<rmState>>
   
@@ -154,5 +155,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Wed Feb 26 21:22:25 CST 2025 by junhaohu
+\* Last modified Wed Feb 26 21:25:58 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
