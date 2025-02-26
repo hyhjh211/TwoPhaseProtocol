@@ -53,8 +53,8 @@ GRAPHTypeOK ==
   (*************************************************************************)
   (* The set of all possible messages.  Messages of type "Prepared" are    *)
   (* sent from the node indicated by the message's rm field to the leader.       *)
-  (* Messages of type "Commit" and "Abort" are broadcast by the corresponding leader, to be  *)
-  (* received by all nodes.  The set msgs contains just a single copy of     *)
+  (* Messages of type "Commit" and "Abort" are sent by the corresponding leader, to be  *)
+  (* received by participants.  The set msgs contains just a single copy of     *)
   (* such a message.                                                       *)
   (*************************************************************************)
   [type : {"responsePhase2"}, prepareN:  transactionNumbers, dependency : SUBSET transactionNumbers,  rm : NODES, val:{"prepared", "aborted"} ]  \cup  [type : {"Commit", "Abort"}, tn: transactionNumbers]
@@ -131,6 +131,7 @@ GRAPHTypeOK ==
   ParticipantRecvAbort(r, s, tnInfo, depdencyInfo) ==
    /\ rmState[tnInfo][r] = "follower"
    /\ rmState[tnInfo][s] = "leader"
+   /\ [type |-> "aborted", tn |-> tnInfo, rm |-> r] \in msgs
    /\ localTransactionHistory[r]["prepared"]' = localTransactionHistory[r]["prepared"] \ {tnInfo}
   
   
@@ -153,5 +154,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Wed Feb 26 21:19:35 CST 2025 by junhaohu
+\* Last modified Wed Feb 26 21:22:25 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
