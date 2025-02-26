@@ -105,6 +105,14 @@ GRAPHTypeOK ==
   
   
   
+  LeaderAbort(tnInfo, s, r) ==
+  (*********************************************************************************)
+  (* leader s spontaneously aborts the transaction and send the abort message to r.*)
+  (*********************************************************************************)
+  /\ rmState[tnInfo][s] = "leader"
+  /\ rmState[tnInfo][r] = "follower"
+  /\ msgs' = msgs \cup {[type: {"aborted"}, tn: transactionNumbers, rm:r]}
+  
   ParticipantChooseToAbort(r,s,abortInfo, depdencyInfo) ==
   (*************************************************************************)
   (* node r spontaneously decides to abort.                                *)
@@ -159,5 +167,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Thu Feb 27 00:56:19 CST 2025 by junhaohu
+\* Last modified Thu Feb 27 01:01:49 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
