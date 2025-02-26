@@ -100,7 +100,7 @@ GRAPHTypeOK ==
   (*************************************************************************)
   /\ rmState[tnInfo][s] = "leader"
   /\ rmState[tnInfo][r] = "follower"
-  /\ {x \in NODES: tnInfo \in localTransactionHistory[x]["committed"]} \in Quorum
+  /\ {x \in NODES: tnInfo \in localTransactionHistory[x]["prepared"]} \in Quorum
   /\ msgs' = msgs \cup {[type: {"committed"}, tn: transactionNumbers, rm:r]}
   
   
@@ -150,6 +150,7 @@ GRAPHTypeOK ==
 
   ClientRequest(i, tnInfo, depdencyInfo) == 
   /\ rmState[tnInfo][i] = "follower"
+  /\ rmState[tnInfo][i]'= "leader"
   
   
 \*  ParticipantRecvPhase2(r, tn) == 
@@ -158,5 +159,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Thu Feb 27 00:49:34 CST 2025 by junhaohu
+\* Last modified Thu Feb 27 00:56:19 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
