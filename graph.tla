@@ -110,8 +110,8 @@ GRAPHTypeOK ==
   /\ msgs' = msgs \cup {[type |-> "responsePhase2", prepareN |->abortInfo, dependency |-> depdencyInfo, rm |-> r, val |-> "aborted"]}
   /\ UNCHANGED << rmState>>
   
-  UpdateSets(prepareSet,commitSet)  ==
-  LET commonElements == prepareSet \intersect commitSet
+  UpdateSets(prepareSet, commitSet, depdencyInfo)  ==
+  LET commonElements == prepareSet \intersect depdencyInfo
   IN
     /\ prepareSet' = prepareSet \ commonElements
     /\ commitSet' = commitSet \union commonElements
@@ -122,7 +122,7 @@ GRAPHTypeOK ==
   (*************************************************************************)
   IF depdencyInfo \subseteq localTransactionHistory[r]["committed"] \cup localTransactionHistory[r]["prepared"]
   THEN
-     /\ UpdateSets(localTransactionHistory[r]["prepared"],localTransactionHistory[r]["committed"])
+     /\ UpdateSets(localTransactionHistory[r]["prepared"],localTransactionHistory[r]["committed"], depdencyInfo)
      /\ ParticipantPrepare(r, tnInfo, depdencyInfo)
   ELSE
      ParticipantChooseToAbort(r, s, tnInfo, depdencyInfo)
@@ -153,5 +153,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Wed Feb 26 21:10:52 CST 2025 by junhaohu
+\* Last modified Wed Feb 26 21:19:35 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
