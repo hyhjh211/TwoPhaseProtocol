@@ -9,13 +9,24 @@ VARIABLES
   rmState,       \* rmState[r, transactionNumber] is the state of node r for transcation transactionNumber "leader" or "follower".
 
   msgs,
-  localTransactionHistory\*  localTransactionHistory[nodes] is the transcation history graph for the corresponding node 
+  localTransactionHistory,\*  localTransactionHistory[nodes] is the transcation history graph for the corresponding node 
                           \* localTransactionHistory[nodes]["committed"] is the set of local committed transactions
                           \* localTransactionHistory[nodes]["prepared"]is the set of local prepared transactions
   
- 
+  localNodesGraph \* localNodesGraph[nodes]["vertext"] \in VertexSet
 
 \*msgs' = msgs \cup {[type |-> "Prepared", prepareN |->prepareInfo, dependency |-> depdencyInfo, rm |-> r]}
+
+
+VertexSet == 
+   [sender : transactionNumbers,  vertex : Int, neighbours: Int]
+
+
+OperationSet == 
+   [Type: "edges", Operation: {"add", "remove"}, sourceVertex: Int, desVertex: Int] \cup 
+   [Type: "nodes", Operation: {"add", "remove"}, sourceVertex: Int]
+
+
 
 GRAPHTypeOK == 
   (*************************************************************************)
@@ -24,7 +35,7 @@ GRAPHTypeOK ==
   rmState \in [transactionNumbers -> [NODES -> {"follower", "leader"}]]
  GRAPHConsistency ==
   (*************************************************************************)
-  (* A state predicate asserting that two nodes have not arrived at          *)
+  (* A state predicate asserting that two nodes have not arrived at        *)
   (* conflicting decisions.  It is an invariant of the specification.      *)
   (*************************************************************************)
 \*  \A r1, r2 \in NODES, t \in transactionNumbers : ~ /\ rmState[r1, transactionNumbers] = "aborted"
@@ -59,8 +70,8 @@ GRAPHTypeOK ==
   (* received by participants.  The set msgs contains just a single copy of     *)
   (* such a message.                                                       *)
   (*************************************************************************)
-  [type : {"responsePhase2"}, prepareN:  transactionNumbers, dependency : SUBSET transactionNumbers,  rm : NODES, val:{"prepared", "aborted"} ]  \cup  [type : {"Commit", "Abort"}, tn: transactionNumbers]
-  \cup [type : {"Prepared"}, prepareN:  transactionNumbers, dependency : SUBSET transactionNumbers,  leader : NODES]
+  [type : {"responsePhase2"}, prepareN:  transactionNumbers, dependency : SUBSET transactionNumbers,  rm : NODES, val:{"prepared", "aborted"} ]  \cup  [type : {"Commit", "Abort"}, tn: transactionNumbers, operations: Seq(OperationSet)]
+  \cup [type : {"Prepared"}, prepareN:  transactionNumbers, dependency : SUBSET transactionNumbers,  leader : NODES, operations: Seq(OperationSet)]
   \cup [type: {"aborted"}, tn : transactionNumbers, rm: NODES]
   \cup [type: {"committed"}, tn: transactionNumbers, rm: NODES]
   
@@ -167,5 +178,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Thu Feb 27 01:01:49 CST 2025 by junhaohu
+\* Last modified Tue Mar 11 22:36:23 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
