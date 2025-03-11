@@ -19,7 +19,7 @@ VARIABLES
 
 
 VertexSet == 
-   [sender : transactionNumbers,  vertex : Int, neighbours: Int]
+   [sender : transactionNumbers,  vertex : Int, neighbours: <<Int>>]
 
 
 OperationSet == 
@@ -172,11 +172,16 @@ GRAPHTypeOK ==
   /\ rmState[tnInfo][i]'= "leader"
   
   
+  ApplyOperations ==
+  LET ApplyOp(op, G) ==
+    case op.Type = "nodes" /\ op.Operation = "add"   -> G' = G \union [sender : 0,  vertex : op.sourceVertex, neighbours: <<>>]
+  IN 
+    TRUE
 \*  ParticipantRecvPhase2(r, tn) == 
   
   
   
 =============================================================================
 \* Modification History
-\* Last modified Tue Mar 11 22:36:23 CST 2025 by junhaohu
+\* Last modified Tue Mar 11 23:05:19 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
