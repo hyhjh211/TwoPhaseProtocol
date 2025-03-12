@@ -19,7 +19,7 @@ VARIABLES
 
 
 VertexSet == 
-   [sender : transactionNumbers,  vertex : Int, neighbours: <<Int>>]
+   [transactionNumber : transactionNumbers,  vertex : Int, neighbours: <<Int>>]
 
 
 OperationSet == 
@@ -171,10 +171,17 @@ GRAPHTypeOK ==
   /\ rmState[tnInfo][i] = "follower"
   /\ rmState[tnInfo][i]'= "leader"
   
-  
+  InsertElement(seq, elem, idx) ==
+  LET 
+    prefix == Take(seq, idx)
+    suffix == Drop(seq, idx)
+  IN
+    prefix \cat <<elem>> \cat suffix
+    
   ApplyOperations ==
-  LET ApplyOp(op, G) ==
-    case op.Type = "nodes" /\ op.Operation = "add"   -> G' = G \union [sender : 0,  vertex : op.sourceVertex, neighbours: <<>>]
+  LET ApplyOp(tn, op, G) ==
+    CASE op.Type = "nodes" /\ op.Operation = "add"   -> G' = G \union [transactionNumber : tn,  vertex : op.sourceVertex, neighbours: <<>>]
+    CASE op.type = "nodes" /\ op.Operation = "add"   -> G' = G \ {transactionNumber : tn,  vertex : op.sourceVertex, neighbours: G[op.sourceVertex]}
   IN 
     TRUE
 \*  ParticipantRecvPhase2(r, tn) == 
@@ -183,5 +190,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Tue Mar 11 23:05:19 CST 2025 by junhaohu
+\* Last modified Wed Mar 12 09:27:01 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
