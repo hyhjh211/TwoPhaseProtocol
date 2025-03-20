@@ -13,13 +13,14 @@ VARIABLES
                           \* localTransactionHistory[nodes]["committed"] is the set of local committed transactions
                           \* localTransactionHistory[nodes]["prepared"]is the set of local prepared transactions
   
-  localNodesGraph \* localNodesGraph[nodes]["vertext"] \in VertexSet
+  localNodesGraph \* localNodesGraph[nodes] is a graph
 
 \*msgs' = msgs \cup {[type |-> "Prepared", prepareN |->prepareInfo, dependency |-> depdencyInfo, rm |-> r]}
 
 
-VertexSet == 
-   [transactionNumber : transactionNumbers,  vertex : Int, neighbours: <<Int>>]
+Vertex == [NodeID|-> Int, neighbours |->{}]
+Graph == {Vertex}
+   
 
 
 OperationSet == 
@@ -72,8 +73,8 @@ GRAPHTypeOK ==
   (*************************************************************************)
   [type : {"responsePhase2"}, prepareN:  transactionNumbers, dependency : SUBSET transactionNumbers,  rm : NODES, val:{"prepared", "aborted"} ]  \cup  [type : {"Commit", "Abort"}, tn: transactionNumbers, operations: Seq(OperationSet)]
   \cup [type : {"Prepared"}, prepareN:  transactionNumbers, dependency : SUBSET transactionNumbers,  leader : NODES, operations: Seq(OperationSet)]
-  \cup [type: {"aborted"}, tn : transactionNumbers, rm: NODES]
-  \cup [type: {"committed"}, tn: transactionNumbers, rm: NODES]
+  \cup [type: {"aborted"}, tn : transactionNumbers, rm: NODES, operations: Seq(OperationSet)]
+  \cup [type: {"committed"}, tn: transactionNumbers, rm: NODES, operations: Seq(OperationSet)]
   
   Quorum == {i \in SUBSET(NODES) : Cardinality(i) * 2 > Cardinality(NODES)}
   
@@ -171,24 +172,52 @@ GRAPHTypeOK ==
   /\ rmState[tnInfo][i] = "follower"
   /\ rmState[tnInfo][i]'= "leader"
   
-  InsertElement(seq, elem, idx) ==
-  LET 
-    prefix == Take(seq, idx)
-    suffix == Drop(seq, idx)
-  IN
-    prefix \cat <<elem>> \cat suffix
+ 
+
+ApplyOp(op, G) ==
+    CASE op.Type = "nodes" /\ op.Operation = "add"   -> G \union { [NodeID |-> op.sourceVertex, neighbours |-> {}]}
+    [] op.type = "nodes" /\ op.Operation = "remove"   -> 
+    LET 
+          G1 == G \  {[NodeID |-> op.sourceVertex, neighbours |->  (CHOOSE v \in G : v[op.sourceVertex] = op.sourceVertex).neighbours]} \* Remove the node itself
+\*          G2 == [ v \in DOMAIN G1 |-> v.neighbours \ {op.sourceVertex} ] \* Remove it from neighbors
+          GraphWithRemovedNodes == { v \in G1 :  op.sourceVertex \in v.neighbours}
+          GraphWithoutRemovedNodes == { v \in G1 :  op.sourceVertex \notin v.neighbours}
+          Gtemp == { [NodeID |-> v1.NodeID, neighbours |-> v1.neighbours \ {op.sourceVertex}] : v1 \in GraphWithRemovedNodes }
+          G2 == Gtemp \union GraphWithoutRemovedNodes
+    IN 
+          G2
+    [] op.type = "edges" /\ op.Operation = "add" ->
+    { v \in G : IF v.NodeID = op.sourceVertex THEN 
+                               [NodeID |-> v.NodeID, neighbours |-> v.neighbours \union {op.desVertex}]
+                             ELSE v }
+    [] op.type = "edges" /\ op.Operation = "remove" -> 
+    LET
+\*        connectedNode == {CHOOSE v \in G : v[op.sourceVertex] = op.sourceVertex}
+\*        G1  == G \ connectedNode
+\*        G2 == G1 \union {[[NodeID |-> connectedNode.NodeID, neighbours |-> connectedNode.neighbours \ {desVertex}]}
+        G1 == { v \in G : IF v.NodeID = op.sourceVertex THEN 
+                               [NodeID |-> v.NodeID, neighbours |-> v.neighbours \ {op.desVertex}]
+                             ELSE v }
+     IN 
+         G1
+        
+ RECURSIVE ApplyOperations(_, _, _)
+ ApplyOperations(ops, nodeID, G) ==    
+    IF ops = <<>> THEN G
+    ELSE ApplyOperations(Tail(ops), nodeID,  ApplyOp(Head(ops),G))
     
-  ApplyOperations ==
-  LET ApplyOp(tn, op, G) ==
-    CASE op.Type = "nodes" /\ op.Operation = "add"   -> G' = G \union [transactionNumber : tn,  vertex : op.sourceVertex, neighbours: <<>>]
-    CASE op.type = "nodes" /\ op.Operation = "add"   -> G' = G \ {transactionNumber : tn,  vertex : op.sourceVertex, neighbours: G[op.sourceVertex]}
-  IN 
-    TRUE
+ Apply(ops, nodeID, G) ==
+ G' = ApplyOperations(ops, nodeID, G)
+
+
+  
+  
+    
 \*  ParticipantRecvPhase2(r, tn) == 
   
   
   
 =============================================================================
 \* Modification History
-\* Last modified Wed Mar 12 09:27:01 CST 2025 by junhaohu
+\* Last modified Fri Mar 21 00:45:10 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
