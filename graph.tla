@@ -96,6 +96,44 @@ GRAPHTypeOK ==
   /\ UNCHANGED <<transactionNumbers>>
   
   
+  
+  
+  ApplyOp(op, G) ==
+    CASE op.Type = "nodes" /\ op.Operation = "add"   -> G \union { [NodeID |-> op.sourceVertex, neighbours |-> {}]}
+    [] op.type = "nodes" /\ op.Operation = "remove"   -> 
+    LET 
+          G1 == G \  {[NodeID |-> op.sourceVertex, neighbours |->  (CHOOSE v \in G : v[op.sourceVertex] = op.sourceVertex).neighbours]} \* Remove the node itself
+\*          G2 == [ v \in DOMAIN G1 |-> v.neighbours \ {op.sourceVertex} ] \* Remove it from neighbors
+          GraphWithRemovedNodes == { v \in G1 :  op.sourceVertex \in v.neighbours}
+          GraphWithoutRemovedNodes == { v \in G1 :  op.sourceVertex \notin v.neighbours}
+          Gtemp == { [NodeID |-> v1.NodeID, neighbours |-> v1.neighbours \ {op.sourceVertex}] : v1 \in GraphWithRemovedNodes }
+          G2 == Gtemp \union GraphWithoutRemovedNodes
+    IN 
+          G2
+    [] op.type = "edges" /\ op.Operation = "add" ->
+    { v \in G : IF v.NodeID = op.sourceVertex THEN 
+                               [NodeID |-> v.NodeID, neighbours |-> v.neighbours \union {op.desVertex}]
+                             ELSE v }
+    [] op.type = "edges" /\ op.Operation = "remove" -> 
+    LET
+\*        connectedNode == {CHOOSE v \in G : v[op.sourceVertex] = op.sourceVertex}
+\*        G1  == G \ connectedNode
+\*        G2 == G1 \union {[[NodeID |-> connectedNode.NodeID, neighbours |-> connectedNode.neighbours \ {desVertex}]}
+        G1 == { v \in G : IF v.NodeID = op.sourceVertex THEN 
+                               [NodeID |-> v.NodeID, neighbours |-> v.neighbours \ {op.desVertex}]
+                             ELSE v }
+     IN 
+         G1
+        
+ RECURSIVE ApplyOperations(_, _, _)
+ ApplyOperations(ops, nodeID, G) ==    
+    IF ops = <<>> THEN G
+    ELSE ApplyOperations(Tail(ops), nodeID,  ApplyOp(Head(ops),G))
+    
+ Apply(ops, nodeID, G) ==
+ G' = ApplyOperations(ops, nodeID, G)
+  
+  
  LeaderPrepare(prepareInfo, depdencyInfo, s, r) == 
   (*************************************************************************)
   (* leader s send prepare message to follower r                           *)
@@ -140,12 +178,15 @@ GRAPHTypeOK ==
     /\ prepareSet' = prepareSet \ commonElements
     /\ commitSet' = commitSet \union commonElements
   
-  ParticipantRecvPhase1(r, s, tnInfo, depdencyInfo) == 
+  ParticipantRecvPhase1(r, s, tnInfo, depdencyInfo, operations) == 
   (*************************************************************************)
   (* node r receive message from leader s                                  *)
   (*************************************************************************)
   IF depdencyInfo \subseteq localTransactionHistory[r]["committed"] \cup localTransactionHistory[r]["prepared"]
   THEN
+     LET 
+        targetNodes == {op.sourceVertex : op \in operations}
+     IN
      /\ UpdateSets(localTransactionHistory[r]["prepared"],localTransactionHistory[r]["committed"], depdencyInfo)
      /\ ParticipantPrepare(r, tnInfo, depdencyInfo)
   ELSE
@@ -159,12 +200,13 @@ GRAPHTypeOK ==
    /\ localTransactionHistory[r]["prepared"]' = localTransactionHistory[r]["prepared"] \ {tnInfo}
   
   
-  ParticipantRcvCommittMsg(r, s, tnInfo) == 
+  ParticipantRcvCommittMsg(r, s, tnInfo, operations) == 
   /\ rmState[tnInfo][r] = "follower"
   /\ rmState[tnInfo][s] = "leader"
   /\ [type |-> "committed", tn |-> tnInfo, rm |-> r] \in msgs
   /\ localTransactionHistory[r]["prepared"]' =  localTransactionHistory[r]["prepared"] \ {tnInfo}
   /\ localTransactionHistory[r]["committed"]' = localTransactionHistory[r]["committed"] \cup {tnInfo}
+  /\ Apply(operations, r, localNodesGraph[r])
 \*  /\ UNCHANGED <<tmState, 
 
 
@@ -174,40 +216,7 @@ GRAPHTypeOK ==
   
  
 
-ApplyOp(op, G) ==
-    CASE op.Type = "nodes" /\ op.Operation = "add"   -> G \union { [NodeID |-> op.sourceVertex, neighbours |-> {}]}
-    [] op.type = "nodes" /\ op.Operation = "remove"   -> 
-    LET 
-          G1 == G \  {[NodeID |-> op.sourceVertex, neighbours |->  (CHOOSE v \in G : v[op.sourceVertex] = op.sourceVertex).neighbours]} \* Remove the node itself
-\*          G2 == [ v \in DOMAIN G1 |-> v.neighbours \ {op.sourceVertex} ] \* Remove it from neighbors
-          GraphWithRemovedNodes == { v \in G1 :  op.sourceVertex \in v.neighbours}
-          GraphWithoutRemovedNodes == { v \in G1 :  op.sourceVertex \notin v.neighbours}
-          Gtemp == { [NodeID |-> v1.NodeID, neighbours |-> v1.neighbours \ {op.sourceVertex}] : v1 \in GraphWithRemovedNodes }
-          G2 == Gtemp \union GraphWithoutRemovedNodes
-    IN 
-          G2
-    [] op.type = "edges" /\ op.Operation = "add" ->
-    { v \in G : IF v.NodeID = op.sourceVertex THEN 
-                               [NodeID |-> v.NodeID, neighbours |-> v.neighbours \union {op.desVertex}]
-                             ELSE v }
-    [] op.type = "edges" /\ op.Operation = "remove" -> 
-    LET
-\*        connectedNode == {CHOOSE v \in G : v[op.sourceVertex] = op.sourceVertex}
-\*        G1  == G \ connectedNode
-\*        G2 == G1 \union {[[NodeID |-> connectedNode.NodeID, neighbours |-> connectedNode.neighbours \ {desVertex}]}
-        G1 == { v \in G : IF v.NodeID = op.sourceVertex THEN 
-                               [NodeID |-> v.NodeID, neighbours |-> v.neighbours \ {op.desVertex}]
-                             ELSE v }
-     IN 
-         G1
-        
- RECURSIVE ApplyOperations(_, _, _)
- ApplyOperations(ops, nodeID, G) ==    
-    IF ops = <<>> THEN G
-    ELSE ApplyOperations(Tail(ops), nodeID,  ApplyOp(Head(ops),G))
-    
- Apply(ops, nodeID, G) ==
- G' = ApplyOperations(ops, nodeID, G)
+
 
 
   
@@ -219,5 +228,5 @@ ApplyOp(op, G) ==
   
 =============================================================================
 \* Modification History
-\* Last modified Fri Mar 21 00:45:10 CST 2025 by junhaohu
+\* Last modified Fri Mar 21 11:26:52 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
