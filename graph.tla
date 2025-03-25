@@ -3,13 +3,13 @@ EXTENDS Integers,
          Sequences, TLC, FiniteSets
 CONSTANT NODES,  \* The set of nodes in the system,
         transactionNumbers, \* all transcations happened in the system
-        transactionsDependency, \* all transcations happened in the system
-        transactions
+        transactions \* transactions[transactionNumber] is the set of operations for transaction identified by transactionNumber 
 
 VARIABLES
   rmState,       \* rmState[r, transactionNumber] is the state of node r for transcation transactionNumber "leader" or "follower".
 
   msgs,
+  clientRequests, \* clientRequests[r] is the set of requests coming from a clietn at node r
   localTransactionHistory,\*  localTransactionHistory[nodes] is the transcation history graph for the corresponding node 
                           \* localTransactionHistory[nodes]["committed"] is the set of local committed transactions
                            \* localTransactionHistory[nodes]["recentCommitted"] is the set of most recent local committed transactions
@@ -19,8 +19,8 @@ VARIABLES
   transactionOperation, \* transactionOperation[transactionNumber].op is the set of operations associated with the transaction identified by transactionNumber 
                        \* transactionOperation[transactionNumber].dependency is the recorded dependency information
                      
-  acceptedTransactions \* acceptedTransactions[tn] is the set of nodes that have sent accept
-  
+  acceptedTransactions, \* acceptedTransactions[tn] is the set of nodes that have sent accept for transaction tn
+  pendingTransactions \* set of transactions to be executed 
   
 \*msgs' = msgs \cup {[type |-> "Prepared", prepareN |->prepareInfo, dependency |-> depdencyInfo, rm |-> r]}
 
@@ -92,14 +92,7 @@ GRAPHTypeOK ==
   
   
   
-  GraphInit ==   
-  (*************************************************************************)
-  (* The initial predicate.                                                *)
-  (*************************************************************************)
-  /\ rmState = [r \in NODES, y \in transactionNumbers |-> "follower"]
-  /\ msgs = [r \in NODES, s \in NODES |-> <<>>]
-  /\ transactionOperation = [tn \in transactionNumbers |-> [op |-> <<>>, dependency |-> {}]]
-  
+
   
   
   ParticipantPrepare(r, s, tnInfo, depdencyInfo) == 
@@ -211,6 +204,19 @@ GRAPHTypeOK ==
     /\ prepareSet' = prepareSet \ commonElements
     /\ commitSet' = commitSet \union commonElements
   
+  
+  ConflictDetect(tnInfo, i, tnOperations) ==
+    LET 
+      targetNodes == {op.sourceVertex : op \in tnOperations}
+      preparedTx == localTransactionHistory[i]["prepared"]
+      
+      seqList == [tx \in preparedTx |-> transactionOperation[tx].op]
+      
+\*      operatedNodes == 
+            
+    IN
+      TRUE
+  
   ParticipantRecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) == 
   (*************************************************************************)
   (* node r receives message from leader s                                  *)
@@ -219,6 +225,7 @@ GRAPHTypeOK ==
       THEN
          LET 
             targetNodes == {op.sourceVertex : op \in tnOperations}
+            
          IN
          /\ UpdateSets(localTransactionHistory[r]["prepared"],localTransactionHistory[r]["committed"], depdencyInfo)
          /\ ParticipantPrepare(r, s, tnInfo, depdencyInfo)
@@ -263,14 +270,22 @@ GRAPHTypeOK ==
 \*            /\ LeaderSendCommit(tnInfo, r, transactionOperation[tnInfo].dependency, transactionOperation[tnInfo].op)
             
   
-  ClientRequest(i, tnInfo, tnOperations) == 
+  ClientRequest(i) == 
 \*  LET 
 \*    setNodes == [n \in NODES |-> IF n = i THEN "leader" ELSE "follower"]
 \*  IN
 \*    rmState[tnInfo]' = setNodes
-    rmState = [rmState EXCEPT ![tnInfo][i] = "leader"]
+    LET 
+       nextExecuteTx == Head(pendingTransactions)
+    IN
+    /\rmState = [rmState EXCEPT ![nextExecuteTx][i] = "leader"]
+    /\ clientRequests[i]' = Append(clientRequests[i], nextExecuteTx)
+    /\ pendingTransactions' = Tail(pendingTransactions)
+    
     
   Receive(r, s) == 
+   /\ Len(msgs[r][s]) >= 1
+   /\
     \/ 
       /\ Head(msgs[r][s]).type = "prepared" 
 \*      (tnInfo, r, s, depdencyInfo, tnOperations)
@@ -279,7 +294,37 @@ GRAPHTypeOK ==
       /\ Head(msgs[r][s]).type = "preparedResponsePhase1" 
       /\ LeaderHandleParticipantRes(msgs[r][s].tn, r, s)
   
+  ReceiveClient(i) ==
+    LET 
+        clientRequest == Head(clientRequests[i])
+    IN
+        /\ Len(clientRequests[i]) >= 1  
+        /\ LeaderSendPrepares(clientRequest, i, transactions[clientRequest])
+        /\ clientRequests[i]' = Tail(clientRequests[i])
         
+        
+        
+ Init ==   
+  (*************************************************************************)
+  (* The initial predicate.                                                *)
+  (*************************************************************************)
+  /\ rmState = [r \in NODES, y \in transactionNumbers |-> "follower"]
+  /\ msgs = [r \in NODES |-> [s \in NODES |-> <<>>]]
+  /\ transactionOperation = [tn \in transactionNumbers |-> [op |-> <<>>, dependency |-> {}]]
+  /\ pendingTransactions = transactionNumbers
+  /\ clientRequests = [r \in NODES |-> <<>>]
+  /\ localNodesGraph = [r \in NODES |-> {}]
+  /\ localTransactionHistory = [r \in NODES |-> 
+        [ 
+            i \in {"committed","recentCommitted","prepared" } |-> {}
+        ]
+    ]
+  /\ acceptedTransactions = [tn \in transactionNumbers |-> {}]
+  
+  Next ==
+      \/ \E i,j \in NODES : Receive(i, j)
+      \/ \E i \in NODES : ClientRequest(i)
+      \/ \E i \in NODES : ReceiveClient(i)
          
       
   
@@ -297,5 +342,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Tue Mar 25 13:46:49 CST 2025 by junhaohu
+\* Last modified Tue Mar 25 22:23:09 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
