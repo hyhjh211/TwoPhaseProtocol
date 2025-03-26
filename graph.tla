@@ -209,24 +209,22 @@ GRAPHTypeOK ==
     LET 
       targetNodes == {op.sourceVertex : op \in tnOperations}
       preparedTx == localTransactionHistory[i]["prepared"]
-      
-      seqList == [tx \in preparedTx |-> transactionOperation[tx].op]
+      f(x) == {transactionOperation[x].op[j].sourceVertex : j \in 1..Len(transactionOperation[x].op)}
+      operatedNodes == { f(x) : x \in preparedTx }
+      hasIntersection == \E x \in operatedNodes : targetNodes \cap x # {}
       
 \*      operatedNodes == 
             
     IN
-      TRUE
+      hasIntersection
   
   ParticipantRecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) == 
   (*************************************************************************)
   (* node r receives message from leader s                                  *)
   (*************************************************************************)
   IF depdencyInfo \subseteq localTransactionHistory[r]["committed"] \cup localTransactionHistory[r]["prepared"]
+     /\ ~ConflictDetect(tnInfo, r, tnOperations)
       THEN
-         LET 
-            targetNodes == {op.sourceVertex : op \in tnOperations}
-            
-         IN
          /\ UpdateSets(localTransactionHistory[r]["prepared"],localTransactionHistory[r]["committed"], depdencyInfo)
          /\ ParticipantPrepare(r, s, tnInfo, depdencyInfo)
       ELSE
@@ -342,5 +340,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Tue Mar 25 22:23:09 CST 2025 by junhaohu
+\* Last modified Wed Mar 26 09:15:53 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
