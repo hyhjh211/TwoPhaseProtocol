@@ -169,7 +169,7 @@ GRAPHTypeOK ==
   (*************************************************************************)
   /\ rmState[tnInfo][s] = "leader"
   /\ rmState[tnInfo][r] = "follower"
-  /\ {x \in NODES: tnInfo \in localTransactionHistory[x]["prepared"]} \in Quorum
+\*  /\ {x \in NODES: tnInfo \in localTransactionHistory[x]["prepared"]} \in Quorum
   /\ msgs[r][s]' = Append(msgs[r][s], [type |-> "committed", tn |-> tnInfo, dependency |-> depdencyInfo, src |-> s, dst |-> r, operations |-> tnOperations])
   
   
@@ -229,7 +229,7 @@ GRAPHTypeOK ==
   (* node r receives message from leader s                                  *)
   (*************************************************************************)
   IF depdencyInfo \subseteq localTransactionHistory[r]["committed"] \cup localTransactionHistory[r]["prepared"]
-     /\ ~ConflictDetect(tnInfo, r, tnOperations)
+     /\ ~ConflictDetect(tnInfo, r, tnOperations) 
       THEN
          /\ UpdateSets(localTransactionHistory[r]["prepared"],localTransactionHistory[r]["committed"], depdencyInfo)
          /\ ParticipantPrepare(r, s, tnInfo, depdencyInfo)
@@ -363,5 +363,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Wed Mar 26 20:16:25 CST 2025 by junhaohu
+\* Last modified Wed Mar 26 20:30:04 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
