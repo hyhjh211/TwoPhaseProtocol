@@ -20,6 +20,7 @@ VARIABLES
                        \* transactionOperation[transactionNumber].dependency is the recorded dependency information
                      
   acceptedTransactions, \* acceptedTransactions[tn] is the set of nodes that have sent accept for transaction tn
+  rejectedTransactions,  \* rejectedTransactions[tn] is the set of nodes that have sent reject for transaction tn
   pendingTransactions \* set of transactions to be executed 
   
 \*msgs' = msgs \cup {[type |-> "Prepared", prepareN |->prepareInfo, dependency |-> depdencyInfo, rm |-> r]}
@@ -177,17 +178,22 @@ GRAPHTypeOK ==
   (* leader s sends commit message to all followers                         *)
   (*************************************************************************) 
   /\ rmState[tnInfo][s] = "leader"
-  /\ \A r \in NODES : LeaderPrepare(tnInfo, s, r, depdencyInfo , tnOperations)
+  /\ \A r \in NODES : LeaderCommit(tnInfo, r, s, depdencyInfo , tnOperations)
   
   
   
-  LeaderAbort(tnInfo, r, s, tnOperations) ==
+  LeaderAbort(tnInfo, r, s, depdencyInfo, tnOperations) ==
   (*********************************************************************************)
   (* leader s spontaneously aborts the transaction and send the abort message to r.*)
   (*********************************************************************************)
   /\ rmState[tnInfo][s] = "leader"
   /\ rmState[tnInfo][r] = "follower"
   /\ msgs[r][s]' = Append(msgs[r][s], [type |-> "aborted", tn|-> tnInfo, src |-> s, dst |-> r, operations |-> tnOperations])
+  
+  
+  LeaderSendAbort(tnInfo, s, depdencyInfo, tnOperations) ==
+  /\ rmState[tnInfo][s] = "leader"
+  /\ \A r \in NODES : LeaderAbort(tnInfo, r, s, depdencyInfo , tnOperations)
   
   ParticipantChooseToAbort(tnInfo, r, s, depdencyInfo, tnOperations) ==
   (*************************************************************************)
@@ -248,13 +254,23 @@ GRAPHTypeOK ==
   /\ Apply(tnOperations, r, localNodesGraph[r])
 \*  /\ UNCHANGED <<tmState, 
 
-  LeaderHandleParticipantRes(tnInfo, r, s) ==
+  LeaderHandleParticipantRes(tnInfo, r, s, msg) ==
     /\ rmState[tnInfo][r] = "leader" 
-    /\ IF (Len(acceptedTransactions[tnInfo]) + 1) * 2 > Cardinality(NODES)
-       THEN 
-            LeaderSendCommit(tnInfo, r, transactionOperation[tnInfo].dependency, transactionOperation[tnInfo].op)
-       ELSE 
-            acceptedTransactions[tnInfo]' = Append(acceptedTransactions[tnInfo], s)
+    /\ IF Len(acceptedTransactions[tnInfo]) + Len(rejectedTransactions[tnInfo] + 1) = Cardinality(NODES)
+        THEN
+          IF (Len(acceptedTransactions[tnInfo]) + 1) * 2 > Cardinality(NODES)
+           THEN 
+                LeaderSendCommit(tnInfo, r, transactionOperation[tnInfo].dependency, transactionOperation[tnInfo].op)
+           ELSE 
+                LeaderSendAbort(tnInfo, r, transactionOperation[tnInfo].dependency, transactionOperation[tnInfo].op)    
+        ELSE 
+            IF msg.type = "preparedResponsePhase1" 
+                THEN       
+                    acceptedTransactions[tnInfo]' = Append(acceptedTransactions[tnInfo], s)
+                ELSE
+                    rejectedTransactions[tnInfo]' = Append(rejectedTransactions[tnInfo], s)
+       
+            
             
 \*    /\ \E MS \in Quorum :    
 \*            /\ \A ac \in MS : 
@@ -284,13 +300,19 @@ GRAPHTypeOK ==
   Receive(r, s) == 
    /\ Len(msgs[r][s]) >= 1
    /\
-    \/ 
-      /\ Head(msgs[r][s]).type = "prepared" 
-\*      (tnInfo, r, s, depdencyInfo, tnOperations)
-      /\ ParticipantRecvPhase1(msgs[r][s].tn, r, s, msgs.dependency, msgs.operations)
-   \/
-      /\ Head(msgs[r][s]).type = "preparedResponsePhase1" 
-      /\ LeaderHandleParticipantRes(msgs[r][s].tn, r, s)
+     /\    
+        \/ 
+          /\ Head(msgs[r][s]).type = "prepared" 
+    \*      (tnInfo, r, s, depdencyInfo, tnOperations)
+          /\ ParticipantRecvPhase1(msgs[r][s].tn, r, s, msgs.dependency, msgs.operations)
+       \/
+          /\ 
+            (Head(msgs[r][s]).type = "preparedResponsePhase1" \/ Head(msgs[r][s]).type = "abortedResponsePhase1")
+          /\ LeaderHandleParticipantRes(msgs[r][s].tn, r, s, msgs[r][s])
+         
+       
+     /\ 
+        msgs[r][s]' = Tail(msgs[r][s])
   
   ReceiveClient(i) ==
     LET 
@@ -318,6 +340,7 @@ GRAPHTypeOK ==
         ]
     ]
   /\ acceptedTransactions = [tn \in transactionNumbers |-> {}]
+  /\ rejectedTransactions = [tn \in transactionNumbers |-> {}]
   
   Next ==
       \/ \E i,j \in NODES : Receive(i, j)
@@ -340,5 +363,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Wed Mar 26 09:15:53 CST 2025 by junhaohu
+\* Last modified Wed Mar 26 20:16:25 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
