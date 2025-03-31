@@ -167,8 +167,7 @@ GRAPHTypeOK ==
   /\ rmState[tnInfo][r] = "follower"
   /\ transactionOperation' = [transactionOperation EXCEPT ![tnInfo] = [op |-> tnOperations, dependency |-> depdencyInfo]]
   /\ msgs[r][s]' = Append(msgs[r][s], [type |-> "prepared", tn |->tnInfo, dependency |-> depdencyInfo, src |-> s, dst |-> r, operations |-> tnOperations])
-  /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, 
-    acceptedTransactions, rejectedTransactions, pendingTransactions>>
+  
   
   LeaderSendPrepares(tnInfo, s, tnOperations) ==
   (*************************************************************************)
@@ -176,6 +175,9 @@ GRAPHTypeOK ==
   (*************************************************************************) 
   /\ rmState[tnInfo][s] = "leader"
   /\ \A r \in NODES : LeaderPrepare(tnInfo, s, r, localTransactionHistory[s]["recentCommitted"] , tnOperations)
+  /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, 
+    acceptedTransactions, rejectedTransactions, pendingTransactions>>
+  
   
   
   LeaderCommit(tnInfo, r, s, depdencyInfo, tnOperations) == 
@@ -194,6 +196,8 @@ GRAPHTypeOK ==
   (*************************************************************************) 
   /\ rmState[tnInfo][s] = "leader"
   /\ \A r \in NODES : LeaderCommit(tnInfo, r, s, depdencyInfo , tnOperations)
+  /\ UNCHANGED <<rmState, transactionNumbers, clientRequests, localTransactionHistory, localNodesGraph, 
+    acceptedTransactions, rejectedTransactions, pendingTransactions>>
   
   
   
@@ -209,6 +213,8 @@ GRAPHTypeOK ==
   LeaderSendAbort(tnInfo, s, depdencyInfo, tnOperations) ==
   /\ rmState[tnInfo][s] = "leader"
   /\ \A r \in NODES : LeaderAbort(tnInfo, r, s, depdencyInfo , tnOperations)
+  /\ UNCHANGED <<rmState, transactionNumbers, clientRequests, localTransactionHistory, localNodesGraph, 
+    acceptedTransactions, rejectedTransactions, pendingTransactions>>
   
   ParticipantChooseToAbort(tnInfo, r, s, depdencyInfo, tnOperations) ==
   (*************************************************************************)
@@ -217,7 +223,8 @@ GRAPHTypeOK ==
   /\ rmState[tnInfo][s] = "follower"
   /\ rmState[tnInfo][r] = "leader"
   /\ msgs[r][s]' = Append(msgs[r][s], [type |-> "abortedResponsePhase1", tn |->tnInfo, src |-> s, dst |-> r, operations |-> tnOperations])
-  /\ UNCHANGED << rmState>>
+  /\ UNCHANGED <<rmState, transactionNumbers, clientRequests, localTransactionHistory, localNodesGraph, 
+    acceptedTransactions, rejectedTransactions, pendingTransactions>>
   
   UpdateSets(prepareSet, commitSet, depdencyInfo)  ==
   LET commonElements == prepareSet \intersect depdencyInfo
@@ -378,5 +385,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Tue Apr 01 01:35:06 CST 2025 by junhaohu
+\* Last modified Tue Apr 01 01:41:26 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
