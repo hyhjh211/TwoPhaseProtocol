@@ -32,8 +32,8 @@ Graph == {Vertex}
 
 
 OperationSet == 
-   [Type: "edges", Operation: {"add", "remove"}, sourceVertex: Int, desVertex: Int] \cup 
-   [Type: "nodes", Operation: {"add", "remove"}, sourceVertex: Int]
+   [type: "edges", Operation: {"add", "remove"}, sourceVertex: Int, desVertex: Int] \cup 
+   [type: "nodes", Operation: {"add", "remove"}, sourceVertex: Int]
 
 
 
@@ -104,13 +104,17 @@ GRAPHTypeOK ==
 \*  /\ rmState' = [rmState EXCEPT ![r, prepareInfo] = "prepared"]
   /\ msgs[r][s]' = Append(msgs[r][s], [type |-> "preparedResponsePhase1", tn |->tnInfo, rm |-> r])
   
-  /\ UNCHANGED <<transactionNumbers>>
+  /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
+    acceptedTransactions, rejectedTransactions, pendingTransactions>>
+  
+  
+  
   
   
   
   
   ApplyOp(op, G) ==
-    CASE op.Type = "nodes" /\ op.Operation = "add"   -> G \union { [NodeID |-> op.sourceVertex, neighbours |-> {}]}
+    CASE op.type = "nodes" /\ op.Operation = "add"   -> G \union { [NodeID |-> op.sourceVertex, neighbours |-> {}]}
     [] op.type = "nodes" /\ op.Operation = "remove"   -> 
     LET 
           G1 == G \  {[NodeID |-> op.sourceVertex, neighbours |->  (CHOOSE v \in G : v[op.sourceVertex] = op.sourceVertex).neighbours]} \* Remove the node itself
@@ -122,23 +126,29 @@ GRAPHTypeOK ==
     IN 
           G2
     [] op.type = "edges" /\ op.Operation = "add" ->
-    { v \in G : IF v.NodeID = op.sourceVertex THEN 
+    LET 
+        addEdge(v) == 
+            IF v.NodeID = op.sourceVertex THEN 
                     [NodeID |-> v.NodeID, neighbours |-> v.neighbours \union {op.desVertex}]
                 ELSE IF v.NodeID = op.desVertex THEN             
                     [NodeID |-> v.NodeID, neighbours |-> v.neighbours \union {op.sourceVertex}]
-                ELSE v }
+                ELSE v
+    IN
+    {addEdge(v) : v \in G}
     [] op.type = "edges" /\ op.Operation = "remove" -> 
     LET
-\*        connectedNode == {CHOOSE v \in G : v[op.sourceVertex] = op.sourceVertex}
-\*        G1  == G \ connectedNode
-\*        G2 == G1 \union {[[NodeID |-> connectedNode.NodeID, neighbours |-> connectedNode.neighbours \ {desVertex}]}
-        G1 == { v \in G : IF v.NodeID = op.sourceVertex THEN 
+        removeEdge(v) ==
+            IF v.NodeID = op.sourceVertex THEN 
                                [NodeID |-> v.NodeID, neighbours |-> v.neighbours \ {op.desVertex}]
                           ELSE IF v.NodeID = op.desVertex THEN
                                [NodeID |-> v.NodeID, neighbours |-> v.neighbours \ {op.sourceVertex}]
-                             ELSE v }
+                             ELSE v
+\*        connectedNode == {CHOOSE v \in G : v[op.sourceVertex] = op.sourceVertex}
+\*        G1  == G \ connectedNode
+\*        G2 == G1 \union {[[NodeID |-> connectedNode.NodeID, neighbours |-> connectedNode.neighbours \ {desVertex}]}
+        
      IN 
-         G1
+         { removeEdge(v): v \in G }
         
  RECURSIVE ApplyOperations(_, _, _)
  ApplyOperations(ops, nodeID, G) ==    
@@ -146,7 +156,7 @@ GRAPHTypeOK ==
     ELSE ApplyOperations(Tail(ops), nodeID,  ApplyOp(Head(ops),G))
     
  Apply(ops, nodeID, G) ==
- G' = ApplyOperations(ops, nodeID, G)
+  ApplyOperations(ops, nodeID, G)
   
   
  LeaderPrepare(tnInfo, s, r, depdencyInfo, tnOperations) == 
@@ -157,7 +167,8 @@ GRAPHTypeOK ==
   /\ rmState[tnInfo][r] = "follower"
   /\ transactionOperation' = [transactionOperation EXCEPT ![tnInfo] = [op |-> tnOperations, dependency |-> depdencyInfo]]
   /\ msgs[r][s]' = Append(msgs[r][s], [type |-> "prepared", tn |->tnInfo, dependency |-> depdencyInfo, src |-> s, dst |-> r, operations |-> tnOperations])
-  /\ UNCHANGED <<rmState>>
+  /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, 
+    acceptedTransactions, rejectedTransactions, pendingTransactions>>
   
   LeaderSendPrepares(tnInfo, s, tnOperations) ==
   (*************************************************************************)
@@ -258,7 +269,7 @@ GRAPHTypeOK ==
   /\ localTransactionHistory[r]["prepared"]' =  localTransactionHistory[r]["prepared"] \ {tnInfo}
   /\ localTransactionHistory[r]["committed"]' = localTransactionHistory[r]["committed"] \cup {tnInfo}
   /\ localTransactionHistory[r]["recentCommitted"]' = (localTransactionHistory[r]["recentCommitted"] \ depdencyInfo) \union tnInfo
-  /\ Apply(tnOperations, r, localNodesGraph[r])
+  /\ localNodesGraph[r]' = Apply(tnOperations, r, localNodesGraph[r])
 \*  /\ UNCHANGED <<tmState, 
 
   LeaderHandleParticipantRes(tnInfo, r, s, msg) ==
@@ -367,5 +378,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Tue Apr 01 00:57:17 CST 2025 by junhaohu
+\* Last modified Tue Apr 01 01:35:06 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
