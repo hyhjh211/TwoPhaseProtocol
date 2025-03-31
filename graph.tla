@@ -123,8 +123,10 @@ GRAPHTypeOK ==
           G2
     [] op.type = "edges" /\ op.Operation = "add" ->
     { v \in G : IF v.NodeID = op.sourceVertex THEN 
-                               [NodeID |-> v.NodeID, neighbours |-> v.neighbours \union {op.desVertex}]
-                             ELSE v }
+                    [NodeID |-> v.NodeID, neighbours |-> v.neighbours \union {op.desVertex}]
+                ELSE IF v.NodeID = op.desVertex THEN             
+                    [NodeID |-> v.NodeID, neighbours |-> v.neighbours \union {op.sourceVertex}]
+                ELSE v }
     [] op.type = "edges" /\ op.Operation = "remove" -> 
     LET
 \*        connectedNode == {CHOOSE v \in G : v[op.sourceVertex] = op.sourceVertex}
@@ -132,6 +134,8 @@ GRAPHTypeOK ==
 \*        G2 == G1 \union {[[NodeID |-> connectedNode.NodeID, neighbours |-> connectedNode.neighbours \ {desVertex}]}
         G1 == { v \in G : IF v.NodeID = op.sourceVertex THEN 
                                [NodeID |-> v.NodeID, neighbours |-> v.neighbours \ {op.desVertex}]
+                          ELSE IF v.NodeID = op.desVertex THEN
+                               [NodeID |-> v.NodeID, neighbours |-> v.neighbours \ {op.sourceVertex}]
                              ELSE v }
      IN 
          G1
@@ -224,12 +228,15 @@ GRAPHTypeOK ==
     IN
       hasIntersection
   
+  strictSubset(depdencyInfo, nodeID) == 
+    depdencyInfo \subseteq localTransactionHistory[nodeID]["recentCommitted"] /\  ~(depdencyInfo = localTransactionHistory[nodeID]["recentCommitted"])
+  
   ParticipantRecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) == 
   (*************************************************************************)
   (* node r receives message from leader s                                  *)
   (*************************************************************************)
   IF depdencyInfo \subseteq localTransactionHistory[r]["committed"] \cup localTransactionHistory[r]["prepared"]
-     /\ ~ConflictDetect(tnInfo, r, tnOperations) 
+     /\ ~ConflictDetect(tnInfo, r, tnOperations) /\ ~(strictSubset(depdencyInfo, r))
       THEN
          /\ UpdateSets(localTransactionHistory[r]["prepared"],localTransactionHistory[r]["committed"], depdencyInfo)
          /\ ParticipantPrepare(r, s, tnInfo, depdencyInfo)
@@ -300,19 +307,16 @@ GRAPHTypeOK ==
   Receive(r, s) == 
    /\ Len(msgs[r][s]) >= 1
    /\
-     /\    
-        \/ 
-          /\ Head(msgs[r][s]).type = "prepared" 
+     \/ 
+       /\ Head(msgs[r][s]).type = "prepared" 
     \*      (tnInfo, r, s, depdencyInfo, tnOperations)
-          /\ ParticipantRecvPhase1(msgs[r][s].tn, r, s, msgs.dependency, msgs.operations)
-       \/
-          /\ 
+       /\ ParticipantRecvPhase1(msgs[r][s].tn, r, s, msgs.dependency, msgs.operations)
+     \/
+       /\ 
             (Head(msgs[r][s]).type = "preparedResponsePhase1" \/ Head(msgs[r][s]).type = "abortedResponsePhase1")
-          /\ LeaderHandleParticipantRes(msgs[r][s].tn, r, s, msgs[r][s])
+       /\ LeaderHandleParticipantRes(msgs[r][s].tn, r, s, msgs[r][s])
          
-       
-     /\ 
-        msgs[r][s]' = Tail(msgs[r][s])
+   /\ msgs[r][s]' = Tail(msgs[r][s])
   
   ReceiveClient(i) ==
     LET 
@@ -363,5 +367,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Wed Mar 26 20:30:04 CST 2025 by junhaohu
+\* Last modified Tue Apr 01 00:57:17 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
