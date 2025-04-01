@@ -374,8 +374,8 @@ GRAPHTypeOK ==
             i \in {"committed","recentCommitted","prepared" } |-> {}
         ]
     ]
-  /\ acceptedTransactions = [tn \in transactionNumbers |-> {}]
-  /\ rejectedTransactions = [tn \in transactionNumbers |-> {}]
+  /\ acceptedTransactions = [tn \in 1..Len(transactionNumbers) |-> {}]
+  /\ rejectedTransactions = [tn \in 1..Len(transactionNumbers) |-> {}]
   
   Next ==
       \/ \E i,j \in NODES : Receive(i, j)
@@ -398,5 +398,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Tue Apr 01 23:21:51 CST 2025 by junhaohu
+\* Last modified Tue Apr 01 23:20:55 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
