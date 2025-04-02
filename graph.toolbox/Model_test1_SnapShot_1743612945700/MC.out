@@ -2,7 +2,7 @@
 TLC2 Version 2.16 of 31 December 2020 (rev: cdddf55)
 @!@!@ENDMSG 2262 @!@!@
 @!@!@STARTMSG 2187:0 @!@!@
-Running breadth-first search Model-Checking with fp 125 and seed 2325324140389133036 with 5 workers on 10 cores with 1214MB heap and 2730MB offheap memory [pid: 23634] (Mac OS X 10.16 x86_64, AdoptOpenJDK 14.0.1 x86_64, OffHeapDiskFPSet, DiskStateQueue).
+Running breadth-first search Model-Checking with fp 127 and seed -5429019689620840210 with 5 workers on 10 cores with 1214MB heap and 2730MB offheap memory [pid: 23602] (Mac OS X 10.16 x86_64, AdoptOpenJDK 14.0.1 x86_64, OffHeapDiskFPSet, DiskStateQueue).
 @!@!@ENDMSG 2187 @!@!@
 @!@!@STARTMSG 2220:0 @!@!@
 Starting SANY...
@@ -25,13 +25,13 @@ Semantic processing of module MC
 SANY finished.
 @!@!@ENDMSG 2219 @!@!@
 @!@!@STARTMSG 2185:0 @!@!@
-Starting... (2025-04-03 00:56:24)
+Starting... (2025-04-03 00:55:43)
 @!@!@ENDMSG 2185 @!@!@
 @!@!@STARTMSG 2189:0 @!@!@
 Computing initial states...
 @!@!@ENDMSG 2189 @!@!@
 @!@!@STARTMSG 2190:0 @!@!@
-Finished computing initial states: 1 distinct state generated at 2025-04-03 00:56:24.
+Finished computing initial states: 1 distinct state generated at 2025-04-03 00:55:44.
 @!@!@ENDMSG 2190 @!@!@
 @!@!@STARTMSG 1000:1 @!@!@
 TLC threw an unexpected exception.
@@ -61,7 +61,7 @@ The behavior up to this point is:
 @!@!@ENDMSG 2217 @!@!@
 @!@!@STARTMSG 2217:4 @!@!@
 2: <ClientRequest line 347, col 5 to line 352, col 91 of module graph>
-/\ clientRequests = <<<<>>, <<1>>, <<>>>>
+/\ clientRequests = <<<<1>>, <<>>, <<>>>>
 /\ acceptedTransactions = <<{}>>
 /\ localTransactionHistory = << [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
    [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
@@ -69,7 +69,7 @@ The behavior up to this point is:
 /\ transactionOperation = <<[dependency |-> {}, op |-> <<>>]>>
 /\ msgs = <<<<<<>>, <<>>, <<>>>>, <<<<>>, <<>>, <<>>>>, <<<<>>, <<>>, <<>>>>>>
 /\ localNodesGraph = <<{}, {}, {}>>
-/\ rmState = (<<1, 1>> :> "follower" @@ <<1, 2>> :> "leader" @@ <<1, 3>> :> "follower")
+/\ rmState = (<<1, 1>> :> "leader" @@ <<1, 2>> :> "follower" @@ <<1, 3>> :> "follower")
 /\ pendingTransactions = <<>>
 /\ rejectedTransactions = <<{}>>
 
@@ -89,11 +89,11 @@ The behavior up to this point is:
               Operation |-> "add",
               sourceVertex |-> 0,
               desVertex |-> 1 ] >> ] >>
-/\ msgs = << << <<>>,
-      << [ type |-> "prepared",
+/\ msgs = << <<<<>>, <<>>, <<>>>>,
+   << << [ type |-> "prepared",
            tn |-> 1,
-           src |-> 2,
-           dst |-> 1,
+           src |-> 1,
+           dst |-> 2,
            operations |->
                << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
                   [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
@@ -102,12 +102,11 @@ The behavior up to this point is:
                     sourceVertex |-> 0,
                     desVertex |-> 1 ] >>,
            dependency |-> {} ] >>,
+      <<>>,
       <<>> >>,
-   <<<<>>, <<>>, <<>>>>,
-   << <<>>,
-      << [ type |-> "prepared",
+   << << [ type |-> "prepared",
            tn |-> 1,
-           src |-> 2,
+           src |-> 1,
            dst |-> 3,
            operations |->
                << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
@@ -117,9 +116,10 @@ The behavior up to this point is:
                     sourceVertex |-> 0,
                     desVertex |-> 1 ] >>,
            dependency |-> {} ] >>,
+      <<>>,
       <<>> >> >>
 /\ localNodesGraph = <<{}, {}, {}>>
-/\ rmState = (<<1, 1>> :> "follower" @@ <<1, 2>> :> "leader" @@ <<1, 3>> :> "follower")
+/\ rmState = (<<1, 1>> :> "leader" @@ <<1, 2>> :> "follower" @@ <<1, 3>> :> "follower")
 /\ pendingTransactions = <<>>
 /\ rejectedTransactions = <<{}>>
 
@@ -143,7 +143,7 @@ expressions at the following positions:
 
 @!@!@ENDMSG 2103 @!@!@
 @!@!@STARTMSG 2201:0 @!@!@
-The coverage statistics at 2025-04-03 00:56:24
+The coverage statistics at 2025-04-03 00:55:44
 @!@!@ENDMSG 2201 @!@!@
 @!@!@STARTMSG 2773:0 @!@!@
 <Init line 383, col 2 to line 383, col 5 of module graph>: 2:2
@@ -152,31 +152,31 @@ The coverage statistics at 2025-04-03 00:56:24
   line 390, col 3 to line 402, col 48 of module graph: 2
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2772:0 @!@!@
-<ClientRequest line 339, col 3 to line 339, col 18 of module graph (347 5 352 91)>: 3:5
+<ClientRequest line 339, col 3 to line 339, col 18 of module graph (347 5 352 91)>: 3:4
 @!@!@ENDMSG 2772 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 347, col 8 to line 347, col 35 of module graph: 5
+  line 347, col 8 to line 347, col 35 of module graph: 4
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  |line 347, col 8 to line 347, col 31 of module graph: 17
+  |line 347, col 8 to line 347, col 31 of module graph: 16
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 348, col 8 to line 348, col 64 of module graph: 5
+  line 348, col 8 to line 348, col 64 of module graph: 4
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 349, col 8 to line 349, col 96 of module graph: 5
+  line 349, col 8 to line 349, col 96 of module graph: 4
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 350, col 8 to line 350, col 55 of module graph: 5
+  line 350, col 8 to line 350, col 55 of module graph: 4
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 351, col 8 to line 352, col 91 of module graph: 5
+  line 351, col 8 to line 352, col 91 of module graph: 4
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2772:0 @!@!@
 <Receive line 355, col 3 to line 355, col 15 of module graph>: 0:0
 @!@!@ENDMSG 2772 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 356, col 7 to line 356, col 25 of module graph: 71
+  line 356, col 7 to line 356, col 25 of module graph: 69
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
   line 359, col 11 to line 359, col 44 of module graph: 4
@@ -212,7 +212,7 @@ The coverage statistics at 2025-04-03 00:56:24
   line 374, col 12 to line 374, col 37 of module graph: 4
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  |line 374, col 12 to line 374, col 33 of module graph: 14
+  |line 374, col 12 to line 374, col 33 of module graph: 13
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
   line 189, col 12 to line 189, col 40 of module graph: 8
@@ -245,11 +245,11 @@ The coverage statistics at 2025-04-03 00:56:24
 End of statistics.
 @!@!@ENDMSG 2202 @!@!@
 @!@!@STARTMSG 2200:0 @!@!@
-Progress(3) at 2025-04-03 00:56:24: 7 states generated (276 s/min), 7 distinct states found (276 ds/min), 0 states left on queue.
+Progress(3) at 2025-04-03 00:55:44: 7 states generated (253 s/min), 7 distinct states found (253 ds/min), 0 states left on queue.
 @!@!@ENDMSG 2200 @!@!@
 @!@!@STARTMSG 2199:0 @!@!@
 7 states generated, 7 distinct states found, 0 states left on queue.
 @!@!@ENDMSG 2199 @!@!@
 @!@!@STARTMSG 2186:0 @!@!@
-Finished in 1540ms at (2025-04-03 00:56:25)
+Finished in 1676ms at (2025-04-03 00:55:44)
 @!@!@ENDMSG 2186 @!@!@

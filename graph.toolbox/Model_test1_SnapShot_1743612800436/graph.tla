@@ -159,12 +159,12 @@ GRAPHTypeOK ==
   ApplyOperations(ops, nodeID, G)
   
   
-\* LeaderPrepare(tnInfo, s, r, depdencyInfo, tnOperations) == 
-\*  (*************************************************************************)
-\*  (* leader s sends prepare message to follower r                           *)
-\*  (*************************************************************************)
-\*  /\ rmState[tnInfo, s] = "leader"
-\*  /\ rmState[tnInfo, r] = "follower" 
+ LeaderPrepare(tnInfo, s, r, depdencyInfo, tnOperations) == 
+  (*************************************************************************)
+  (* leader s sends prepare message to follower r                           *)
+  (*************************************************************************)
+  /\ rmState[tnInfo, s] = "leader"
+  /\ rmState[tnInfo, r] = "follower" 
 \*  /\ Len(msgs[r][s]) \geq 0
 \*  /\ msgs' = [msgs EXCEPT ![r][s] = Append(@, [type |-> "prepared", tn |->tnInfo, dependency |-> depdencyInfo, src |-> s, dst |-> r, operations |-> tnOperations])]
 \*  /\ msgs' = [msgs EXCEPT ![r][s] = Append(msgs[r][s], "aaa")]
@@ -177,10 +177,10 @@ GRAPHTypeOK ==
   LET
         modifyMessage(node1, node2) ==
         
-         IF node2 = s /\ node1 # node2 
+         /\IF node2 = s /\ node1 # node2 
            THEN
-               Append(msgs[node1][node2], [type |-> "prepared", tn |->tnInfo, dependency |-> localTransactionHistory[s]["recentCommitted"], src |-> s, dst |-> node1, operations |-> tnOperations])
-               
+\*               Append(msgs[node1, node2], [type |-> "prepared", tn |->tnInfo, dependency |-> localTransactionHistory[s]["recentCommitted"], src |-> s, dst |-> node1, operations |-> tnOperations])
+               msgs[node1][node2]
            ELSE
                msgs[node1][node2]
         
@@ -191,7 +191,7 @@ GRAPHTypeOK ==
         /\ transactionOperation' = [transactionOperation EXCEPT ![tnInfo] = [op |-> tnOperations, dependency |-> localTransactionHistory[s]["recentCommitted"]]]
   
 \*  /\ \A r \in (NODES \ {s}) : LeaderPrepare(tnInfo, s, r, localTransactionHistory[s]["recentCommitted"], tnOperations) 
-  
+  /\ {LeaderPrepare(tnInfo, s, r, localTransactionHistory[s]["recentCommitted"], tnOperations) : r \in (NODES \ {s})}
 \*  /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, 
 \*    acceptedTransactions, rejectedTransactions, pendingTransactions>>
   
@@ -375,8 +375,8 @@ GRAPHTypeOK ==
         /\ LeaderSendPrepares(clientRequest, i, transactions[clientRequest])
         /\ clientRequests' = [clientRequests EXCEPT ![i] = Tail(clientRequests[i])]
 
-       /\ UNCHANGED <<transactionNumbers, localTransactionHistory, 
-        localNodesGraph, acceptedTransactions, rejectedTransactions, pendingTransactions, rmState>>
+       /\ UNCHANGED <<transactionNumbers, msgs, localTransactionHistory, 
+        localNodesGraph, transactionOperation, acceptedTransactions, rejectedTransactions, pendingTransactions, rmState>>
            
         
         
@@ -422,5 +422,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Thu Apr 03 00:56:21 CST 2025 by junhaohu
+\* Last modified Thu Apr 03 00:53:14 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
