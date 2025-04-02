@@ -178,8 +178,8 @@ GRAPHTypeOK ==
   (*************************************************************************)
   (* leader s sends prepare message to all followers                        *)
   (*************************************************************************) 
-  /\ rmState[tnInfo, s] = "leader"
-  /\ \A r \in NODES : LeaderPrepare(tnInfo, s, r, localTransactionHistory[s]["recentCommitted"] , tnOperations)
+\*  /\ rmState[tnInfo, s] = "leader"
+\*  /\ \A r \in NODES : LeaderPrepare(tnInfo, s, r, localTransactionHistory[s]["recentCommitted"] , tnOperations)
   /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, 
     acceptedTransactions, rejectedTransactions, pendingTransactions>>
   
@@ -391,9 +391,9 @@ GRAPHTypeOK ==
   /\ rejectedTransactions = [tn \in tSet |-> {}]
   
   Next ==
-\*      \/ \E i,j \in NODES : Receive(i, j)
+      \/ \E i,j \in NODES : Receive(i, j)
       \/ \E i \in NODES : ClientRequest(i)
-\*      \/ \E i \in NODES : ReceiveClient(i)
+      \/ \E i \in NODES : ReceiveClient(i)
          
       
   
@@ -411,5 +411,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Wed Apr 02 23:03:36 CST 2025 by junhaohu
+\* Last modified Wed Apr 02 23:01:55 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu

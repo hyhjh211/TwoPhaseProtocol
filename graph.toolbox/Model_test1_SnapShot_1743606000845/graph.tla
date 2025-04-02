@@ -391,9 +391,9 @@ GRAPHTypeOK ==
   /\ rejectedTransactions = [tn \in tSet |-> {}]
   
   Next ==
-\*      \/ \E i,j \in NODES : Receive(i, j)
+      \/ \E i,j \in NODES : Receive(i, j)
       \/ \E i \in NODES : ClientRequest(i)
-\*      \/ \E i \in NODES : ReceiveClient(i)
+      \/ \E i \in NODES : ReceiveClient(i)
          
       
   
@@ -411,5 +411,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Wed Apr 02 23:03:36 CST 2025 by junhaohu
+\* Last modified Wed Apr 02 22:59:54 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu

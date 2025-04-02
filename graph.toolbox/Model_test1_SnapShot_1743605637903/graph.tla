@@ -163,15 +163,10 @@ GRAPHTypeOK ==
   (*************************************************************************)
   (* leader s sends prepare message to follower r                           *)
   (*************************************************************************)
-  IF s # r
-  THEN 
   /\ rmState[tnInfo, s] = "leader"
-  /\ rmState[tnInfo, r] = "follower" 
+  /\ rmState[tnInfo, r] = "follower"
   /\ transactionOperation' = [transactionOperation EXCEPT ![tnInfo] = [op |-> tnOperations, dependency |-> depdencyInfo]]
   /\ msgs' = [msgs EXCEPT! [r][s] = Append(msgs[r][s], [type |-> "prepared", tn |->tnInfo, dependency |-> depdencyInfo, src |-> s, dst |-> r, operations |-> tnOperations])]
-  ELSE
-  /\ rmState[tnInfo, s] = "leader"
-  /\ rmState[tnInfo, r] = "leader"
 
   
   LeaderSendPrepares(tnInfo, s, tnOperations) ==
@@ -391,9 +386,9 @@ GRAPHTypeOK ==
   /\ rejectedTransactions = [tn \in tSet |-> {}]
   
   Next ==
-\*      \/ \E i,j \in NODES : Receive(i, j)
+      \/ \E i,j \in NODES : Receive(i, j)
       \/ \E i \in NODES : ClientRequest(i)
-\*      \/ \E i \in NODES : ReceiveClient(i)
+      \/ \E i \in NODES : ReceiveClient(i)
          
       
   
@@ -411,5 +406,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Wed Apr 02 23:03:36 CST 2025 by junhaohu
+\* Last modified Wed Apr 02 22:52:59 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
