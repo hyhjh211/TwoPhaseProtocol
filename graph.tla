@@ -358,7 +358,7 @@ GRAPHTypeOK ==
      \/ 
        /\ Head(msgs[r][s]).type = "prepared" 
     \*      (tnInfo, r, s, depdencyInfo, tnOperations)
-       /\ ParticipantRecvPhase1(msgs[r][s].tn, r, s, msgs.dependency, msgs.operations)
+       /\ ParticipantRecvPhase1(msgs[r][s].tn, r, s, msgs[r][s].dependency, msgs[r][s].operations)
      \/
        /\ (Head(msgs[r][s]).type = "preparedResponsePhase1" \/ Head(msgs[r][s]).type = "abortedResponsePhase1")
        /\ LeaderHandleParticipantRes(msgs[r][s].tn, r, s, msgs[r][s])
@@ -422,5 +422,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Thu Apr 03 00:56:21 CST 2025 by junhaohu
+\* Last modified Thu Apr 03 01:07:10 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
