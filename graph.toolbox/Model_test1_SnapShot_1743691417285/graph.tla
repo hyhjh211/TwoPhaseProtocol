@@ -329,10 +329,10 @@ GRAPHTypeOK ==
   /\ localTransactionHistory' =  [ localTransactionHistory   EXCEPT ![r]["prepared"] = localTransactionHistory[r]["prepared"] \ {tnInfo}
                                                                            ,![r]["committed"] =  localTransactionHistory[r]["committed"] \cup {tnInfo}
                                                                            ,![r]["recentCommitted"] = (localTransactionHistory[r]["recentCommitted"] \ depdencyInfo) \union tnInfo]
-  /\ localNodesGraph' = [localNodesGraph EXCEPT! [r] = Apply(tnOperations, r, localNodesGraph[r])]
+  /\ localNodesGraph[r]' = Apply(tnOperations, r, localNodesGraph[r])
   /\ msgs' = [msgs EXCEPT ![r][s] = Tail(msgs[r][s]) ]
   /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, 
-    acceptedTransactions, rejectedTransactions, pendingTransactions, transactionOperation>>
+    acceptedTransactions, rejectedTransactions, pendingTransactions>>
 \*  /\ UNCHANGED <<tmState, 
 
   LeaderHandleParticipantRes(tnInfo, r, s, msg) ==
@@ -479,5 +479,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Thu Apr 03 22:47:54 CST 2025 by junhaohu
+\* Last modified Thu Apr 03 22:43:31 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu

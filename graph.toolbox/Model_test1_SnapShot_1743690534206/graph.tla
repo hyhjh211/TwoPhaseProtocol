@@ -323,16 +323,16 @@ GRAPHTypeOK ==
     acceptedTransactions, rejectedTransactions, pendingTransactions>>
   
   
-  RcvCommitMsg(r, s, tnInfo, depdencyInfo, tnOperations) == 
-  /\ rmState[tnInfo, s] = "leader"
+  ParticipantRcvCommitMsg(r, s, tnInfo, depdencyInfo, tnOperations) == 
+  /\ rmState[tnInfo][r] = "follower"
+  /\ rmState[tnInfo][s] = "leader"
 \*  /\ [type |-> "committed",tn |-> tnInfo, src |-> s, dst |-> r, operations |-> tnOperations] \in msgs[r]
-  /\ localTransactionHistory' =  [ localTransactionHistory   EXCEPT ![r]["prepared"] = localTransactionHistory[r]["prepared"] \ {tnInfo}
-                                                                           ,![r]["committed"] =  localTransactionHistory[r]["committed"] \cup {tnInfo}
-                                                                           ,![r]["recentCommitted"] = (localTransactionHistory[r]["recentCommitted"] \ depdencyInfo) \union tnInfo]
-  /\ localNodesGraph' = [localNodesGraph EXCEPT! [r] = Apply(tnOperations, r, localNodesGraph[r])]
-  /\ msgs' = [msgs EXCEPT ![r][s] = Tail(msgs[r][s]) ]
+  /\ localTransactionHistory[r]["prepared"]' =  localTransactionHistory[r]["prepared"] \ {tnInfo}
+  /\ localTransactionHistory[r]["committed"]' = localTransactionHistory[r]["committed"] \cup {tnInfo}
+  /\ localTransactionHistory[r]["recentCommitted"]' = (localTransactionHistory[r]["recentCommitted"] \ depdencyInfo) \union tnInfo
+  /\ localNodesGraph[r]' = Apply(tnOperations, r, localNodesGraph[r])
   /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, 
-    acceptedTransactions, rejectedTransactions, pendingTransactions, transactionOperation>>
+    acceptedTransactions, rejectedTransactions, pendingTransactions>>
 \*  /\ UNCHANGED <<tmState, 
 
   LeaderHandleParticipantRes(tnInfo, r, s, msg) ==
@@ -342,15 +342,13 @@ GRAPHTypeOK ==
           IF msg.type = "preparedResponsePhase1" /\ (Len(acceptedTransactions[tnInfo]) + 2) * 2 > Cardinality(NODES)
            THEN 
                 /\ LeaderSendCommit(tnInfo, r, transactionOperation[tnInfo].dependency, transactionOperation[tnInfo].op, r, s)
-                /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
-                        rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions, rmState, transactionOperation>>
+                
      
            ELSE 
-                /\ LeaderSendAbort(tnInfo, r, transactionOperation[tnInfo].dependency, transactionOperation[tnInfo].op)  
-                /\ /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
-                        rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions, rmState, transactionOperation>>
+                LeaderSendAbort(tnInfo, r, transactionOperation[tnInfo].dependency, transactionOperation[tnInfo].op)  
  
-           
+           /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
+                        rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions, rmState, transactionOperation>>
             
         ELSE 
            IF msg.type = "preparedResponsePhase1" 
@@ -412,10 +410,7 @@ GRAPHTypeOK ==
      \/
        /\ msg.type = "preparedResponsePhase1" \/ msg.type = "abortedResponsePhase1"
        /\ LeaderHandleParticipantRes(msg.tn, r, s, msg)
-     
-     \/ 
-        /\ msg.type = "committed"
-        /\ RcvCommitMsg(r, s, msg.tn, msg.dependency,  msg.operations)
+
 
 \*       /\ UNCHANGED <<transactionNumbers, localTransactionHistory, 
 \*            localNodesGraph, transactionOperation, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState, msgs>>
@@ -479,5 +474,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Thu Apr 03 22:47:54 CST 2025 by junhaohu
+\* Last modified Thu Apr 03 22:28:48 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
