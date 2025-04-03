@@ -205,7 +205,7 @@ GRAPHTypeOK ==
   /\ rmState[tnInfo, s] = "leader"
   /\ rmState[tnInfo, r] = "follower"
 \*  /\ {x \in NODES: tnInfo \in localTransactionHistory[x]["prepared"]} \in Quorum
-  /\ msgs' = [msgs EXCEPT ![r][s] = Append(msgs[r][s], [type |-> "committed", tn |-> tnInfo, dependency |-> depdencyInfo, src |-> s, dst |-> r, operations |-> tnOperations])]
+  /\ msgs[r][s]' = Append(msgs[r][s], [type |-> "committed", tn |-> tnInfo, dependency |-> depdencyInfo, src |-> s, dst |-> r, operations |-> tnOperations])
   
   
   LeaderSendCommit(tnInfo, s, depdencyInfo, tnOperations) == 
@@ -342,12 +342,12 @@ GRAPHTypeOK ==
                 THEN       
                     /\ acceptedTransactions' = [acceptedTransactions EXCEPT ![tnInfo] = Append(acceptedTransactions[tnInfo], s)]
                     
-                    /\ UNCHANGED <<transactionNumbers, msgs, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
+                    /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
                         rejectedTransactions, pendingTransactions>>
                     
                 ELSE
                     /\ rejectedTransactions' = [rejectedTransactions EXCEPT ![tnInfo] = Append(rejectedTransactions[tnInfo], s)]
-                    /\ UNCHANGED <<transactionNumbers, msgs, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
+                    /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
                         acceptedTransactions, pendingTransactions>>
             
        
@@ -437,8 +437,8 @@ GRAPHTypeOK ==
             i \in {"committed","recentCommitted","prepared" } |-> {}
         ]
     ]
-  /\ acceptedTransactions = [tn \in tSet |-> <<>>]
-  /\ rejectedTransactions = [tn \in tSet |-> <<>>]
+  /\ acceptedTransactions = [tn \in tSet |-> {}]
+  /\ rejectedTransactions = [tn \in tSet |-> {}]
   
   Next ==
       \/ \E i,j \in NODES : Receive(i, j)
@@ -461,5 +461,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Thu Apr 03 21:43:30 CST 2025 by junhaohu
+\* Last modified Thu Apr 03 21:39:40 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu

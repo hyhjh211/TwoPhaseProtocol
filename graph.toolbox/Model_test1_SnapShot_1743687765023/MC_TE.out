@@ -2,7 +2,7 @@
 TLC2 Version 2.16 of 31 December 2020 (rev: cdddf55)
 @!@!@ENDMSG 2262 @!@!@
 @!@!@STARTMSG 2187:0 @!@!@
-Running breadth-first search Model-Checking with fp 0 and seed 3133018609690730182 with 5 workers on 10 cores with 1214MB heap and 2730MB offheap memory [pid: 43812] (Mac OS X 10.16 x86_64, AdoptOpenJDK 14.0.1 x86_64, OffHeapDiskFPSet, DiskStateQueue).
+Running breadth-first search Model-Checking with fp 16 and seed 3955251657568050604 with 5 workers on 10 cores with 1214MB heap and 2730MB offheap memory [pid: 43590] (Mac OS X 10.16 x86_64, AdoptOpenJDK 14.0.1 x86_64, OffHeapDiskFPSet, DiskStateQueue).
 @!@!@ENDMSG 2187 @!@!@
 @!@!@STARTMSG 2220:0 @!@!@
 Starting SANY...
@@ -25,17 +25,24 @@ Semantic processing of module MC
 SANY finished.
 @!@!@ENDMSG 2219 @!@!@
 @!@!@STARTMSG 2185:0 @!@!@
-Starting... (2025-04-03 21:43:32)
+Starting... (2025-04-03 21:42:42)
 @!@!@ENDMSG 2185 @!@!@
 @!@!@STARTMSG 2189:0 @!@!@
 Computing initial states...
 @!@!@ENDMSG 2189 @!@!@
 @!@!@STARTMSG 2190:0 @!@!@
-Finished computing initial states: 1 distinct state generated at 2025-04-03 21:43:33.
+Finished computing initial states: 1 distinct state generated at 2025-04-03 21:42:43.
 @!@!@ENDMSG 2190 @!@!@
-@!@!@STARTMSG 2114:1 @!@!@
-Deadlock reached.
-@!@!@ENDMSG 2114 @!@!@
+@!@!@STARTMSG 1000:1 @!@!@
+TLC threw an unexpected exception.
+This was probably caused by an error in the spec or model.
+See the User Output or TLC Console for clues to what happened.
+The exception was a java.lang.RuntimeException
+: @!@!@STARTMSG 2280:0 @!@!@
+In evaluation, the identifier msgs is either undefined or not an operator.
+line 208, col 6 to line 208, col 9 of module graph
+@!@!@ENDMSG 2280 @!@!@
+@!@!@ENDMSG 1000 @!@!@
 @!@!@STARTMSG 2121:1 @!@!@
 The behavior up to this point is:
 @!@!@ENDMSG 2121 @!@!@
@@ -220,52 +227,6 @@ The behavior up to this point is:
 @!@!@STARTMSG 2217:4 @!@!@
 6: <Receive line 388, col 4 to line 399, col 55 of module graph>
 /\ clientRequests = <<<<>>, <<>>, <<>>>>
-/\ acceptedTransactions = <<<<1>>>>
-/\ localTransactionHistory = << [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
-   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
-   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}] >>
-/\ transactionOperation = << [ dependency |-> {},
-     op |->
-         << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
-            [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
-            [ type |-> "edges",
-              Operation |-> "add",
-              sourceVertex |-> 0,
-              desVertex |-> 1 ] >> ] >>
-/\ msgs = << <<<<>>, <<>>, <<>>>>,
-   << << [ type |-> "preparedResponsePhase1",
-           tn |-> 1,
-           src |-> 1,
-           dst |-> 2,
-           operations |->
-               << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
-                  [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
-                  [ type |-> "edges",
-                    Operation |-> "add",
-                    sourceVertex |-> 0,
-                    desVertex |-> 1 ] >> ] >>,
-      <<>>,
-      << [ type |-> "preparedResponsePhase1",
-           tn |-> 1,
-           src |-> 3,
-           dst |-> 2,
-           operations |->
-               << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
-                  [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
-                  [ type |-> "edges",
-                    Operation |-> "add",
-                    sourceVertex |-> 0,
-                    desVertex |-> 1 ] >> ] >> >>,
-   <<<<>>, <<>>, <<>>>> >>
-/\ localNodesGraph = <<{}, {}, {}>>
-/\ rmState = (<<1, 1>> :> "follower" @@ <<1, 2>> :> "leader" @@ <<1, 3>> :> "follower")
-/\ pendingTransactions = <<>>
-/\ rejectedTransactions = <<<<>>>>
-
-@!@!@ENDMSG 2217 @!@!@
-@!@!@STARTMSG 2217:4 @!@!@
-7: <Receive line 388, col 4 to line 399, col 55 of module graph>
-/\ clientRequests = <<<<>>, <<>>, <<>>>>
 /\ acceptedTransactions = <<<<1, 1>>>>
 /\ localTransactionHistory = << [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
    [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
@@ -291,26 +252,59 @@ The behavior up to this point is:
                     sourceVertex |-> 0,
                     desVertex |-> 1 ] >> ] >>,
       <<>>,
-      << [ type |-> "preparedResponsePhase1",
+      <<>> >>,
+   << <<>>,
+      << [ type |-> "prepared",
            tn |-> 1,
-           src |-> 3,
-           dst |-> 2,
+           src |-> 2,
+           dst |-> 3,
            operations |->
                << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
                   [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
                   [ type |-> "edges",
                     Operation |-> "add",
                     sourceVertex |-> 0,
-                    desVertex |-> 1 ] >> ] >> >>,
-   <<<<>>, <<>>, <<>>>> >>
+                    desVertex |-> 1 ] >>,
+           dependency |-> {} ] >>,
+      <<>> >> >>
 /\ localNodesGraph = <<{}, {}, {}>>
 /\ rmState = (<<1, 1>> :> "follower" @@ <<1, 2>> :> "leader" @@ <<1, 3>> :> "follower")
 /\ pendingTransactions = <<>>
 /\ rejectedTransactions = <<<<>>>>
 
 @!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2103:1 @!@!@
+The error occurred when TLC was evaluating the nested
+expressions at the following positions:
+0. Line 388, column 4 to line 399, column 55 in graph
+1. Line 388, column 7 to line 388, column 25 in graph
+2. Line 390, column 6 to line 399, column 55 in graph
+3. Line 398, column 8 to line 399, column 55 in graph
+4. Line 398, column 11 to line 398, column 83 in graph
+5. Line 398, column 11 to line 398, column 45 in graph
+6. Line 399, column 11 to line 399, column 55 in graph
+7. Line 327, column 5 to line 351, column 67 in graph
+8. Line 327, column 8 to line 327, column 36 in graph
+9. Line 328, column 8 to line 351, column 67 in graph
+10. Line 330, column 11 to line 338, column 67 in graph
+11. Line 332, column 17 to line 332, column 117 in graph
+12. Line 215, column 3 to line 218, column 69 in graph
+13. Line 215, column 6 to line 215, column 34 in graph
+14. Line 216, column 6 to line 216, column 77 in graph
+15. Line 216, column 23 to line 216, column 77 in graph
+16. Line 205, column 3 to line 208, column 156 in graph
+17. Line 205, column 6 to line 205, column 34 in graph
+18. Line 206, column 6 to line 206, column 36 in graph
+19. Line 208, column 6 to line 208, column 156 in graph
+20. Line 208, column 6 to line 208, column 16 in graph
+21. Line 208, column 6 to line 208, column 15 in graph
+22. Line 208, column 6 to line 208, column 12 in graph
+23. Line 208, column 6 to line 208, column 9 in graph
+
+
+@!@!@ENDMSG 2103 @!@!@
 @!@!@STARTMSG 2201:0 @!@!@
-The coverage statistics at 2025-04-03 21:43:34
+The coverage statistics at 2025-04-03 21:42:43
 @!@!@ENDMSG 2201 @!@!@
 @!@!@STARTMSG 2773:0 @!@!@
 <Init line 422, col 2 to line 422, col 5 of module graph>: 2:2
@@ -325,7 +319,7 @@ The coverage statistics at 2025-04-03 21:43:34
   line 376, col 8 to line 376, col 35 of module graph: 5
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  |line 376, col 8 to line 376, col 31 of module graph: 116
+  |line 376, col 8 to line 376, col 31 of module graph: 92
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
   line 377, col 8 to line 377, col 64 of module graph: 5
@@ -340,124 +334,109 @@ The coverage statistics at 2025-04-03 21:43:34
   line 380, col 8 to line 381, col 91 of module graph: 5
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2772:0 @!@!@
-<Receive line 384, col 3 to line 384, col 15 of module graph (388 4 399 55)>: 39:57
+<Receive line 384, col 3 to line 384, col 15 of module graph (388 4 399 55)>: 39:53
 @!@!@ENDMSG 2772 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 388, col 7 to line 388, col 25 of module graph: 57
+  line 388, col 7 to line 388, col 25 of module graph: 53
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  |line 388, col 7 to line 388, col 21 of module graph: 365
+  |line 388, col 7 to line 388, col 21 of module graph: 311
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 392, col 11 to line 392, col 31 of module graph: 95
+  line 392, col 11 to line 392, col 31 of module graph: 81
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  |line 392, col 11 to line 392, col 18 of module graph: 71
+  |line 392, col 11 to line 392, col 18 of module graph: 60
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 287, col 10 to line 288, col 88 of module graph: 24
+  line 287, col 10 to line 288, col 88 of module graph: 21
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 291, col 17 to line 291, col 47 of module graph: 48
+  line 291, col 17 to line 291, col 47 of module graph: 42
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  |line 291, col 17 to line 291, col 34 of module graph: 24
+  |line 291, col 17 to line 291, col 34 of module graph: 21
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 292, col 17 to line 294, col 126 of module graph: 24
+  line 292, col 17 to line 294, col 126 of module graph: 21
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 299, col 16 to line 299, col 94 of module graph: 24
+  line 299, col 16 to line 299, col 94 of module graph: 21
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
   line 244, col 6 to line 245, col 69 of module graph: 0
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 394, col 33 to line 394, col 38 of module graph: 24
+  line 394, col 33 to line 394, col 38 of module graph: 21
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 394, col 41 to line 394, col 41 of module graph: 24
+  line 394, col 41 to line 394, col 41 of module graph: 21
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 394, col 44 to line 394, col 44 of module graph: 24
+  line 394, col 44 to line 394, col 44 of module graph: 21
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 394, col 47 to line 394, col 60 of module graph: 24
+  line 394, col 47 to line 394, col 60 of module graph: 21
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 394, col 63 to line 394, col 76 of module graph: 24
+  line 394, col 63 to line 394, col 76 of module graph: 21
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 395, col 11 to line 396, col 141 of module graph: 24
+  line 395, col 11 to line 396, col 141 of module graph: 21
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 398, col 11 to line 398, col 45 of module graph: 104
+  line 398, col 11 to line 398, col 45 of module graph: 92
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  |line 398, col 11 to line 398, col 18 of module graph: 71
+  |line 398, col 11 to line 398, col 18 of module graph: 60
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 398, col 50 to line 398, col 83 of module graph: 71
+  line 398, col 50 to line 398, col 83 of module graph: 54
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 327, col 8 to line 327, col 36 of module graph: 80
+  line 327, col 8 to line 327, col 36 of module graph: 71
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  |line 327, col 8 to line 327, col 25 of module graph: 47
+  |line 327, col 8 to line 327, col 25 of module graph: 39
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 328, col 11 to line 328, col 106 of module graph: 47
+  line 328, col 11 to line 328, col 106 of module graph: 39
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 330, col 14 to line 330, col 77 of module graph: 14
+  line 330, col 14 to line 330, col 77 of module graph: 7
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 215, col 6 to line 215, col 34 of module graph: 14
+  line 215, col 6 to line 215, col 34 of module graph: 7
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 205, col 6 to line 205, col 34 of module graph: 25
+  line 205, col 6 to line 205, col 34 of module graph: 7
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 206, col 6 to line 206, col 36 of module graph: 25
+  line 206, col 6 to line 206, col 36 of module graph: 7
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 208, col 6 to line 208, col 174 of module graph: 0
+  line 208, col 6 to line 208, col 156 of module graph: 6
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  |line 208, col 14 to line 208, col 174 of module graph: 18
+  line 216, col 36 to line 216, col 41 of module graph: 7
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 216, col 36 to line 216, col 41 of module graph: 25
+  line 216, col 44 to line 216, col 44 of module graph: 7
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 216, col 44 to line 216, col 44 of module graph: 25
+  line 216, col 47 to line 216, col 47 of module graph: 7
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 216, col 47 to line 216, col 47 of module graph: 25
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 216, col 50 to line 216, col 61 of module graph: 18
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 216, col 65 to line 216, col 76 of module graph: 18
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 216, col 15 to line 216, col 19 of module graph: 14
+  line 216, col 15 to line 216, col 19 of module graph: 7
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
   line 217, col 6 to line 218, col 69 of module graph: 0
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 332, col 34 to line 332, col 39 of module graph: 14
+  line 332, col 34 to line 332, col 39 of module graph: 7
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 332, col 42 to line 332, col 42 of module graph: 14
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 332, col 45 to line 332, col 83 of module graph: 11
-@!@!@ENDMSG 2221 @!@!@
-@!@!@STARTMSG 2221:0 @!@!@
-  line 332, col 86 to line 332, col 116 of module graph: 11
+  line 332, col 42 to line 332, col 42 of module graph: 7
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
   line 234, col 6 to line 235, col 69 of module graph: 0
@@ -466,13 +445,13 @@ The coverage statistics at 2025-04-03 21:43:34
   line 337, col 15 to line 338, col 67 of module graph: 0
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 341, col 15 to line 341, col 49 of module graph: 33
+  line 341, col 15 to line 341, col 49 of module graph: 32
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 343, col 24 to line 343, col 128 of module graph: 33
+  line 343, col 24 to line 343, col 128 of module graph: 32
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 345, col 24 to line 346, col 67 of module graph: 33
+  line 345, col 24 to line 346, col 67 of module graph: 32
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
   line 349, col 24 to line 349, col 128 of module graph: 0
@@ -481,16 +460,16 @@ The coverage statistics at 2025-04-03 21:43:34
   line 350, col 24 to line 351, col 67 of module graph: 0
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 399, col 38 to line 399, col 43 of module graph: 47
+  line 399, col 38 to line 399, col 43 of module graph: 39
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 399, col 46 to line 399, col 46 of module graph: 47
+  line 399, col 46 to line 399, col 46 of module graph: 39
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 399, col 49 to line 399, col 49 of module graph: 33
+  line 399, col 49 to line 399, col 49 of module graph: 32
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  line 399, col 52 to line 399, col 54 of module graph: 33
+  line 399, col 52 to line 399, col 54 of module graph: 32
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2772:0 @!@!@
 <ReceiveClient line 409, col 3 to line 409, col 18 of module graph (413 9 418 99)>: 3:4
@@ -499,7 +478,7 @@ The coverage statistics at 2025-04-03 21:43:34
   line 413, col 12 to line 413, col 37 of module graph: 4
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
-  |line 413, col 12 to line 413, col 33 of module graph: 113
+  |line 413, col 12 to line 413, col 33 of module graph: 89
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
   line 190, col 12 to line 190, col 40 of module graph: 8
@@ -532,17 +511,11 @@ The coverage statistics at 2025-04-03 21:43:34
 End of statistics.
 @!@!@ENDMSG 2202 @!@!@
 @!@!@STARTMSG 2200:0 @!@!@
-Progress(7) at 2025-04-03 21:43:34: 59 states generated (2,053 s/min), 46 distinct states found (1,600 ds/min), 9 states left on queue.
+Progress(7) at 2025-04-03 21:42:43: 57 states generated (2,018 s/min), 46 distinct states found (1,629 ds/min), 12 states left on queue.
 @!@!@ENDMSG 2200 @!@!@
 @!@!@STARTMSG 2199:0 @!@!@
-59 states generated, 46 distinct states found, 9 states left on queue.
+57 states generated, 46 distinct states found, 12 states left on queue.
 @!@!@ENDMSG 2199 @!@!@
-@!@!@STARTMSG 2194:0 @!@!@
-The depth of the complete state graph search is 7.
-@!@!@ENDMSG 2194 @!@!@
-@!@!@STARTMSG 2268:0 @!@!@
-The average outdegree of the complete state graph is 1 (minimum is 0, the maximum 3 and the 95th percentile is 2).
-@!@!@ENDMSG 2268 @!@!@
 @!@!@STARTMSG 2186:0 @!@!@
-Finished in 1742ms at (2025-04-03 21:43:34)
+Finished in 1711ms at (2025-04-03 21:42:43)
 @!@!@ENDMSG 2186 @!@!@

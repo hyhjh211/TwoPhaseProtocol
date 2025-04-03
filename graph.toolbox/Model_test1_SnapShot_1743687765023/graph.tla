@@ -205,7 +205,7 @@ GRAPHTypeOK ==
   /\ rmState[tnInfo, s] = "leader"
   /\ rmState[tnInfo, r] = "follower"
 \*  /\ {x \in NODES: tnInfo \in localTransactionHistory[x]["prepared"]} \in Quorum
-  /\ msgs' = [msgs EXCEPT ![r][s] = Append(msgs[r][s], [type |-> "committed", tn |-> tnInfo, dependency |-> depdencyInfo, src |-> s, dst |-> r, operations |-> tnOperations])]
+  /\ msgs[r][s]' = Append(msgs[r][s], [type |-> "committed", tn |-> tnInfo, dependency |-> depdencyInfo, src |-> s, dst |-> r, operations |-> tnOperations])
   
   
   LeaderSendCommit(tnInfo, s, depdencyInfo, tnOperations) == 
@@ -461,5 +461,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Thu Apr 03 21:43:30 CST 2025 by junhaohu
+\* Last modified Thu Apr 03 21:42:38 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu

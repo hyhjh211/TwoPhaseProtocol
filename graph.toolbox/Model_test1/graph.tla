@@ -100,9 +100,10 @@ GRAPHTypeOK ==
   (*************************************************************************)
   (* participant s sends prepare message                                    *)
   (*************************************************************************)
-  /\ rmState[s, tnInfo] = "follower"
-\*  /\ rmState' = [rmState EXCEPT ![r, prepareInfo] = "prepared"]
-  /\ msgs[r][s]' = Append(msgs[r][s], [type |-> "preparedResponsePhase1", tn |->tnInfo, rm |-> r])
+  /\ rmState[tnInfo, s] = "follower"
+
+
+  /\ msgs' = [msgs EXCEPT ![r][s] = Append(msgs[r][s], [type |-> "preparedResponsePhase1", tn |->tnInfo, rm |-> r])]
   
   /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
     acceptedTransactions, rejectedTransactions, pendingTransactions>>
@@ -204,7 +205,7 @@ GRAPHTypeOK ==
   /\ rmState[tnInfo, s] = "leader"
   /\ rmState[tnInfo, r] = "follower"
 \*  /\ {x \in NODES: tnInfo \in localTransactionHistory[x]["prepared"]} \in Quorum
-  /\ msgs[r][s]' = Append(msgs[r][s], [type |-> "committed", tn |-> tnInfo, dependency |-> depdencyInfo, src |-> s, dst |-> r, operations |-> tnOperations])
+  /\ msgs' = [msgs EXCEPT ![r][s] = Append(msgs[r][s], [type |-> "committed", tn |-> tnInfo, dependency |-> depdencyInfo, src |-> s, dst |-> r, operations |-> tnOperations])]
   
   
   LeaderSendCommit(tnInfo, s, depdencyInfo, tnOperations) == 
@@ -243,11 +244,11 @@ GRAPHTypeOK ==
   /\ UNCHANGED <<rmState, transactionNumbers, clientRequests, localTransactionHistory, localNodesGraph, 
     acceptedTransactions, rejectedTransactions, pendingTransactions>>
   
-  UpdateSets(prepareSet, commitSet, depdencyInfo)  ==
-  LET commonElements == prepareSet \intersect depdencyInfo
-  IN
-    /\ prepareSet' = prepareSet \ commonElements
-    /\ commitSet' = commitSet \union commonElements
+\*  UpdateSets(prepareSet, commitSet, depdencyInfo)  ==
+\*  LET commonElements == prepareSet \intersect depdencyInfo
+\*  IN
+\*    /\ prepareSet' = prepareSet \ commonElements
+\*    /\ commitSet' = commitSet \union commonElements
   
   
   ConflictDetect(tnInfo, i, tnOperations) ==
@@ -270,13 +271,35 @@ GRAPHTypeOK ==
   (*************************************************************************)
   (* node r receives message from leader s                                  *)
   (*************************************************************************)
-  IF depdencyInfo \subseteq localTransactionHistory[r]["committed"] \cup localTransactionHistory[r]["prepared"]
-     /\ ~ConflictDetect(tnInfo, r, tnOperations) /\ ~(strictSubset(depdencyInfo, r))
-      THEN
-         /\ UpdateSets(localTransactionHistory[r]["prepared"],localTransactionHistory[r]["committed"], depdencyInfo)
-         /\ ParticipantPrepare(r, s, tnInfo, depdencyInfo)
-      ELSE
-         ParticipantChooseToAbort(r, s, tnInfo, depdencyInfo, tnOperations)
+  LET 
+        commonElements == localTransactionHistory[r]["prepared"] \intersect depdencyInfo
+        modifyMessage(node1, node2) ==
+            IF node1 = r /\ node2 = s
+            THEN
+                Tail(msgs[r][s])
+            ELSE 
+                IF node1 = s /\ node2 = r
+                THEN 
+                    Append(msgs[s][r], [type |-> "preparedResponsePhase1", tn |->  tnInfo, src |-> r, dst |-> s, operations |-> tnOperations])
+                ELSE
+                    msgs[node1][node2]
+  IN
+      IF depdencyInfo \subseteq localTransactionHistory[r]["committed"] \cup localTransactionHistory[r]["prepared"]
+         /\ ~ConflictDetect(tnInfo, r, tnOperations) /\ ~(strictSubset(depdencyInfo, r))
+         
+          THEN
+             /\ rmState[tnInfo, r] = "follower"
+             /\ localTransactionHistory' = [localTransactionHistory EXCEPT ![r]["prepared"] =  localTransactionHistory[r]["prepared"]\ commonElements,
+                                                                           ![r]["committed"] =  localTransactionHistory[r]["committed" \union commonElements]                          
+                                                                                                                             ]
+            
+            
+\*             /\ ParticipantPrepare(r, s, tnInfo, depdencyInfo)
+            
+            /\ msgs' = [node1 \in NODES |-> [node2 \in NODES |-> modifyMessage(node1, node2)]]
+                
+          ELSE
+             ParticipantChooseToAbort(r, s, tnInfo, depdencyInfo, tnOperations)
   
   
   ParticipantRecvAbortMsg(r, s, tnInfo, tnOperations) ==
@@ -301,24 +324,30 @@ GRAPHTypeOK ==
 \*  /\ UNCHANGED <<tmState, 
 
   LeaderHandleParticipantRes(tnInfo, r, s, msg) ==
-    /\ rmState[tnInfo][r] = "leader" 
-    /\ IF Len(acceptedTransactions[tnInfo]) + Len(rejectedTransactions[tnInfo] + 1) = Cardinality(NODES)
+    /\ rmState[tnInfo, r] = "leader" 
+    /\ IF (Len(acceptedTransactions[tnInfo]) + Len(rejectedTransactions[tnInfo]) + 1) = Cardinality(NODES)
         THEN
           IF (Len(acceptedTransactions[tnInfo]) + 1) * 2 > Cardinality(NODES)
            THEN 
                 LeaderSendCommit(tnInfo, r, transactionOperation[tnInfo].dependency, transactionOperation[tnInfo].op)
+     
            ELSE 
-                LeaderSendAbort(tnInfo, r, transactionOperation[tnInfo].dependency, transactionOperation[tnInfo].op)    
+                LeaderSendAbort(tnInfo, r, transactionOperation[tnInfo].dependency, transactionOperation[tnInfo].op)  
+ 
+           /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
+                        rejectedTransactions, pendingTransactions>>
+            
         ELSE 
            IF msg.type = "preparedResponsePhase1" 
                 THEN       
-                    /\ acceptedTransactions[tnInfo]' = Append(acceptedTransactions[tnInfo], s)
-                    /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
+                    /\ acceptedTransactions' = [acceptedTransactions EXCEPT ![tnInfo] = Append(acceptedTransactions[tnInfo], s)]
+                    
+                    /\ UNCHANGED <<transactionNumbers, msgs, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
                         rejectedTransactions, pendingTransactions>>
                     
                 ELSE
-                    /\ rejectedTransactions[tnInfo]' = Append(rejectedTransactions[tnInfo], s)
-                    /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
+                    /\ rejectedTransactions' = [rejectedTransactions EXCEPT ![tnInfo] = Append(rejectedTransactions[tnInfo], s)]
+                    /\ UNCHANGED <<transactionNumbers, msgs, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
                         acceptedTransactions, pendingTransactions>>
             
        
@@ -353,17 +382,27 @@ GRAPHTypeOK ==
     
     
   Receive(r, s) == 
+   LET 
+        msg == Head(msgs[r][s])
+   IN
    /\ Len(msgs[r][s]) > 0
    /\
      \/ 
-       /\ Head(msgs[r][s]).type = "prepared" 
+       
+       /\ msg.type = "prepared" 
     \*      (tnInfo, r, s, depdencyInfo, tnOperations)
-       /\ ParticipantRecvPhase1(msgs[r][s].tn, r, s, msgs[r][s].dependency, msgs[r][s].operations)
+       /\ ParticipantRecvPhase1(msg.tn, r, s, msg.dependency, msg.operations)
+       /\ UNCHANGED <<transactionNumbers, localTransactionHistory, 
+            localNodesGraph, transactionOperation, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState>>
      \/
-       /\ (Head(msgs[r][s]).type = "preparedResponsePhase1" \/ Head(msgs[r][s]).type = "abortedResponsePhase1")
-       /\ LeaderHandleParticipantRes(msgs[r][s].tn, r, s, msgs[r][s])
-         
-   /\ msgs[r][s]' = Tail(msgs[r][s])
+       /\ msg.type = "preparedResponsePhase1" \/ msg.type = "abortedResponsePhase1"
+       /\ LeaderHandleParticipantRes(msg.tn, r, s, msg)
+
+
+\*       /\ UNCHANGED <<transactionNumbers, localTransactionHistory, 
+\*            localNodesGraph, transactionOperation, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState, msgs>>
+\*         
+\*   /\ msgs[r][s]' = Tail(msgs[r][s])
    
    
   
@@ -394,12 +433,12 @@ GRAPHTypeOK ==
   /\ clientRequests = [r \in NODES |-> <<>>]
   /\ localNodesGraph = [r \in NODES |-> {}]
   /\ localTransactionHistory = [r \in NODES |-> 
-        [ 
+        [
             i \in {"committed","recentCommitted","prepared" } |-> {}
         ]
     ]
-  /\ acceptedTransactions = [tn \in tSet |-> {}]
-  /\ rejectedTransactions = [tn \in tSet |-> {}]
+  /\ acceptedTransactions = [tn \in tSet |-> <<>>]
+  /\ rejectedTransactions = [tn \in tSet |-> <<>>]
   
   Next ==
       \/ \E i,j \in NODES : Receive(i, j)
@@ -422,5 +461,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Thu Apr 03 01:07:10 CST 2025 by junhaohu
+\* Last modified Thu Apr 03 21:43:30 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu

@@ -205,7 +205,7 @@ GRAPHTypeOK ==
   /\ rmState[tnInfo, s] = "leader"
   /\ rmState[tnInfo, r] = "follower"
 \*  /\ {x \in NODES: tnInfo \in localTransactionHistory[x]["prepared"]} \in Quorum
-  /\ msgs' = [msgs EXCEPT ![r][s] = Append(msgs[r][s], [type |-> "committed", tn |-> tnInfo, dependency |-> depdencyInfo, src |-> s, dst |-> r, operations |-> tnOperations])]
+  /\ msgs[r][s]' = Append(msgs[r][s], [type |-> "committed", tn |-> tnInfo, dependency |-> depdencyInfo, src |-> s, dst |-> r, operations |-> tnOperations])
   
   
   LeaderSendCommit(tnInfo, s, depdencyInfo, tnOperations) == 
@@ -276,11 +276,11 @@ GRAPHTypeOK ==
         modifyMessage(node1, node2) ==
             IF node1 = r /\ node2 = s
             THEN
-                Tail(msgs[r][s])
+                Tail(msgs[node1][node2])
             ELSE 
                 IF node1 = s /\ node2 = r
                 THEN 
-                    Append(msgs[s][r], [type |-> "preparedResponsePhase1", tn |->  tnInfo, src |-> r, dst |-> s, operations |-> tnOperations])
+                    Append(msgs[node1][node2], [type |-> "preparedResponsePhase1", tn |->  tnInfo, src |-> r, dst |-> s, operations |-> tnOperations])
                 ELSE
                     msgs[node1][node2]
   IN
@@ -325,30 +325,27 @@ GRAPHTypeOK ==
 
   LeaderHandleParticipantRes(tnInfo, r, s, msg) ==
     /\ rmState[tnInfo, r] = "leader" 
-    /\ IF (Len(acceptedTransactions[tnInfo]) + Len(rejectedTransactions[tnInfo]) + 1) = Cardinality(NODES)
-        THEN
-          IF (Len(acceptedTransactions[tnInfo]) + 1) * 2 > Cardinality(NODES)
-           THEN 
-                LeaderSendCommit(tnInfo, r, transactionOperation[tnInfo].dependency, transactionOperation[tnInfo].op)
-     
-           ELSE 
-                LeaderSendAbort(tnInfo, r, transactionOperation[tnInfo].dependency, transactionOperation[tnInfo].op)  
- 
-           /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
-                        rejectedTransactions, pendingTransactions>>
-            
-        ELSE 
-           IF msg.type = "preparedResponsePhase1" 
-                THEN       
-                    /\ acceptedTransactions' = [acceptedTransactions EXCEPT ![tnInfo] = Append(acceptedTransactions[tnInfo], s)]
-                    
-                    /\ UNCHANGED <<transactionNumbers, msgs, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
-                        rejectedTransactions, pendingTransactions>>
-                    
-                ELSE
-                    /\ rejectedTransactions' = [rejectedTransactions EXCEPT ![tnInfo] = Append(rejectedTransactions[tnInfo], s)]
-                    /\ UNCHANGED <<transactionNumbers, msgs, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
-                        acceptedTransactions, pendingTransactions>>
+\*    /\ IF (Len(acceptedTransactions[tnInfo]) + Len(rejectedTransactions[tnInfo]) + 1) = Cardinality(NODES)
+\*        THEN
+\*          IF (Len(acceptedTransactions[tnInfo]) + 1) * 2 > Cardinality(NODES)
+\*           THEN 
+\*                LeaderSendCommit(tnInfo, r, transactionOperation[tnInfo].dependency, transactionOperation[tnInfo].op)
+\*           ELSE 
+\*                LeaderSendAbort(tnInfo, r, transactionOperation[tnInfo].dependency, transactionOperation[tnInfo].op)    
+\*           /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
+\*                        rejectedTransactions, pendingTransactions>>
+\*            
+\*        ELSE 
+\*           IF msg.type = "preparedResponsePhase1" 
+\*                THEN       
+\*                    /\ acceptedTransactions' = [acceptedTransactions EXCEPT ![tnInfo] = Append(acceptedTransactions[tnInfo], s)]
+\*                    /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
+\*                        rejectedTransactions, pendingTransactions>>
+\*                    
+\*                ELSE
+\*                    /\ rejectedTransactions[tnInfo]' = Append(rejectedTransactions[tnInfo], s)
+\*                    /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
+\*                        acceptedTransactions, pendingTransactions>>
             
        
             
@@ -399,9 +396,9 @@ GRAPHTypeOK ==
        /\ LeaderHandleParticipantRes(msg.tn, r, s, msg)
 
 
-\*       /\ UNCHANGED <<transactionNumbers, localTransactionHistory, 
-\*            localNodesGraph, transactionOperation, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState, msgs>>
-\*         
+       /\ UNCHANGED <<transactionNumbers, localTransactionHistory, 
+            localNodesGraph, transactionOperation, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState, msgs>>
+         
 \*   /\ msgs[r][s]' = Tail(msgs[r][s])
    
    
@@ -437,8 +434,8 @@ GRAPHTypeOK ==
             i \in {"committed","recentCommitted","prepared" } |-> {}
         ]
     ]
-  /\ acceptedTransactions = [tn \in tSet |-> <<>>]
-  /\ rejectedTransactions = [tn \in tSet |-> <<>>]
+  /\ acceptedTransactions = [tn \in tSet |-> {}]
+  /\ rejectedTransactions = [tn \in tSet |-> {}]
   
   Next ==
       \/ \E i,j \in NODES : Receive(i, j)
@@ -461,5 +458,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Thu Apr 03 21:43:30 CST 2025 by junhaohu
+\* Last modified Thu Apr 03 21:28:19 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
