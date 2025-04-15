@@ -257,7 +257,7 @@ GRAPHTypeOK ==
             ELSE
             msgs[node1][node2]
   IN
-  /\ rmState[tnInfo, s] = "leader"
+  /\ rmState[tnInfo][s] = "leader"
 \*  /\ \A r \in NODES : LeaderAbort(tnInfo, r, s, depdencyInfo , tnOperations)
   /\ msgs' = [node1 \in NODES |-> [node2 \in NODES |-> modifyMessage(node1, node2)]]
   
@@ -335,25 +335,21 @@ GRAPHTypeOK ==
 \*             /\ ParticipantPrepare(r, s, tnInfo, depdencyInfo)
             
             /\ msgs' = [node1 \in NODES |-> [node2 \in NODES |-> modifyMessage(node1, node2)]]
-            /\ UNCHANGED <<transactionNumbers, 
-            localNodesGraph, transactionOperation, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState>>
                 
           ELSE
           /\ rmState[tnInfo, r] = "follower"
 \*          /\ ParticipantChooseToAbort(r, s, tnInfo, depdencyInfo, tnOperations)
           /\ msgs' = [node1 \in NODES |-> [node2 \in NODES |-> sendAbortMsg(node1, node2)]]
-          /\ UNCHANGED <<transactionNumbers, 
-            localNodesGraph, transactionOperation, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState, localTransactionHistory>>
                
   
   
   RcvAbortMsg(r, s, tnInfo, tnOperations) ==
    /\ rmState[tnInfo, s] = "leader"
 \*   /\ [type |-> "aborted", tn |-> tnInfo, src |-> s, dst |-> r, operations |-> tnOperations ] \in msgs[r]
-   /\ localTransactionHistory' = [ localTransactionHistory EXCEPT  ![r]["prepared"] = localTransactionHistory[r]["prepared"]  \ {tnInfo}]
+   /\ localTransactionHistory[r]["prepared"]' = [ localTransactionHistory EXCEPT  ![r]["prepared"] = localTransactionHistory[r]["prepared"]  \ {tnInfo}]
    /\ msgs' = [msgs EXCEPT ![r][s] = Tail(msgs[r][s]) ]
    /\ UNCHANGED <<rmState, transactionNumbers, clientRequests, localNodesGraph, 
-    acceptedTransactions, rejectedTransactions, pendingTransactions, transactionOperation>>
+    acceptedTransactions, rejectedTransactions, pendingTransactions>>
   
   
   RcvCommitMsg(r, s, tnInfo, depdencyInfo, tnOperations) == 
@@ -467,7 +463,8 @@ GRAPHTypeOK ==
    /\ msg.type = "prepared" 
     \*      (tnInfo, r, s, depdencyInfo, tnOperations)
    /\ ParticipantRecvPhase1(msg.tn, r, s, msg.dependency, msg.operations)
-   
+   /\ UNCHANGED <<transactionNumbers, 
+            localNodesGraph, transactionOperation, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState>>
             
             
   RecvParticipantResponse(r,s) ==
@@ -584,5 +581,5 @@ LivenessDummy == <> (Cardinality(localNodesGraph[1]) = 1)
   
 =============================================================================
 \* Modification History
-\* Last modified Tue Apr 15 22:06:07 CST 2025 by junhaohu
+\* Last modified Tue Apr 15 22:00:00 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu

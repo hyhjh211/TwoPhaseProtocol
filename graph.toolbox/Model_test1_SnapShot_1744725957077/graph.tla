@@ -353,7 +353,7 @@ GRAPHTypeOK ==
    /\ localTransactionHistory' = [ localTransactionHistory EXCEPT  ![r]["prepared"] = localTransactionHistory[r]["prepared"]  \ {tnInfo}]
    /\ msgs' = [msgs EXCEPT ![r][s] = Tail(msgs[r][s]) ]
    /\ UNCHANGED <<rmState, transactionNumbers, clientRequests, localNodesGraph, 
-    acceptedTransactions, rejectedTransactions, pendingTransactions, transactionOperation>>
+    acceptedTransactions, rejectedTransactions, pendingTransactions>>
   
   
   RcvCommitMsg(r, s, tnInfo, depdencyInfo, tnOperations) == 
@@ -584,5 +584,5 @@ LivenessDummy == <> (Cardinality(localNodesGraph[1]) = 1)
   
 =============================================================================
 \* Modification History
-\* Last modified Tue Apr 15 22:06:07 CST 2025 by junhaohu
+\* Last modified Tue Apr 15 22:05:51 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
