@@ -119,16 +119,15 @@ GRAPHTypeOK ==
     CASE op.type = "nodes" /\ op.Operation = "add"   -> G \union { [NodeID |-> op.sourceVertex, neighbours |-> {}]}
     [] op.type = "nodes" /\ op.Operation = "remove"   -> 
     LET 
-          G1 == G \  {[NodeID |-> op.sourceVertex, neighbours |->  (CHOOSE v \in G : v.NodeID = op.sourceVertex).neighbours]} \* Remove the node itself
+          G1 == G \  {[NodeID |-> op.sourceVertex, neighbours |->  (CHOOSE v \in G : v[op.sourceVertex] = op.sourceVertex).neighbours]} \* Remove the node itself
 \*          G2 == [ v \in DOMAIN G1 |-> v.neighbours \ {op.sourceVertex} ] \* Remove it from neighbors
           GraphWithRemovedNodes == { v \in G1 :  op.sourceVertex \in v.neighbours}
           GraphWithoutRemovedNodes == { v \in G1 :  op.sourceVertex \notin v.neighbours}
           Gtemp == { [NodeID |-> v1.NodeID, neighbours |-> v1.neighbours \ {op.sourceVertex}] : v1 \in GraphWithRemovedNodes }
           G2 == Gtemp \union GraphWithoutRemovedNodes
     IN  
-          IF Cardinality({v \in G : v.NodeID = op.sourceVertex}) > 0 
-          THEN G2
-          ELSE G
+          /\ Cardinality({v \in G : v[op.sourceVertex] = op.sourceVertex}) > 0
+          /\ G2
     [] op.type = "edges" /\ op.Operation = "add" ->
     LET 
         addEdge(v) == 
@@ -160,7 +159,6 @@ GRAPHTypeOK ==
     ELSE ApplyOperations(Tail(ops), nodeID,  ApplyOp(Head(ops),G))
     
  Apply(ops, nodeID, G) ==
-  
   ApplyOperations(ops, nodeID, G)
   
   
@@ -344,7 +342,7 @@ GRAPHTypeOK ==
 \*  /\ [type |-> "committed",tn |-> tnInfo, src |-> s, dst |-> r, operations |-> tnOperations] \in msgs[r]
   /\ localTransactionHistory' =  [ localTransactionHistory   EXCEPT ![r]["prepared"] = localTransactionHistory[r]["prepared"] \ {tnInfo}
                                                                            ,![r]["committed"] =  localTransactionHistory[r]["committed"] \cup {tnInfo}
-                                                                           ,![r]["recentCommitted"] = (localTransactionHistory[r]["recentCommitted"] \ depdencyInfo) \union {tnInfo}]                                                                        
+                                                                           ,![r]["recentCommitted"] = (localTransactionHistory[r]["recentCommitted"] \ depdencyInfo) \union {tnInfo}]
   /\ localNodesGraph' = [localNodesGraph EXCEPT! [r] = Apply(tnOperations, r, localNodesGraph[r])]
   /\ msgs' = [msgs EXCEPT ![r][s] = Tail(msgs[r][s]) ]
   /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, 
@@ -522,8 +520,7 @@ GRAPHTypeOK ==
       \/ \E i,j \in NODES : RecvAbort(i,j)
       \/ \E i \in NODES : ClientRequest(i)
       \/ \E i \in NODES : ReceiveClient(i)
- DummyInvariant == 
- Cardinality(localNodesGraph[1]) = 0 \/  Cardinality(localNodesGraph[1]) = 2
+         
 
 
 
@@ -538,5 +535,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Tue Apr 15 18:48:01 CST 2025 by junhaohu
+\* Last modified Tue Apr 15 17:39:04 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu

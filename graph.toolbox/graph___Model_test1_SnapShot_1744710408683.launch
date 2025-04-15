@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.lamport.tla.toolbox.tool.tlc.modelCheck">
-    <stringAttribute key="configurationName" value="Model_test1"/>
+    <stringAttribute key="configurationName" value="Model_test1_SnapShot_1744710408683"/>
     <intAttribute key="distributedFPSetCount" value="0"/>
     <stringAttribute key="distributedNetworkInterface" value="172.16.32.72"/>
     <intAttribute key="distributedNodesCount" value="1"/>
     <stringAttribute key="distributedTLC" value="off"/>
-    <intAttribute key="fpIndex" value="19"/>
+    <intAttribute key="fpIndex" value="80"/>
     <intAttribute key="maxHeapSize" value="25"/>
     <stringAttribute key="modelBehaviorInit" value="Init"/>
     <stringAttribute key="modelBehaviorNext" value="Next"/>
@@ -20,7 +20,7 @@
     <stringAttribute key="modelExpressionEval" value=""/>
     <listAttribute key="modelParameterConstants">
         <listEntry value="NODES;;{1,2,3};0;0"/>
-        <listEntry value="transactions;;&lt;&lt;&lt;&lt;[type |-&gt; &quot;nodes&quot; , Operation |-&gt; &quot;add&quot;, sourceVertex|-&gt; 0], [type |-&gt; &quot;nodes&quot; , Operation |-&gt; &quot;add&quot;, sourceVertex|-&gt; 1], [type |-&gt; &quot;edges&quot;, Operation  |-&gt; &quot;add&quot;, sourceVertex |-&gt; 0, desVertex |-&gt; 1]&gt;&gt;, &lt;&lt;[type |-&gt; &quot;nodes&quot;, Operation |-&gt; &quot;remove&quot;, sourceVertex |-&gt; 0]&gt;&gt;&gt;&gt;;0;0"/>
+        <listEntry value="transactions;;&lt;&lt;&lt;&lt;[type |-&gt; &quot;nodes&quot; , Operation |-&gt; &quot;add&quot;, sourceVertex|-&gt; 0], [type |-&gt; &quot;nodes&quot; , Operation |-&gt; &quot;add&quot;, sourceVertex|-&gt; 1], [type |-&gt; &quot;edges&quot;, Operation  |-&gt; &quot;add&quot;, sourceVertex |-&gt; 0, desVertex |-&gt; 1]&gt;&gt;, &lt;&lt;[type |-&gt; &quot;nodes&quot;, Operation |-&gt; &quot;add&quot;, sourceVertex |-&gt; 2]&gt;&gt;&gt;&gt;;0;0"/>
         <listEntry value="transactionNumbers;;&lt;&lt;1,2&gt;&gt;;0;0"/>
     </listAttribute>
     <intAttribute key="modelVersion" value="20191005"/>

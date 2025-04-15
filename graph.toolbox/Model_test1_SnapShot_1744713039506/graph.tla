@@ -522,8 +522,7 @@ GRAPHTypeOK ==
       \/ \E i,j \in NODES : RecvAbort(i,j)
       \/ \E i \in NODES : ClientRequest(i)
       \/ \E i \in NODES : ReceiveClient(i)
- DummyInvariant == 
- Cardinality(localNodesGraph[1]) = 0 \/  Cardinality(localNodesGraph[1]) = 2
+         
 
 
 
@@ -538,5 +537,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Tue Apr 15 18:48:01 CST 2025 by junhaohu
+\* Last modified Tue Apr 15 18:30:19 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu

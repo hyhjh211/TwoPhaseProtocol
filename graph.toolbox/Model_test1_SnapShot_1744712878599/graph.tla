@@ -126,7 +126,7 @@ GRAPHTypeOK ==
           Gtemp == { [NodeID |-> v1.NodeID, neighbours |-> v1.neighbours \ {op.sourceVertex}] : v1 \in GraphWithRemovedNodes }
           G2 == Gtemp \union GraphWithoutRemovedNodes
     IN  
-          IF Cardinality({v \in G : v.NodeID = op.sourceVertex}) > 0 
+          IF Cardinality({v \in G : v[op.sourceVertex] = op.sourceVertex}) > 0 
           THEN G2
           ELSE G
     [] op.type = "edges" /\ op.Operation = "add" ->
@@ -522,8 +522,7 @@ GRAPHTypeOK ==
       \/ \E i,j \in NODES : RecvAbort(i,j)
       \/ \E i \in NODES : ClientRequest(i)
       \/ \E i \in NODES : ReceiveClient(i)
- DummyInvariant == 
- Cardinality(localNodesGraph[1]) = 0 \/  Cardinality(localNodesGraph[1]) = 2
+         
 
 
 
@@ -538,5 +537,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Tue Apr 15 18:48:01 CST 2025 by junhaohu
+\* Last modified Tue Apr 15 18:27:43 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
