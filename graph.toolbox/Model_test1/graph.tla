@@ -240,19 +240,31 @@ GRAPHTypeOK ==
   /\ msgs[r][s]' = Append(msgs[r][s], [type |-> "aborted", tn|-> tnInfo, src |-> s, dst |-> r, operations |-> tnOperations])
   
   
-  LeaderSendAbort(tnInfo, s, depdencyInfo, tnOperations) ==
+  LeaderSendAbort(tnInfo, s, depdencyInfo, tnOperations, receiver, sender) ==
+  LET 
+    modifyMessage(node1, node2) ==
+        IF node2 = s
+        THEN 
+            Append(msgs[node1][node2], [type |-> "aborted", tn|-> tnInfo, src |-> node2, dst |-> node1, operations |-> tnOperations])
+        ELSE
+            IF node1 = receiver /\ node2 = sender
+            THEN 
+            Tail(msgs[node1][node2])
+            ELSE
+            msgs[node1][node2]
+  IN
   /\ rmState[tnInfo][s] = "leader"
-  /\ \A r \in NODES : LeaderAbort(tnInfo, r, s, depdencyInfo , tnOperations)
-  /\ UNCHANGED <<rmState, transactionNumbers, clientRequests, localTransactionHistory, localNodesGraph, 
-    acceptedTransactions, rejectedTransactions, pendingTransactions>>
+\*  /\ \A r \in NODES : LeaderAbort(tnInfo, r, s, depdencyInfo , tnOperations)
+  /\ msgs' = [node1 \in NODES |-> [node2 \in NODES |-> modifyMessage(node1, node2)]]
   
-  ParticipantChooseToAbort(tnInfo, r, s, depdencyInfo, tnOperations) ==
+  
+  ParticipantChooseToAbort( r, s, tnInfo, depdencyInfo, tnOperations) ==
   (*************************************************************************)
   (* node s spontaneously decides to abort.                                *)
   (*************************************************************************)
   /\ rmState[tnInfo, s] = "follower"
   /\ rmState[tnInfo, r] = "leader"
-  /\ msgs[r][s]' = Append(msgs[r][s], [type |-> "abortedResponsePhase1", tn |->tnInfo, src |-> s, dst |-> r, operations |-> tnOperations])
+  /\ msgs' = [msgs EXCEPT ![r][s] = Append(msgs[r][s], [type |-> "abortedResponsePhase1", tn |->tnInfo, src |-> s, dst |-> r, operations |-> tnOperations])]
   /\ UNCHANGED <<rmState, transactionNumbers, clientRequests, localTransactionHistory, localNodesGraph, 
     acceptedTransactions, rejectedTransactions, pendingTransactions>>
   
@@ -314,11 +326,11 @@ GRAPHTypeOK ==
              ParticipantChooseToAbort(r, s, tnInfo, depdencyInfo, tnOperations)
   
   
-  ParticipantRecvAbortMsg(r, s, tnInfo, tnOperations) ==
-   /\ rmState[tnInfo][r] = "follower"
-   /\ rmState[tnInfo][s] = "leader"
+  RcvAbortMsg(r, s, tnInfo, tnOperations) ==
+   /\ rmState[tnInfo, s] = "leader"
 \*   /\ [type |-> "aborted", tn |-> tnInfo, src |-> s, dst |-> r, operations |-> tnOperations ] \in msgs[r]
-   /\ localTransactionHistory[r]["prepared"]' = localTransactionHistory[r]["prepared"] \ {tnInfo}
+   /\ localTransactionHistory[r]["prepared"]' = [ localTransactionHistory EXCEPT  ![r]["prepared"] = localTransactionHistory[r]["prepared"]  \ {tnInfo}]
+   /\ msgs' = [msgs EXCEPT ![r][s] = Tail(msgs[r][s]) ]
    /\ UNCHANGED <<rmState, transactionNumbers, clientRequests, localNodesGraph, 
     acceptedTransactions, rejectedTransactions, pendingTransactions>>
   
@@ -328,7 +340,7 @@ GRAPHTypeOK ==
 \*  /\ [type |-> "committed",tn |-> tnInfo, src |-> s, dst |-> r, operations |-> tnOperations] \in msgs[r]
   /\ localTransactionHistory' =  [ localTransactionHistory   EXCEPT ![r]["prepared"] = localTransactionHistory[r]["prepared"] \ {tnInfo}
                                                                            ,![r]["committed"] =  localTransactionHistory[r]["committed"] \cup {tnInfo}
-                                                                           ,![r]["recentCommitted"] = (localTransactionHistory[r]["recentCommitted"] \ depdencyInfo) \union tnInfo]
+                                                                           ,![r]["recentCommitted"] = (localTransactionHistory[r]["recentCommitted"] \ depdencyInfo) \union {tnInfo}]
   /\ localNodesGraph' = [localNodesGraph EXCEPT! [r] = Apply(tnOperations, r, localNodesGraph[r])]
   /\ msgs' = [msgs EXCEPT ![r][s] = Tail(msgs[r][s]) ]
   /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, 
@@ -346,8 +358,8 @@ GRAPHTypeOK ==
                         rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions, rmState, transactionOperation>>
      
            ELSE 
-                /\ LeaderSendAbort(tnInfo, r, transactionOperation[tnInfo].dependency, transactionOperation[tnInfo].op)  
-                /\ /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
+                /\ LeaderSendAbort(tnInfo, r, transactionOperation[tnInfo].dependency, transactionOperation[tnInfo].op, r, s)  
+                /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
                         rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions, rmState, transactionOperation>>
  
            
@@ -419,11 +431,50 @@ GRAPHTypeOK ==
 
 \*       /\ UNCHANGED <<transactionNumbers, localTransactionHistory, 
 \*            localNodesGraph, transactionOperation, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState, msgs>>
+    \/ 
+        /\ msg.type = "aborted"
+        /\ RcvAbortMsg(r, s, msg.tn, msg.operations)
+        
 \*         
 \*   /\ msgs[r][s]' = Tail(msgs[r][s])
+  RecvPrepared(r,s) ==
+   LET 
+      msg == Head(msgs[r][s])
+   IN
+   /\ Len(msgs[r][s]) > 0
+   /\ msg.type = "prepared" 
+    \*      (tnInfo, r, s, depdencyInfo, tnOperations)
+   /\ ParticipantRecvPhase1(msg.tn, r, s, msg.dependency, msg.operations)
+   /\ UNCHANGED <<transactionNumbers, localTransactionHistory, 
+            localNodesGraph, transactionOperation, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState>>
+            
+            
+  RecvParticipantResponse(r,s) ==
+  LET 
+      msg == Head(msgs[r][s])
+   IN
+   /\ Len(msgs[r][s]) > 0
+   /\ msg.type = "preparedResponsePhase1" \/ msg.type = "abortedResponsePhase1"
+   /\ LeaderHandleParticipantRes(msg.tn, r, s, msg)
    
    
-  
+  RecvCommit(r,s) ==
+  LET 
+      msg == Head(msgs[r][s])
+   IN
+   /\ Len(msgs[r][s]) > 0
+   /\ msg.type = "committed"
+   /\ RcvCommitMsg(r, s, msg.tn, msg.dependency,  msg.operations)
+   
+   
+  RecvAbort(r,s) ==
+   LET 
+      msg == Head(msgs[r][s])
+   IN
+  /\ Len(msgs[r][s]) > 0
+  /\ msg.type = "aborted"
+  /\ RcvAbortMsg(r, s, msg.tn, msg.operations)
+   
   ReceiveClient(i) ==
     LET 
         clientRequest == Head(clientRequests[i])
@@ -459,7 +510,11 @@ GRAPHTypeOK ==
   /\ rejectedTransactions = [tn \in tSet |-> <<>>]
   
   Next ==
-      \/ \E i,j \in NODES : Receive(i, j)
+\*      \/ \E i,j \in NODES : Receive(i, j)
+      \/ \E i,j \in NODES :  RecvPrepared(i,j)
+      \/ \E i,j \in NODES : RecvCommit(i,j)
+      \/ \E i,j \in NODES : RecvParticipantResponse(i,j)
+      \/ \E i,j \in NODES : RecvAbort(i,j)
       \/ \E i \in NODES : ClientRequest(i)
       \/ \E i \in NODES : ReceiveClient(i)
          
@@ -479,5 +534,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Thu Apr 03 22:47:54 CST 2025 by junhaohu
+\* Last modified Tue Apr 15 16:45:38 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu

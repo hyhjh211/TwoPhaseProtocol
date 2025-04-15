@@ -258,7 +258,7 @@ GRAPHTypeOK ==
   /\ msgs' = [node1 \in NODES |-> [node2 \in NODES |-> modifyMessage(node1, node2)]]
   
   
-  ParticipantChooseToAbort( r, s, tnInfo, depdencyInfo, tnOperations) ==
+  ParticipantChooseToAbort(tnInfo, r, s, depdencyInfo, tnOperations) ==
   (*************************************************************************)
   (* node s spontaneously decides to abort.                                *)
   (*************************************************************************)
@@ -514,7 +514,7 @@ GRAPHTypeOK ==
       \/ \E i,j \in NODES :  RecvPrepared(i,j)
       \/ \E i,j \in NODES : RecvCommit(i,j)
       \/ \E i,j \in NODES : RecvParticipantResponse(i,j)
-      \/ \E i,j \in NODES : RecvAbort(i,j)
+\*      \/ \E i,j \in NODES : RecvAbort(i,j)
       \/ \E i \in NODES : ClientRequest(i)
       \/ \E i \in NODES : ReceiveClient(i)
          
@@ -534,5 +534,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Tue Apr 15 16:45:38 CST 2025 by junhaohu
+\* Last modified Tue Apr 15 16:05:19 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu

@@ -258,13 +258,13 @@ GRAPHTypeOK ==
   /\ msgs' = [node1 \in NODES |-> [node2 \in NODES |-> modifyMessage(node1, node2)]]
   
   
-  ParticipantChooseToAbort( r, s, tnInfo, depdencyInfo, tnOperations) ==
+  ParticipantChooseToAbort(tnInfo, r, s, depdencyInfo, tnOperations) ==
   (*************************************************************************)
   (* node s spontaneously decides to abort.                                *)
   (*************************************************************************)
   /\ rmState[tnInfo, s] = "follower"
   /\ rmState[tnInfo, r] = "leader"
-  /\ msgs' = [msgs EXCEPT ![r][s] = Append(msgs[r][s], [type |-> "abortedResponsePhase1", tn |->tnInfo, src |-> s, dst |-> r, operations |-> tnOperations])]
+  /\ msgs[r][s]' = Append(msgs[r][s], [type |-> "abortedResponsePhase1", tn |->tnInfo, src |-> s, dst |-> r, operations |-> tnOperations])
   /\ UNCHANGED <<rmState, transactionNumbers, clientRequests, localTransactionHistory, localNodesGraph, 
     acceptedTransactions, rejectedTransactions, pendingTransactions>>
   
@@ -327,7 +327,7 @@ GRAPHTypeOK ==
   
   
   RcvAbortMsg(r, s, tnInfo, tnOperations) ==
-   /\ rmState[tnInfo, s] = "leader"
+   /\ rmState[tnInfo][s] = "leader"
 \*   /\ [type |-> "aborted", tn |-> tnInfo, src |-> s, dst |-> r, operations |-> tnOperations ] \in msgs[r]
    /\ localTransactionHistory[r]["prepared"]' = [ localTransactionHistory EXCEPT  ![r]["prepared"] = localTransactionHistory[r]["prepared"]  \ {tnInfo}]
    /\ msgs' = [msgs EXCEPT ![r][s] = Tail(msgs[r][s]) ]
@@ -340,7 +340,7 @@ GRAPHTypeOK ==
 \*  /\ [type |-> "committed",tn |-> tnInfo, src |-> s, dst |-> r, operations |-> tnOperations] \in msgs[r]
   /\ localTransactionHistory' =  [ localTransactionHistory   EXCEPT ![r]["prepared"] = localTransactionHistory[r]["prepared"] \ {tnInfo}
                                                                            ,![r]["committed"] =  localTransactionHistory[r]["committed"] \cup {tnInfo}
-                                                                           ,![r]["recentCommitted"] = (localTransactionHistory[r]["recentCommitted"] \ depdencyInfo) \union {tnInfo}]
+                                                                           ,![r]["recentCommitted"] = (localTransactionHistory[r]["recentCommitted"] \ depdencyInfo) \union tnInfo]
   /\ localNodesGraph' = [localNodesGraph EXCEPT! [r] = Apply(tnOperations, r, localNodesGraph[r])]
   /\ msgs' = [msgs EXCEPT ![r][s] = Tail(msgs[r][s]) ]
   /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, 
@@ -514,7 +514,7 @@ GRAPHTypeOK ==
       \/ \E i,j \in NODES :  RecvPrepared(i,j)
       \/ \E i,j \in NODES : RecvCommit(i,j)
       \/ \E i,j \in NODES : RecvParticipantResponse(i,j)
-      \/ \E i,j \in NODES : RecvAbort(i,j)
+\*      \/ \E i,j \in NODES : RecvAbort(i,j)
       \/ \E i \in NODES : ClientRequest(i)
       \/ \E i \in NODES : ReceiveClient(i)
          
@@ -534,5 +534,5 @@ GRAPHTypeOK ==
   
 =============================================================================
 \* Modification History
-\* Last modified Tue Apr 15 16:45:38 CST 2025 by junhaohu
+\* Last modified Tue Apr 15 15:32:55 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu

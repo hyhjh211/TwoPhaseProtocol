@@ -2,7 +2,7 @@
 TLC2 Version 2.16 of 31 December 2020 (rev: cdddf55)
 @!@!@ENDMSG 2262 @!@!@
 @!@!@STARTMSG 2187:0 @!@!@
-Running breadth-first search Model-Checking with fp 112 and seed -9143301201150121340 with 5 workers on 10 cores with 1214MB heap and 2730MB offheap memory [pid: 65715] (Mac OS X 10.16 x86_64, AdoptOpenJDK 14.0.1 x86_64, OffHeapDiskFPSet, DiskStateQueue).
+Running breadth-first search Model-Checking with fp 75 and seed 8669070876790516664 with 5 workers on 10 cores with 1214MB heap and 2730MB offheap memory [pid: 65602] (Mac OS X 10.16 x86_64, AdoptOpenJDK 14.0.1 x86_64, OffHeapDiskFPSet, DiskStateQueue).
 @!@!@ENDMSG 2187 @!@!@
 @!@!@STARTMSG 2220:0 @!@!@
 Starting SANY...
@@ -25,13 +25,13 @@ Semantic processing of module MC
 SANY finished.
 @!@!@ENDMSG 2219 @!@!@
 @!@!@STARTMSG 2185:0 @!@!@
-Starting... (2025-04-15 16:46:10)
+Starting... (2025-04-15 16:43:21)
 @!@!@ENDMSG 2185 @!@!@
 @!@!@STARTMSG 2189:0 @!@!@
 Computing initial states...
 @!@!@ENDMSG 2189 @!@!@
 @!@!@STARTMSG 2190:0 @!@!@
-Finished computing initial states: 1 distinct state generated at 2025-04-15 16:46:11.
+Finished computing initial states: 1 distinct state generated at 2025-04-15 16:43:22.
 @!@!@ENDMSG 2190 @!@!@
 @!@!@STARTMSG 2193:0 @!@!@
 Model checking completed. No error has been found.
@@ -40,7 +40,7 @@ Model checking completed. No error has been found.
   calculated (optimistic):  val = 2.8E-12
 @!@!@ENDMSG 2193 @!@!@
 @!@!@STARTMSG 2201:0 @!@!@
-The coverage statistics at 2025-04-15 16:46:12
+The coverage statistics at 2025-04-15 16:43:24
 @!@!@ENDMSG 2201 @!@!@
 @!@!@STARTMSG 2773:0 @!@!@
 <Init line 491, col 2 to line 491, col 5 of module graph>: 1:1
@@ -127,7 +127,7 @@ The coverage statistics at 2025-04-15 16:46:12
   ||||line 493, col 49 to line 493, col 73 of module graph: 1
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2772:0 @!@!@
-<ClientRequest line 395, col 3 to line 395, col 18 of module graph (403 5 408 91)>: 12:228
+<ClientRequest line 395, col 3 to line 395, col 18 of module graph (403 5 408 91)>: 43:228
 @!@!@ENDMSG 2772 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
   line 403, col 8 to line 403, col 35 of module graph: 228
@@ -148,7 +148,7 @@ The coverage statistics at 2025-04-15 16:46:12
   line 407, col 8 to line 408, col 91 of module graph: 228
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2772:0 @!@!@
-<RecvPrepared line 440, col 3 to line 440, col 19 of module graph (444 4 449 141)>: 560:1830
+<RecvPrepared line 440, col 3 to line 440, col 19 of module graph (444 4 449 141)>: 587:1830
 @!@!@ENDMSG 2772 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
   line 444, col 7 to line 444, col 25 of module graph: 1830
@@ -223,7 +223,7 @@ The coverage statistics at 2025-04-15 16:46:12
   line 448, col 7 to line 449, col 141 of module graph: 1830
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2772:0 @!@!@
-<RecvParticipantResponse line 452, col 3 to line 452, col 30 of module graph (456 4 458 51)>: 1551:2574
+<RecvParticipantResponse line 452, col 3 to line 452, col 30 of module graph (456 4 458 51)>: 1468:2574
 @!@!@ENDMSG 2772 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
   line 456, col 7 to line 456, col 25 of module graph: 2574
@@ -319,7 +319,7 @@ The coverage statistics at 2025-04-15 16:46:12
   line 458, col 48 to line 458, col 50 of module graph: 2574
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2772:0 @!@!@
-<RecvCommit line 461, col 3 to line 461, col 17 of module graph (465 4 467 65)>: 3471:9630
+<RecvCommit line 461, col 3 to line 461, col 17 of module graph (465 4 467 65)>: 3480:9630
 @!@!@ENDMSG 2772 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
   line 465, col 7 to line 465, col 25 of module graph: 9630
@@ -487,7 +487,7 @@ The coverage statistics at 2025-04-15 16:46:12
   line 334, col 7 to line 335, col 69 of module graph: 0
 @!@!@ENDMSG 2221 @!@!@
 @!@!@STARTMSG 2772:0 @!@!@
-<ReceiveClient line 478, col 3 to line 478, col 18 of module graph (482 9 487 99)>: 337:378
+<ReceiveClient line 478, col 3 to line 478, col 18 of module graph (482 9 487 99)>: 353:378
 @!@!@ENDMSG 2772 @!@!@
 @!@!@STARTMSG 2221:0 @!@!@
   line 482, col 12 to line 482, col 37 of module graph: 378
@@ -526,7 +526,7 @@ The coverage statistics at 2025-04-15 16:46:12
 End of statistics.
 @!@!@ENDMSG 2202 @!@!@
 @!@!@STARTMSG 2200:0 @!@!@
-Progress(19) at 2025-04-15 16:46:12: 14,641 states generated (306,617 s/min), 5,932 distinct states found (124,230 ds/min), 0 states left on queue.
+Progress(19) at 2025-04-15 16:43:24: 14,641 states generated (273,578 s/min), 5,932 distinct states found (110,843 ds/min), 0 states left on queue.
 @!@!@ENDMSG 2200 @!@!@
 @!@!@STARTMSG 2199:0 @!@!@
 14641 states generated, 5932 distinct states found, 0 states left on queue.
@@ -538,5 +538,5 @@ The depth of the complete state graph search is 19.
 The average outdegree of the complete state graph is 1 (minimum is 0, the maximum 5 and the 95th percentile is 3).
 @!@!@ENDMSG 2268 @!@!@
 @!@!@STARTMSG 2186:0 @!@!@
-Finished in 2885ms at (2025-04-15 16:46:12)
+Finished in 3233ms at (2025-04-15 16:43:24)
 @!@!@ENDMSG 2186 @!@!@
