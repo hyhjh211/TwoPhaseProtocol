@@ -262,15 +262,15 @@ GRAPHTypeOK ==
   /\ msgs' = [node1 \in NODES |-> [node2 \in NODES |-> modifyMessage(node1, node2)]]
   
   
-  ParticipantChooseToAbort( r, s, tnInfo, depdencyInfo, tnOperations) ==
-  (*************************************************************************)
-  (* node s spontaneously decides to abort.                                *)
-  (*************************************************************************)
-  /\ rmState[tnInfo, s] = "follower"
-  /\ rmState[tnInfo, r] = "leader"
-  /\ msgs' = [msgs EXCEPT ![r][s] = Append(msgs[r][s], [type |-> "abortedResponsePhase1", tn |->tnInfo, src |-> s, dst |-> r, operations |-> tnOperations])]
-  /\ UNCHANGED <<rmState, transactionNumbers, clientRequests, localTransactionHistory, localNodesGraph, 
-    acceptedTransactions, rejectedTransactions, pendingTransactions>>
+\*  ParticipantChooseToAbort( r, s, tnInfo, depdencyInfo, tnOperations) ==
+\*  (*************************************************************************)
+\*  (* node s spontaneously decides to abort.                                *)
+\*  (*************************************************************************)
+\*  /\ rmState[tnInfo, s] = "follower"
+\*  /\ rmState[tnInfo, r] = "leader"
+\*  /\ msgs' = [msgs EXCEPT ![r][s] = Append(msgs[r][s], [type |-> "abortedResponsePhase1", tn |->tnInfo, src |-> s, dst |-> r, operations |-> tnOperations])]
+\*  /\ UNCHANGED <<rmState, transactionNumbers, clientRequests, localTransactionHistory, localNodesGraph, 
+\*    acceptedTransactions, rejectedTransactions, pendingTransactions>>
   
 \*  UpdateSets(prepareSet, commitSet, depdencyInfo)  ==
 \*  LET commonElements == prepareSet \intersect depdencyInfo
@@ -328,7 +328,7 @@ GRAPHTypeOK ==
           THEN
              /\ rmState[tnInfo, r] = "follower"
              /\ localTransactionHistory' = [localTransactionHistory EXCEPT ![r]["prepared"] =  (localTransactionHistory[r]["prepared"]\ commonElements) \union {tnInfo},
-                                                                           ![r]["committed"] =  localTransactionHistory[r]["committed" \union commonElements]                          
+                                                                           ![r]["committed"] =  localTransactionHistory[r]["committed"] \union commonElements                          
                                                                                                                              ]
             
             
@@ -584,5 +584,5 @@ LivenessDummy == <> (Cardinality(localNodesGraph[1]) = 1)
   
 =============================================================================
 \* Modification History
-\* Last modified Tue Apr 15 22:06:07 CST 2025 by junhaohu
+\* Last modified Wed Apr 16 09:07:53 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu

@@ -328,7 +328,7 @@ GRAPHTypeOK ==
           THEN
              /\ rmState[tnInfo, r] = "follower"
              /\ localTransactionHistory' = [localTransactionHistory EXCEPT ![r]["prepared"] =  (localTransactionHistory[r]["prepared"]\ commonElements) \union {tnInfo},
-                                                                           ![r]["committed"] =  localTransactionHistory[r]["committed"] \union commonElements                          
+                                                                           ![r]["committed"] =  localTransactionHistory[r]["committed" \union commonElements]                          
                                                                                                                              ]
             
             
@@ -584,5 +584,5 @@ LivenessDummy == <> (Cardinality(localNodesGraph[1]) = 1)
   
 =============================================================================
 \* Modification History
-\* Last modified Wed Apr 16 09:07:53 CST 2025 by junhaohu
+\* Last modified Wed Apr 16 00:23:41 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
