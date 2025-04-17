@@ -203,15 +203,15 @@ GRAPHTypeOK ==
   
   
   
-\*  LeaderCommit(tnInfo, r, s, depdencyInfo, tnOperations) == 
-\*  (*************************************************************************)
-\*  (* leader s sends commit message to follower r                           *)
-\*  (*************************************************************************)
-\*  /\ rmState[tnInfo, s] = "leader"
-\*  /\ rmState[tnInfo, r] = "follower"
-\*\*  /\ {x \in NODES: tnInfo \in localTransactionHistory[x]["prepared"]} \in Quorum
-\*  /\ msgs' = [msgs EXCEPT ![r][s] = Append(msgs[r][s], [type |-> "committed", tn |-> tnInfo, dependency |-> depdencyInfo, src |-> s, dst |-> r, operations |-> tnOperations])]
-\*  
+  LeaderCommit(tnInfo, r, s, depdencyInfo, tnOperations) == 
+  (*************************************************************************)
+  (* leader s sends prepare message to follower r                           *)
+  (*************************************************************************)
+  /\ rmState[tnInfo, s] = "leader"
+  /\ rmState[tnInfo, r] = "follower"
+\*  /\ {x \in NODES: tnInfo \in localTransactionHistory[x]["prepared"]} \in Quorum
+  /\ msgs' = [msgs EXCEPT ![r][s] = Append(msgs[r][s], [type |-> "committed", tn |-> tnInfo, dependency |-> depdencyInfo, src |-> s, dst |-> r, operations |-> tnOperations])]
+  
   
   LeaderSendCommit(tnInfo, s, depdencyInfo, tnOperations, receiver, sender) == 
   (*************************************************************************)
@@ -236,19 +236,16 @@ GRAPHTypeOK ==
   
   
   
-\*  LeaderAbort(tnInfo, r, s, depdencyInfo, tnOperations) ==
-\*  (*********************************************************************************)
-\*  (* leader s spontaneously aborts the transaction and send the abort message to r.*)
-\*  (*********************************************************************************)
-\*  /\ rmState[tnInfo, s] = "leader"
-\*  /\ rmState[tnInfo, r] = "follower"
-\*  /\ msgs[r][s]' = Append(msgs[r][s], [type |-> "aborted", tn|-> tnInfo, src |-> s, dst |-> r, operations |-> tnOperations])
+  LeaderAbort(tnInfo, r, s, depdencyInfo, tnOperations) ==
+  (*********************************************************************************)
+  (* leader s spontaneously aborts the transaction and send the abort message to r.*)
+  (*********************************************************************************)
+  /\ rmState[tnInfo, s] = "leader"
+  /\ rmState[tnInfo, r] = "follower"
+  /\ msgs[r][s]' = Append(msgs[r][s], [type |-> "aborted", tn|-> tnInfo, src |-> s, dst |-> r, operations |-> tnOperations])
   
   
   LeaderSendAbort(tnInfo, s, depdencyInfo, tnOperations, receiver, sender) ==
-  (*********************************************************************************)
-  (* leader s sends the abort message to every other nodes.*)
-  (*********************************************************************************)
   LET 
     modifyMessage(node1, node2) ==
         IF node2 = s
@@ -434,7 +431,33 @@ GRAPHTypeOK ==
     /\ UNCHANGED <<transactionNumbers, msgs, localTransactionHistory, 
         localNodesGraph, transactionOperation, acceptedTransactions, rejectedTransactions, test>>
     
+    
+  Receive(r, s) == 
+   LET 
+        msg == Head(msgs[r][s])
+   IN
+   /\ Len(msgs[r][s]) > 0
+   /\
+     \/ 
+       
+       /\ msg.type = "prepared" 
+    \*      (tnInfo, r, s, depdencyInfo, tnOperations)
+       /\ ParticipantRecvPhase1(msg.tn, r, s, msg.dependency, msg.operations)
+       /\ UNCHANGED <<transactionNumbers, localTransactionHistory, 
+            localNodesGraph, transactionOperation, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState>>
+     \/
+       /\ msg.type = "preparedResponsePhase1" \/ msg.type = "abortedResponsePhase1"
+       /\ LeaderHandleParticipantRes(msg.tn, r, s, msg)
+     
+     \/ 
+        /\ msg.type = "committed"
+        /\ RcvCommitMsg(r, s, msg.tn, msg.dependency,  msg.operations)
 
+\*       /\ UNCHANGED <<transactionNumbers, localTransactionHistory, 
+\*            localNodesGraph, transactionOperation, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState, msgs>>
+    \/ 
+        /\ msg.type = "aborted"
+        /\ RcvAbortMsg(r, s, msg.tn, msg.operations)
         
 \*         
 \*   /\ msgs[r][s]' = Tail(msgs[r][s])
@@ -567,5 +590,5 @@ LivenessDummy == <> (Cardinality(localNodesGraph[1]) = 1)
   
 =============================================================================
 \* Modification History
-\* Last modified Fri Apr 18 01:42:14 CST 2025 by junhaohu
+\* Last modified Wed Apr 16 12:54:59 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu

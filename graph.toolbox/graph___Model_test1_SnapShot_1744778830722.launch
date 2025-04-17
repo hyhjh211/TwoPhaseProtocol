@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.lamport.tla.toolbox.tool.tlc.modelCheck">
-    <stringAttribute key="configurationName" value="Model_test1"/>
+    <stringAttribute key="configurationName" value="Model_test1_SnapShot_1744778830722"/>
     <intAttribute key="distributedFPSetCount" value="0"/>
     <stringAttribute key="distributedNetworkInterface" value="172.16.32.72"/>
     <intAttribute key="distributedNodesCount" value="1"/>
     <stringAttribute key="distributedTLC" value="off"/>
-    <intAttribute key="fpIndex" value="5"/>
+    <intAttribute key="fpIndex" value="86"/>
     <intAttribute key="maxHeapSize" value="25"/>
     <stringAttribute key="modelBehaviorInit" value="Init"/>
     <stringAttribute key="modelBehaviorNext" value="Next"/>
     <stringAttribute key="modelBehaviorSpec" value=""/>
     <intAttribute key="modelBehaviorSpecType" value="2"/>
-    <stringAttribute key="modelBehaviorVars" value="clientRequests, acceptedTransactions, localTransactionHistory, transactionOperation, msgs, localNodesGraph, rmState, pendingTransactions, test, rejectedTransactions"/>
+    <stringAttribute key="modelBehaviorVars" value="clientRequests, acceptedTransactions, localTransactionHistory, transactionOperation, msgs, localNodesGraph, rmState, pendingTransactions, rejectedTransactions"/>
     <stringAttribute key="modelComments" value=""/>
     <booleanAttribute key="modelCorrectnessCheckDeadlock" value="false"/>
     <listAttribute key="modelCorrectnessInvariants">
         <listEntry value="0DummyInvariant"/>
         <listEntry value="0LivenessDummy"/>
-        <listEntry value="1DummyInvariant2"/>
     </listAttribute>
     <listAttribute key="modelCorrectnessProperties">
         <listEntry value="0LivenessDummy"/>

@@ -236,19 +236,16 @@ GRAPHTypeOK ==
   
   
   
-\*  LeaderAbort(tnInfo, r, s, depdencyInfo, tnOperations) ==
-\*  (*********************************************************************************)
-\*  (* leader s spontaneously aborts the transaction and send the abort message to r.*)
-\*  (*********************************************************************************)
-\*  /\ rmState[tnInfo, s] = "leader"
-\*  /\ rmState[tnInfo, r] = "follower"
-\*  /\ msgs[r][s]' = Append(msgs[r][s], [type |-> "aborted", tn|-> tnInfo, src |-> s, dst |-> r, operations |-> tnOperations])
+  LeaderAbort(tnInfo, r, s, depdencyInfo, tnOperations) ==
+  (*********************************************************************************)
+  (* leader s spontaneously aborts the transaction and send the abort message to r.*)
+  (*********************************************************************************)
+  /\ rmState[tnInfo, s] = "leader"
+  /\ rmState[tnInfo, r] = "follower"
+  /\ msgs[r][s]' = Append(msgs[r][s], [type |-> "aborted", tn|-> tnInfo, src |-> s, dst |-> r, operations |-> tnOperations])
   
   
   LeaderSendAbort(tnInfo, s, depdencyInfo, tnOperations, receiver, sender) ==
-  (*********************************************************************************)
-  (* leader s sends the abort message to every other nodes.*)
-  (*********************************************************************************)
   LET 
     modifyMessage(node1, node2) ==
         IF node2 = s
@@ -567,5 +564,5 @@ LivenessDummy == <> (Cardinality(localNodesGraph[1]) = 1)
   
 =============================================================================
 \* Modification History
-\* Last modified Fri Apr 18 01:42:14 CST 2025 by junhaohu
+\* Last modified Fri Apr 18 01:40:48 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
