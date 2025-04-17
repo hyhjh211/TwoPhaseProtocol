@@ -247,7 +247,7 @@ GRAPHTypeOK ==
   
   LeaderSendAbort(tnInfo, s, depdencyInfo, tnOperations, receiver, sender) ==
   (*********************************************************************************)
-  (* leader s sends the abort message to everyone.*)
+  (* leader s sends the abort message to every other nodes.*)
   (*********************************************************************************)
   LET 
     modifyMessage(node1, node2) ==
@@ -344,11 +344,11 @@ GRAPHTypeOK ==
                 
           ELSE
           /\ rmState[tnInfo, r] = "follower"
-\*          /\ test' = FALSE
+          /\ test = FALSE
 \*          /\ ParticipantChooseToAbort(r, s, tnInfo, depdencyInfo, tnOperations)
           /\ msgs' = [node1 \in NODES |-> [node2 \in NODES |-> sendAbortMsg(node1, node2)]]
           /\ UNCHANGED <<transactionNumbers, 
-            localNodesGraph, transactionOperation, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState, localTransactionHistory, test>>
+            localNodesGraph, transactionOperation, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState, localTransactionHistory>>
                
   
   
@@ -567,5 +567,5 @@ LivenessDummy == <> (Cardinality(localNodesGraph[1]) = 1)
   
 =============================================================================
 \* Modification History
-\* Last modified Fri Apr 18 01:57:36 CST 2025 by junhaohu
+\* Last modified Fri Apr 18 01:42:14 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
