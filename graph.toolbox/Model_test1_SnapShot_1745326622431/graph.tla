@@ -219,9 +219,9 @@ GRAPHTypeOK ==
   (*************************************************************************) 
   LET
     modifyMessage(node1, node2) ==
-        IF node1 = receiver /\ node2 = sender /\ node2 = s /\ node1 = node2
+        IF receiver = sender /\ node2 = s
         THEN 
-            Append(Tail(msgs[node1][node2]), [type |-> "committed", tn |-> tnInfo, dependency |-> depdencyInfo, src |-> node2, dst |-> node1, operations |-> tnOperations])
+            Append(Tail(msgs[receiver][sender]), [type |-> "committed", tn |-> tnInfo, dependency |-> depdencyInfo, src |-> node2, dst |-> node1, operations |-> tnOperations])
         ELSE
         IF node2 = s 
         THEN 
@@ -255,10 +255,6 @@ GRAPHTypeOK ==
   (*********************************************************************************)
   LET 
     modifyMessage(node1, node2) ==
-        IF node1 = receiver /\ node2 = sender /\ node2 = s /\ node1 = node2
-        THEN 
-             Append(Tail(msgs[node1][node2]), [type |-> "aborted", tn|-> tnInfo, src |-> node2, dst |-> node1, operations |-> tnOperations])
-        ELSE
         IF node2 = s
         THEN 
             Append(msgs[node1][node2], [type |-> "aborted", tn|-> tnInfo, src |-> node2, dst |-> node1, operations |-> tnOperations])
@@ -585,5 +581,5 @@ LivenessDummy == <> (Cardinality(localNodesGraph[1]) = 1)
   
 =============================================================================
 \* Modification History
-\* Last modified Tue Apr 22 22:11:20 CST 2025 by junhaohu
+\* Last modified Tue Apr 22 20:56:54 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
