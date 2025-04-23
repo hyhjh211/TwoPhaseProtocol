@@ -1,0 +1,1790 @@
+@!@!@STARTMSG 2262:0 @!@!@
+TLC2 Version 2.16 of 31 December 2020 (rev: cdddf55)
+@!@!@ENDMSG 2262 @!@!@
+@!@!@STARTMSG 2187:0 @!@!@
+Running breadth-first search Model-Checking with fp 9 and seed -5371857852011775355 with 5 workers on 10 cores with 1214MB heap and 2730MB offheap memory [pid: 94542] (Mac OS X 10.16 x86_64, AdoptOpenJDK 14.0.1 x86_64, OffHeapDiskFPSet, DiskStateQueue).
+@!@!@ENDMSG 2187 @!@!@
+@!@!@STARTMSG 2220:0 @!@!@
+Starting SANY...
+@!@!@ENDMSG 2220 @!@!@
+Parsing file /Users/junhaohu/Desktop/Files/research_thesis/graph.toolbox/Model_test1/MC.tla
+Parsing file /Users/junhaohu/Desktop/Files/research_thesis/graph.toolbox/Model_test1/graph.tla
+Parsing file /private/var/folders/6x/qls53vqx0s58w_mhxknhtyp80000gn/T/AppTranslocation/78F9EC70-ED6B-4B03-BE08-BCB97CD05D13/d/TLA+ Toolbox.app/Contents/Eclipse/plugins/org.lamport.tlatools_1.0.0.202012311918/tla2sany/StandardModules/TLC.tla
+Parsing file /private/var/folders/6x/qls53vqx0s58w_mhxknhtyp80000gn/T/AppTranslocation/78F9EC70-ED6B-4B03-BE08-BCB97CD05D13/d/TLA+ Toolbox.app/Contents/Eclipse/plugins/org.lamport.tlatools_1.0.0.202012311918/tla2sany/StandardModules/Integers.tla
+Parsing file /private/var/folders/6x/qls53vqx0s58w_mhxknhtyp80000gn/T/AppTranslocation/78F9EC70-ED6B-4B03-BE08-BCB97CD05D13/d/TLA+ Toolbox.app/Contents/Eclipse/plugins/org.lamport.tlatools_1.0.0.202012311918/tla2sany/StandardModules/Sequences.tla
+Parsing file /private/var/folders/6x/qls53vqx0s58w_mhxknhtyp80000gn/T/AppTranslocation/78F9EC70-ED6B-4B03-BE08-BCB97CD05D13/d/TLA+ Toolbox.app/Contents/Eclipse/plugins/org.lamport.tlatools_1.0.0.202012311918/tla2sany/StandardModules/FiniteSets.tla
+Parsing file /private/var/folders/6x/qls53vqx0s58w_mhxknhtyp80000gn/T/AppTranslocation/78F9EC70-ED6B-4B03-BE08-BCB97CD05D13/d/TLA+ Toolbox.app/Contents/Eclipse/plugins/org.lamport.tlatools_1.0.0.202012311918/tla2sany/StandardModules/Naturals.tla
+Semantic processing of module Naturals
+Semantic processing of module Integers
+Semantic processing of module Sequences
+Semantic processing of module FiniteSets
+Semantic processing of module TLC
+Semantic processing of module graph
+Semantic processing of module MC
+@!@!@STARTMSG 2219:0 @!@!@
+SANY finished.
+@!@!@ENDMSG 2219 @!@!@
+@!@!@STARTMSG 2185:0 @!@!@
+Starting... (2025-04-24 00:50:37)
+@!@!@ENDMSG 2185 @!@!@
+@!@!@STARTMSG 2189:0 @!@!@
+Computing initial states...
+@!@!@ENDMSG 2189 @!@!@
+@!@!@STARTMSG 2190:0 @!@!@
+Finished computing initial states: 1 distinct state generated at 2025-04-24 00:50:38.
+@!@!@ENDMSG 2190 @!@!@
+@!@!@STARTMSG 2114:1 @!@!@
+Deadlock reached.
+@!@!@ENDMSG 2114 @!@!@
+@!@!@STARTMSG 2121:1 @!@!@
+The behavior up to this point is:
+@!@!@ENDMSG 2121 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+1: <Initial predicate>
+/\ clientRequests = <<<<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<<<>>, <<>>>>
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}] >>
+/\ msgs = << >>
+/\ tnState = ( <<1, 1>> :> "unknown" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<2, 1>> :> "unknown" @@
+  <<2, 2>> :> "unknown" @@
+  <<2, 3>> :> "unknown" )
+/\ localNodesGraph = <<{}, {}, {}>>
+/\ rmState = ( <<1, 1>> :> "follower" @@
+  <<1, 2>> :> "follower" @@
+  <<1, 3>> :> "follower" @@
+  <<2, 1>> :> "follower" @@
+  <<2, 2>> :> "follower" @@
+  <<2, 3>> :> "follower" )
+/\ pendingTransactions = <<1, 2>>
+/\ test = TRUE
+/\ rejectedTransactions = <<<<>>, <<>>>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+2: <ClientRequest line 439, col 5 to line 444, col 84 of module graph>
+/\ clientRequests = <<<<>>, <<1>>, <<>>>>
+/\ acceptedTransactions = <<<<>>, <<>>>>
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}] >>
+/\ msgs = << >>
+/\ tnState = ( <<1, 1>> :> "unknown" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<2, 1>> :> "unknown" @@
+  <<2, 2>> :> "unknown" @@
+  <<2, 3>> :> "unknown" )
+/\ localNodesGraph = <<{}, {}, {}>>
+/\ rmState = ( <<1, 1>> :> "follower" @@
+  <<1, 2>> :> "leader" @@
+  <<1, 3>> :> "follower" @@
+  <<2, 1>> :> "follower" @@
+  <<2, 2>> :> "follower" @@
+  <<2, 3>> :> "follower" )
+/\ pendingTransactions = <<2>>
+/\ test = TRUE
+/\ rejectedTransactions = <<<<>>, <<>>>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+3: <ClientRequest line 439, col 5 to line 444, col 84 of module graph>
+/\ clientRequests = <<<<2>>, <<1>>, <<>>>>
+/\ acceptedTransactions = <<<<>>, <<>>>>
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}] >>
+/\ msgs = << >>
+/\ tnState = ( <<1, 1>> :> "unknown" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<2, 1>> :> "unknown" @@
+  <<2, 2>> :> "unknown" @@
+  <<2, 3>> :> "unknown" )
+/\ localNodesGraph = <<{}, {}, {}>>
+/\ rmState = ( <<1, 1>> :> "follower" @@
+  <<1, 2>> :> "leader" @@
+  <<1, 3>> :> "follower" @@
+  <<2, 1>> :> "leader" @@
+  <<2, 2>> :> "follower" @@
+  <<2, 3>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = TRUE
+/\ rejectedTransactions = <<<<>>, <<>>>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+4: <ReceiveClient line 454, col 9 to line 459, col 105 of module graph>
+/\ clientRequests = <<<<>>, <<1>>, <<>>>>
+/\ acceptedTransactions = <<<<>>, <<>>>>
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}] >>
+/\ msgs = ( [ type |-> "prepared",
+    dst |-> -1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "unknown" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<2, 1>> :> "sendPrepared" @@
+  <<2, 2>> :> "unknown" @@
+  <<2, 3>> :> "unknown" )
+/\ localNodesGraph = <<{}, {}, {}>>
+/\ rmState = ( <<1, 1>> :> "follower" @@
+  <<1, 2>> :> "leader" @@
+  <<1, 3>> :> "follower" @@
+  <<2, 1>> :> "leader" @@
+  <<2, 2>> :> "follower" @@
+  <<2, 3>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = TRUE
+/\ rejectedTransactions = <<<<>>, <<>>>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+5: <Next line 489, col 10 to line 489, col 64 of module graph>
+/\ clientRequests = <<<<>>, <<1>>, <<>>>>
+/\ acceptedTransactions = <<<<>>, <<>>>>
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {2}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}] >>
+/\ msgs = ( [ type |-> "preparedResponsePhase1",
+    dst |-> 1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "prepared",
+    dst |-> -1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "unknown" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<2, 1>> :> "sendPrepared" @@
+  <<2, 2>> :> "sendPreparedResponsePhase1" @@
+  <<2, 3>> :> "unknown" )
+/\ localNodesGraph = <<{}, {}, {}>>
+/\ rmState = ( <<1, 1>> :> "follower" @@
+  <<1, 2>> :> "leader" @@
+  <<1, 3>> :> "follower" @@
+  <<2, 1>> :> "leader" @@
+  <<2, 2>> :> "follower" @@
+  <<2, 3>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = TRUE
+/\ rejectedTransactions = <<<<>>, <<>>>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+6: <Next line 489, col 10 to line 489, col 64 of module graph>
+/\ clientRequests = <<<<>>, <<1>>, <<>>>>
+/\ acceptedTransactions = <<<<>>, <<>>>>
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {2}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {2}, recentCommitted |-> {}] >>
+/\ msgs = ( [ type |-> "preparedResponsePhase1",
+    dst |-> 1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "prepared",
+    dst |-> -1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "unknown" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<2, 1>> :> "sendPrepared" @@
+  <<2, 2>> :> "sendPreparedResponsePhase1" @@
+  <<2, 3>> :> "sendPreparedResponsePhase1" )
+/\ localNodesGraph = <<{}, {}, {}>>
+/\ rmState = ( <<1, 1>> :> "follower" @@
+  <<1, 2>> :> "leader" @@
+  <<1, 3>> :> "follower" @@
+  <<2, 1>> :> "leader" @@
+  <<2, 2>> :> "follower" @@
+  <<2, 3>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = TRUE
+/\ rejectedTransactions = <<<<>>, <<>>>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+7: <Next line 491, col 10 to line 491, col 62 of module graph>
+/\ clientRequests = <<<<>>, <<1>>, <<>>>>
+/\ acceptedTransactions = <<<<>>, <<>>>>
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {2}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {2}, recentCommitted |-> {}] >>
+/\ msgs = ( [ type |-> "committed",
+    dst |-> -1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "prepared",
+    dst |-> -1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "unknown" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<2, 1>> :> "sendCommit" @@
+  <<2, 2>> :> "sendPreparedResponsePhase1" @@
+  <<2, 3>> :> "sendPreparedResponsePhase1" )
+/\ localNodesGraph = <<{}, {}, {}>>
+/\ rmState = ( <<1, 1>> :> "follower" @@
+  <<1, 2>> :> "leader" @@
+  <<1, 3>> :> "follower" @@
+  <<2, 1>> :> "leader" @@
+  <<2, 2>> :> "follower" @@
+  <<2, 3>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = TRUE
+/\ rejectedTransactions = <<<<>>, <<>>>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+8: <ReceiveClient line 454, col 9 to line 459, col 105 of module graph>
+/\ clientRequests = <<<<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<<<>>, <<>>>>
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {2}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {2}, recentCommitted |-> {}] >>
+/\ msgs = ( [ type |-> "committed",
+    dst |-> -1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "prepared",
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
+           [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             desVertex |-> 1 ] >> ] :>
+      1 @@
+  [ type |-> "prepared",
+    dst |-> -1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "unknown" @@
+  <<1, 2>> :> "sendPrepared" @@
+  <<1, 3>> :> "unknown" @@
+  <<2, 1>> :> "sendCommit" @@
+  <<2, 2>> :> "sendPreparedResponsePhase1" @@
+  <<2, 3>> :> "sendPreparedResponsePhase1" )
+/\ localNodesGraph = <<{}, {}, {}>>
+/\ rmState = ( <<1, 1>> :> "follower" @@
+  <<1, 2>> :> "leader" @@
+  <<1, 3>> :> "follower" @@
+  <<2, 1>> :> "leader" @@
+  <<2, 2>> :> "follower" @@
+  <<2, 3>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = TRUE
+/\ rejectedTransactions = <<<<>>, <<>>>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+9: <Next line 489, col 10 to line 489, col 64 of module graph>
+/\ clientRequests = <<<<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<<<>>, <<>>>>
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {2}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {2}, recentCommitted |-> {}] >>
+/\ msgs = ( [ type |-> "committed",
+    dst |-> -1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 2,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
+           [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             desVertex |-> 1 ] >> ] :>
+      1 @@
+  [ type |-> "prepared",
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
+           [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             desVertex |-> 1 ] >> ] :>
+      1 @@
+  [ type |-> "prepared",
+    dst |-> -1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "sendPreparedResponsePhase1" @@
+  <<1, 2>> :> "sendPrepared" @@
+  <<1, 3>> :> "unknown" @@
+  <<2, 1>> :> "sendCommit" @@
+  <<2, 2>> :> "sendPreparedResponsePhase1" @@
+  <<2, 3>> :> "sendPreparedResponsePhase1" )
+/\ localNodesGraph = <<{}, {}, {}>>
+/\ rmState = ( <<1, 1>> :> "follower" @@
+  <<1, 2>> :> "leader" @@
+  <<1, 3>> :> "follower" @@
+  <<2, 1>> :> "leader" @@
+  <<2, 2>> :> "follower" @@
+  <<2, 3>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = TRUE
+/\ rejectedTransactions = <<<<>>, <<>>>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+10: <Next line 489, col 10 to line 489, col 64 of module graph>
+/\ clientRequests = <<<<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<<<>>, <<>>>>
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {2}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1, 2}, recentCommitted |-> {}] >>
+/\ msgs = ( [ type |-> "committed",
+    dst |-> -1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 2,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
+           [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             desVertex |-> 1 ] >> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 2,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
+           [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             desVertex |-> 1 ] >> ] :>
+      1 @@
+  [ type |-> "prepared",
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
+           [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             desVertex |-> 1 ] >> ] :>
+      1 @@
+  [ type |-> "prepared",
+    dst |-> -1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "sendPreparedResponsePhase1" @@
+  <<1, 2>> :> "sendPrepared" @@
+  <<1, 3>> :> "sendPreparedResponsePhase1" @@
+  <<2, 1>> :> "sendCommit" @@
+  <<2, 2>> :> "sendPreparedResponsePhase1" @@
+  <<2, 3>> :> "sendPreparedResponsePhase1" )
+/\ localNodesGraph = <<{}, {}, {}>>
+/\ rmState = ( <<1, 1>> :> "follower" @@
+  <<1, 2>> :> "leader" @@
+  <<1, 3>> :> "follower" @@
+  <<2, 1>> :> "leader" @@
+  <<2, 2>> :> "follower" @@
+  <<2, 3>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = TRUE
+/\ rejectedTransactions = <<<<>>, <<>>>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+11: <Next line 490, col 10 to line 490, col 61 of module graph>
+/\ clientRequests = <<<<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<<<>>, <<>>>>
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {2}, prepared |-> {}, recentCommitted |-> {2}],
+   [committed |-> {}, prepared |-> {1, 2}, recentCommitted |-> {}] >>
+/\ msgs = ( [ type |-> "committed",
+    dst |-> -1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 2,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
+           [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             desVertex |-> 1 ] >> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 2,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
+           [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             desVertex |-> 1 ] >> ] :>
+      1 @@
+  [ type |-> "prepared",
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
+           [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             desVertex |-> 1 ] >> ] :>
+      1 @@
+  [ type |-> "prepared",
+    dst |-> -1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "sendPreparedResponsePhase1" @@
+  <<1, 2>> :> "sendPrepared" @@
+  <<1, 3>> :> "sendPreparedResponsePhase1" @@
+  <<2, 1>> :> "sendCommit" @@
+  <<2, 2>> :> "committed" @@
+  <<2, 3>> :> "sendPreparedResponsePhase1" )
+/\ localNodesGraph = <<{}, {[NodeID |-> 2, neighbours |-> {}]}, {}>>
+/\ rmState = ( <<1, 1>> :> "follower" @@
+  <<1, 2>> :> "leader" @@
+  <<1, 3>> :> "follower" @@
+  <<2, 1>> :> "leader" @@
+  <<2, 2>> :> "follower" @@
+  <<2, 3>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = TRUE
+/\ rejectedTransactions = <<<<>>, <<>>>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+12: <Next line 490, col 10 to line 490, col 61 of module graph>
+/\ clientRequests = <<<<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<<<>>, <<>>>>
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {2}, prepared |-> {}, recentCommitted |-> {2}],
+   [committed |-> {2}, prepared |-> {1}, recentCommitted |-> {2}] >>
+/\ msgs = ( [ type |-> "committed",
+    dst |-> -1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 2,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
+           [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             desVertex |-> 1 ] >> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 2,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
+           [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             desVertex |-> 1 ] >> ] :>
+      1 @@
+  [ type |-> "prepared",
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
+           [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             desVertex |-> 1 ] >> ] :>
+      1 @@
+  [ type |-> "prepared",
+    dst |-> -1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "sendPreparedResponsePhase1" @@
+  <<1, 2>> :> "sendPrepared" @@
+  <<1, 3>> :> "sendPreparedResponsePhase1" @@
+  <<2, 1>> :> "sendCommit" @@
+  <<2, 2>> :> "committed" @@
+  <<2, 3>> :> "committed" )
+/\ localNodesGraph = <<{}, {[NodeID |-> 2, neighbours |-> {}]}, {[NodeID |-> 2, neighbours |-> {}]}>>
+/\ rmState = ( <<1, 1>> :> "follower" @@
+  <<1, 2>> :> "leader" @@
+  <<1, 3>> :> "follower" @@
+  <<2, 1>> :> "leader" @@
+  <<2, 2>> :> "follower" @@
+  <<2, 3>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = TRUE
+/\ rejectedTransactions = <<<<>>, <<>>>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+13: <Next line 491, col 10 to line 491, col 62 of module graph>
+/\ clientRequests = <<<<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<<<>>, <<>>>>
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {2}, prepared |-> {}, recentCommitted |-> {2}],
+   [committed |-> {2}, prepared |-> {1}, recentCommitted |-> {2}] >>
+/\ msgs = ( [ type |-> "committed",
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
+           [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             desVertex |-> 1 ] >> ] :>
+      1 @@
+  [ type |-> "committed",
+    dst |-> -1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 2,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
+           [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             desVertex |-> 1 ] >> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 2,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
+           [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             desVertex |-> 1 ] >> ] :>
+      1 @@
+  [ type |-> "prepared",
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
+           [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             desVertex |-> 1 ] >> ] :>
+      1 @@
+  [ type |-> "prepared",
+    dst |-> -1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "sendPreparedResponsePhase1" @@
+  <<1, 2>> :> "sendCommit" @@
+  <<1, 3>> :> "sendPreparedResponsePhase1" @@
+  <<2, 1>> :> "sendCommit" @@
+  <<2, 2>> :> "committed" @@
+  <<2, 3>> :> "committed" )
+/\ localNodesGraph = <<{}, {[NodeID |-> 2, neighbours |-> {}]}, {[NodeID |-> 2, neighbours |-> {}]}>>
+/\ rmState = ( <<1, 1>> :> "follower" @@
+  <<1, 2>> :> "leader" @@
+  <<1, 3>> :> "follower" @@
+  <<2, 1>> :> "leader" @@
+  <<2, 2>> :> "follower" @@
+  <<2, 3>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = TRUE
+/\ rejectedTransactions = <<<<>>, <<>>>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+14: <Next line 490, col 10 to line 490, col 61 of module graph>
+/\ clientRequests = <<<<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<<<>>, <<>>>>
+/\ localTransactionHistory = << [committed |-> {1}, prepared |-> {}, recentCommitted |-> {1}],
+   [committed |-> {2}, prepared |-> {}, recentCommitted |-> {2}],
+   [committed |-> {2}, prepared |-> {1}, recentCommitted |-> {2}] >>
+/\ msgs = ( [ type |-> "committed",
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
+           [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             desVertex |-> 1 ] >> ] :>
+      1 @@
+  [ type |-> "committed",
+    dst |-> -1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 2,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
+           [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             desVertex |-> 1 ] >> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 2,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
+           [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             desVertex |-> 1 ] >> ] :>
+      1 @@
+  [ type |-> "prepared",
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
+           [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             desVertex |-> 1 ] >> ] :>
+      1 @@
+  [ type |-> "prepared",
+    dst |-> -1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "committed" @@
+  <<1, 2>> :> "sendCommit" @@
+  <<1, 3>> :> "sendPreparedResponsePhase1" @@
+  <<2, 1>> :> "sendCommit" @@
+  <<2, 2>> :> "committed" @@
+  <<2, 3>> :> "committed" )
+/\ localNodesGraph = << {[NodeID |-> 0, neighbours |-> {1}], [NodeID |-> 1, neighbours |-> {0}]},
+   {[NodeID |-> 2, neighbours |-> {}]},
+   {[NodeID |-> 2, neighbours |-> {}]} >>
+/\ rmState = ( <<1, 1>> :> "follower" @@
+  <<1, 2>> :> "leader" @@
+  <<1, 3>> :> "follower" @@
+  <<2, 1>> :> "leader" @@
+  <<2, 2>> :> "follower" @@
+  <<2, 3>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = TRUE
+/\ rejectedTransactions = <<<<>>, <<>>>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+15: <Next line 490, col 10 to line 490, col 61 of module graph>
+/\ clientRequests = <<<<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<<<>>, <<>>>>
+/\ localTransactionHistory = << [committed |-> {1}, prepared |-> {}, recentCommitted |-> {1}],
+   [committed |-> {2}, prepared |-> {}, recentCommitted |-> {2}],
+   [committed |-> {1, 2}, prepared |-> {}, recentCommitted |-> {1, 2}] >>
+/\ msgs = ( [ type |-> "committed",
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
+           [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             desVertex |-> 1 ] >> ] :>
+      1 @@
+  [ type |-> "committed",
+    dst |-> -1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 2,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
+           [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             desVertex |-> 1 ] >> ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    dst |-> 2,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
+           [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             desVertex |-> 1 ] >> ] :>
+      1 @@
+  [ type |-> "prepared",
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [type |-> "nodes", Operation |-> "add", sourceVertex |-> 0],
+           [type |-> "nodes", Operation |-> "add", sourceVertex |-> 1],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             desVertex |-> 1 ] >> ] :>
+      1 @@
+  [ type |-> "prepared",
+    dst |-> -1,
+    tn |-> 2,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        <<[type |-> "nodes", Operation |-> "add", sourceVertex |-> 2]>> ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "committed" @@
+  <<1, 2>> :> "sendCommit" @@
+  <<1, 3>> :> "committed" @@
+  <<2, 1>> :> "sendCommit" @@
+  <<2, 2>> :> "committed" @@
+  <<2, 3>> :> "committed" )
+/\ localNodesGraph = << {[NodeID |-> 0, neighbours |-> {1}], [NodeID |-> 1, neighbours |-> {0}]},
+   {[NodeID |-> 2, neighbours |-> {}]},
+   { [NodeID |-> 0, neighbours |-> {1}],
+     [NodeID |-> 1, neighbours |-> {0}],
+     [NodeID |-> 2, neighbours |-> {}] } >>
+/\ rmState = ( <<1, 1>> :> "follower" @@
+  <<1, 2>> :> "leader" @@
+  <<1, 3>> :> "follower" @@
+  <<2, 1>> :> "leader" @@
+  <<2, 2>> :> "follower" @@
+  <<2, 3>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = TRUE
+/\ rejectedTransactions = <<<<>>, <<>>>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2201:0 @!@!@
+The coverage statistics at 2025-04-24 00:50:39
+@!@!@ENDMSG 2201 @!@!@
+@!@!@STARTMSG 2773:0 @!@!@
+<Init line 463, col 2 to line 463, col 5 of module graph>: 2:2
+@!@!@ENDMSG 2773 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  line 470, col 16 to line 470, col 55 of module graph: 2:12
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 470, col 23 to line 470, col 26 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  ||line 465, col 17 to line 465, col 75 of module graph: 2:20
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 465, col 19 to line 465, col 39 of module graph: 4
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 465, col 49 to line 465, col 73 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 470, col 35 to line 470, col 39 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 471, col 6 to line 471, col 28 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 472, col 6 to line 472, col 45 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 473, col 6 to line 473, col 44 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 474, col 6 to line 474, col 43 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 475, col 6 to line 479, col 5 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  line 480, col 29 to line 480, col 50 of module graph: 2:4
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 480, col 37 to line 480, col 40 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  ||line 465, col 17 to line 465, col 75 of module graph: 2:6
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 465, col 19 to line 465, col 39 of module graph: 4
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 465, col 49 to line 465, col 73 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  line 481, col 29 to line 481, col 50 of module graph: 2:4
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 481, col 37 to line 481, col 40 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  ||line 465, col 17 to line 465, col 75 of module graph: 2:6
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 465, col 19 to line 465, col 39 of module graph: 4
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 465, col 49 to line 465, col 73 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  line 482, col 16 to line 482, col 54 of module graph: 2:12
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 482, col 23 to line 482, col 26 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  ||line 465, col 17 to line 465, col 75 of module graph: 2:20
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 465, col 19 to line 465, col 39 of module graph: 4
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 465, col 49 to line 465, col 73 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 482, col 35 to line 482, col 39 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 483, col 6 to line 483, col 16 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<ClientRequest line 431, col 4 to line 431, col 19 of module graph (439 5 444 84)>: 12:87
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 439, col 8 to line 439, col 35 of module graph: 87
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 439, col 8 to line 439, col 31 of module graph: 4398
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 440, col 8 to line 440, col 64 of module graph: 87
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 441, col 8 to line 441, col 96 of module graph: 87
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 442, col 8 to line 442, col 55 of module graph: 87
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 443, col 8 to line 444, col 84 of module graph: 87
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<ReceiveClient line 450, col 3 to line 450, col 18 of module graph (454 9 459 105)>: 107:140
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 454, col 12 to line 454, col 37 of module graph: 140
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 454, col 12 to line 454, col 33 of module graph: 4392
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 174, col 12 to line 174, col 40 of module graph: 280
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 174, col 12 to line 174, col 29 of module graph: 140
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 175, col 12 to line 180, col 45 of module graph: 140
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 181, col 12 to line 181, col 68 of module graph: 140
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 455, col 31 to line 455, col 43 of module graph: 140
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 455, col 46 to line 455, col 46 of module graph: 140
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 455, col 49 to line 455, col 75 of module graph: 140
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 456, col 12 to line 456, col 83 of module graph: 140
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 458, col 11 to line 459, col 105 of module graph: 280
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<Next line 486, col 3 to line 486, col 6 of module graph (489 10 489 64)>: 998:1814
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 396, col 7 to line 396, col 27 of module graph: 27692
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 396, col 7 to line 396, col 14 of module graph: 25878
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 397, col 7 to line 397, col 36 of module graph: 10136
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 397, col 7 to line 397, col 24 of module graph: 8322
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 271, col 10 to line 272, col 88 of module graph: 1814
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 271, col 10 to line 272, col 52 of module graph: 1814
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 271, col 10 to line 271, col 115 of module graph: 1814
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 272, col 13 to line 272, col 52 of module graph: 1555
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 272, col 14 to line 272, col 52 of module graph: 1555
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 253, col 26 to line 253, col 73 of module graph: 1555
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 253, col 51 to line 253, col 73 of module graph: 336
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 253, col 35 to line 253, col 47 of module graph: 1555
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 249, col 22 to line 249, col 82 of module graph: 336
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 249, col 23 to line 249, col 51 of module graph: 672
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 249, col 62 to line 249, col 81 of module graph: 336
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 250, col 21 to line 250, col 58 of module graph: 1555
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  ||||line 252, col 24 to line 252, col 50 of module graph: 1555:1891
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 252, col 26 to line 252, col 29 of module graph: 336
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||line 251, col 15 to line 251, col 79 of module graph: 336
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||line 251, col 16 to line 251, col 46 of module graph: 672
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||line 251, col 56 to line 251, col 78 of module graph: 336
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||line 252, col 28 to line 252, col 28 of module graph: 336
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 252, col 39 to line 252, col 48 of module graph: 1555
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 258, col 7 to line 258, col 21 of module graph: 1555
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 272, col 37 to line 272, col 37 of module graph: 1555
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 272, col 40 to line 272, col 51 of module graph: 336
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 272, col 57 to line 272, col 88 of module graph: 1555
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 272, col 59 to line 272, col 87 of module graph: 1555
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 261, col 5 to line 261, col 150 of module graph: 1555
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 261, col 5 to line 261, col 77 of module graph: 1555
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 261, col 83 to line 261, col 150 of module graph: 1479
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 272, col 72 to line 272, col 83 of module graph: 1555
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 272, col 86 to line 272, col 86 of module graph: 1555
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 276, col 14 to line 291, col 86 of module graph: 882
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 292, col 16 to line 293, col 125 of module graph: 882
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 47, col 12 to line 47, col 39 of module graph: 932
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 47, col 20 to line 47, col 39 of module graph: 932
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 42, col 5 to line 45, col 28 of module graph: 932
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 42, col 8 to line 42, col 24 of module graph: 932
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 43, col 9 to line 43, col 48 of module graph: 734
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 45, col 9 to line 45, col 28 of module graph: 198
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 47, col 32 to line 47, col 32 of module graph: 932
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 47, col 35 to line 47, col 38 of module graph: 932
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 297, col 19 to line 303, col 15 of module graph: 932
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 304, col 14 to line 304, col 83 of module graph: 932
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 305, col 14 to line 306, col 150 of module graph: 932
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 399, col 18 to line 399, col 23 of module graph: 1814
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 399, col 26 to line 399, col 26 of module graph: 1814
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 399, col 29 to line 399, col 35 of module graph: 1814
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 399, col 38 to line 399, col 51 of module graph: 1814
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 399, col 54 to line 399, col 67 of module graph: 1814
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 489, col 61 to line 489, col 61 of module graph: 8322
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 489, col 63 to line 489, col 63 of module graph: 25878
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 489, col 19 to line 489, col 23 of module graph: 1477
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 489, col 32 to line 489, col 43 of module graph: 1477
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |line 39, col 5 to line 39, col 39 of module graph: 1477:10103
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 39, col 27 to line 39, col 37 of module graph: 8626
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 39, col 13 to line 39, col 23 of module graph: 1477
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<Next line 486, col 3 to line 486, col 6 of module graph (490 10 490 61)>: 438:1034
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 418, col 7 to line 418, col 28 of module graph: 26870
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 418, col 7 to line 418, col 14 of module graph: 25836
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 419, col 7 to line 419, col 55 of module graph: 5180
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 419, col 7 to line 419, col 24 of module graph: 4146
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 323, col 6 to line 323, col 34 of module graph: 2068
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 323, col 6 to line 323, col 23 of module graph: 1034
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 325, col 6 to line 327, col 181 of module graph: 1034
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 328, col 6 to line 328, col 98 of module graph: 1034
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 328, col 25 to line 328, col 98 of module graph: 1034
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 328, col 26 to line 328, col 40 of module graph: 1034
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 328, col 48 to line 328, col 97 of module graph: 1034
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 328, col 56 to line 328, col 97 of module graph: 1034
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 156, col 3 to line 156, col 33 of module graph: 1034
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 151, col 5 to line 152, col 66 of module graph: 3126
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 151, col 8 to line 151, col 17 of module graph: 3126
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 151, col 24 to line 151, col 24 of module graph: 1034
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 152, col 10 to line 152, col 66 of module graph: 2092
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||line 152, col 26 to line 152, col 34 of module graph: 2092
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||line 152, col 46 to line 152, col 65 of module graph: 2092
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||line 111, col 5 to line 147, col 35 of module graph: 2092
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||||line 111, col 10 to line 111, col 50 of module graph: 2092
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||||line 111, col 10 to line 111, col 26 of module graph: 2092
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||||line 111, col 31 to line 111, col 50 of module graph: 1563
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||||line 111, col 57 to line 111, col 115 of module graph: 1563
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||||line 112, col 8 to line 123, col 16 of module graph: 529
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||||line 124, col 8 to line 124, col 48 of module graph: 529
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||||line 133, col 5 to line 133, col 26 of module graph: 529
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||||line 133, col 6 to line 133, col 15 of module graph: 1108
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||||||line 127, col 13 to line 131, col 22 of module graph: 1108
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||||||line 127, col 16 to line 127, col 41 of module graph: 1108
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||||||line 128, col 21 to line 128, col 92 of module graph: 529
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||||||line 129, col 22 to line 131, col 22 of module graph: 579
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||||||||line 129, col 25 to line 129, col 47 of module graph: 579
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||||||||line 130, col 21 to line 130, col 95 of module graph: 529
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||||||||line 131, col 22 to line 131, col 22 of module graph: 50
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||||||line 133, col 14 to line 133, col 14 of module graph: 1108
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||||line 133, col 25 to line 133, col 25 of module graph: 529
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||line 152, col 54 to line 152, col 62 of module graph: 2092
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||line 152, col 64 to line 152, col 64 of module graph: 2092
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 156, col 19 to line 156, col 21 of module graph: 1034
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 156, col 32 to line 156, col 32 of module graph: 1034
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 328, col 62 to line 328, col 73 of module graph: 1034
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 328, col 79 to line 328, col 96 of module graph: 1034
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 329, col 6 to line 329, col 59 of module graph: 1034
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 330, col 6 to line 331, col 75 of module graph: 2068
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 420, col 20 to line 420, col 20 of module graph: 1034
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 420, col 23 to line 420, col 29 of module graph: 1034
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 420, col 32 to line 420, col 37 of module graph: 1034
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 420, col 40 to line 420, col 53 of module graph: 1034
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 420, col 57 to line 420, col 70 of module graph: 1034
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 490, col 58 to line 490, col 58 of module graph: 4146
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 490, col 60 to line 490, col 60 of module graph: 25836
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 490, col 19 to line 490, col 23 of module graph: 1473
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 490, col 32 to line 490, col 43 of module graph: 1473
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |line 39, col 5 to line 39, col 39 of module graph: 1473:10085
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 39, col 27 to line 39, col 37 of module graph: 8612
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 39, col 13 to line 39, col 23 of module graph: 1473
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<Next line 486, col 3 to line 486, col 6 of module graph (491 10 491 62)>: 82:328
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 404, col 7 to line 404, col 41 of module graph: 8910
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 404, col 7 to line 404, col 14 of module graph: 8582
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 405, col 7 to line 405, col 47 of module graph: 4040
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 405, col 7 to line 405, col 30 of module graph: 3712
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 337, col 8 to line 337, col 36 of module graph: 1004
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 337, col 8 to line 337, col 25 of module graph: 676
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 347, col 47 to line 347, col 56 of module graph: 5770
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 347, col 47 to line 347, col 51 of module graph: 5114
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 347, col 55 to line 347, col 56 of module graph: 5114
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 347, col 40 to line 347, col 43 of module graph: 4150
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |line 341, col 21 to line 344, col 51 of module graph: 4150:9264
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 341, col 43 to line 344, col 50 of module graph: 21826
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 341, col 43 to line 343, col 51 of module graph: 21826
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 341, col 43 to line 342, col 46 of module graph: 21826
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 341, col 43 to line 341, col 78 of module graph: 21826
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 342, col 38 to line 342, col 46 of module graph: 12060
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 343, col 38 to line 343, col 51 of module graph: 8220
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 344, col 38 to line 344, col 50 of module graph: 6444
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 341, col 28 to line 341, col 39 of module graph: 4150
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |||line 39, col 5 to line 39, col 39 of module graph: 4150:25976
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 39, col 27 to line 39, col 37 of module graph: 21826
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 39, col 13 to line 39, col 23 of module graph: 4150
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 347, col 26 to line 347, col 27 of module graph: 2704
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 202, col 6 to line 202, col 34 of module graph: 656
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 202, col 6 to line 202, col 23 of module graph: 328
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 203, col 6 to line 209, col 7 of module graph: 328
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 210, col 6 to line 210, col 60 of module graph: 328
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 348, col 33 to line 348, col 38 of module graph: 328
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 348, col 41 to line 348, col 41 of module graph: 328
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 348, col 44 to line 348, col 57 of module graph: 328
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 348, col 60 to line 348, col 73 of module graph: 328
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 350, col 9 to line 351, col 205 of module graph: 656
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 338, col 18 to line 338, col 23 of module graph: 676
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 406, col 26 to line 406, col 31 of module graph: 676
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 406, col 34 to line 406, col 40 of module graph: 676
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 406, col 43 to line 406, col 45 of module graph: 328
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 491, col 61 to line 491, col 61 of module graph: 8582
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 491, col 19 to line 491, col 30 of module graph: 1469
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |line 39, col 5 to line 39, col 39 of module graph: 1469:10051
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 39, col 27 to line 39, col 37 of module graph: 8582
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 39, col 13 to line 39, col 23 of module graph: 1469
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<Next line 486, col 3 to line 486, col 6 of module graph (492 10 492 61)>: 0:0
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 410, col 7 to line 410, col 40 of module graph: 8572
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 411, col 7 to line 411, col 47 of module graph: 734
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 47, col 12 to line 47, col 39 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 239, col 7 to line 239, col 60 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 371, col 9 to line 371, col 21 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 372, col 9 to line 373, col 190 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 492, col 60 to line 492, col 60 of module graph: 8572
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 492, col 19 to line 492, col 30 of module graph: 1467
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |line 39, col 5 to line 39, col 39 of module graph: 1467:10039
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 39, col 27 to line 39, col 37 of module graph: 8572
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 39, col 13 to line 39, col 23 of module graph: 1467
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<Next line 486, col 3 to line 486, col 6 of module graph (493 10 493 60)>: 0:0
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 424, col 6 to line 424, col 25 of module graph: 25716
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 312, col 7 to line 312, col 137 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 313, col 7 to line 313, col 58 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 314, col 7 to line 315, col 75 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 493, col 59 to line 493, col 59 of module graph: 25716
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 493, col 19 to line 493, col 23 of module graph: 1467
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 493, col 32 to line 493, col 43 of module graph: 1467
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |line 39, col 5 to line 39, col 39 of module graph: 1467:10039
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 39, col 27 to line 39, col 37 of module graph: 8572
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 39, col 13 to line 39, col 23 of module graph: 1467
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2774:0 @!@!@
+<DummyInvariant2 line 514, col 2 to line 514, col 16 of module graph>
+@!@!@ENDMSG 2774 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 515, col 5 to line 515, col 15 of module graph: 1638
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2202:0 @!@!@
+End of statistics.
+@!@!@ENDMSG 2202 @!@!@
+@!@!@STARTMSG 2200:0 @!@!@
+Progress(16) at 2025-04-24 00:50:39: 3,381 states generated (72,657 s/min), 1,638 distinct states found (35,200 ds/min), 175 states left on queue.
+@!@!@ENDMSG 2200 @!@!@
+@!@!@STARTMSG 2199:0 @!@!@
+3381 states generated, 1638 distinct states found, 175 states left on queue.
+@!@!@ENDMSG 2199 @!@!@
+@!@!@STARTMSG 2194:0 @!@!@
+The depth of the complete state graph search is 16.
+@!@!@ENDMSG 2194 @!@!@
+@!@!@STARTMSG 2268:0 @!@!@
+The average outdegree of the complete state graph is 1 (minimum is 0, the maximum 4 and the 95th percentile is 3).
+@!@!@ENDMSG 2268 @!@!@
+@!@!@STARTMSG 2186:0 @!@!@
+Finished in 2816ms at (2025-04-24 00:50:39)
+@!@!@ENDMSG 2186 @!@!@

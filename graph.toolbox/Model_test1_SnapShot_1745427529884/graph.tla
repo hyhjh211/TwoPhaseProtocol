@@ -308,9 +308,6 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
   
   
   RcvAbortMsg(r, s, tnInfo, tnOperations) ==
-  (*************************************************************************)
-  (* node r receives aborted message from leader s                       *)
-  (*************************************************************************)
    /\ rmState[tnInfo, s] = "leader"
    /\ localTransactionHistory' = [ localTransactionHistory EXCEPT  ![r]["prepared"] = localTransactionHistory[r]["prepared"]  \ {tnInfo}]
    /\ tnState' = [tnState EXCEPT ![tnInfo, r] = "aborted"]
@@ -321,7 +318,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
   
   RcvCommitMsg(r, s, tnInfo, depdencyInfo, tnOperations) == 
   (*************************************************************************)
-  (* node r receives committed message from leader s                       *)
+  (* node r receives message from leader s                                 *)
   (*************************************************************************)
   /\ rmState[tnInfo, s] = "leader"
   
@@ -397,9 +394,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
 \*   /\ msgs[r][s]' = Tail(msgs[r][s])
   RecvPrepared(r, msg) ==
    /\ msg.type = "prepared" 
-   /\  
-       \/tnState[msg.tn, r] = "unknown"
-       \/tnState[msg.tn, r] = "sendPrepared"
+   /\ tnState[msg.tn, r] = "unknown"
     \*      (tnInfo, r, s, depdencyInfo, tnOperations)
    /\ RecvPhase1(msg.tn, r, msg.src, msg.dependency, msg.operations)
    
@@ -407,10 +402,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
             
   RecvPreparedResponsePhase1(msg) ==
    /\ msg.type = "preparedResponsePhase1" 
-   /\ tnState[msg.tn, msg.dst] # "sendCommit"
-   /\ tnState[msg.tn, msg.dst] # "sendAbort"
-   /\ tnState[msg.tn, msg.dst] # "committed"
-   /\ tnState[msg.tn, msg.dst] # "aborted"
+   /\ tnState[msg.tn, msg.dst] = "sendPrepared"
    /\ LeaderHandleCommit(msg.tn, msg.dst, msg)
    
   
@@ -548,5 +540,5 @@ LivenessDummy == <> (Cardinality(localNodesGraph[1]) = 1)
   
 =============================================================================
 \* Modification History
-\* Last modified Thu Apr 24 01:21:31 CST 2025 by junhaohu
+\* Last modified Thu Apr 24 00:48:43 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
