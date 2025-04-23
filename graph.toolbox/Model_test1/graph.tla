@@ -22,6 +22,7 @@ VARIABLES
   acceptedTransactions, \* acceptedTransactions[tn] is the set of nodes that have sent accept for transaction tn
   rejectedTransactions,  \* rejectedTransactions[tn] is the set of nodes that have sent reject for transaction tn
   pendingTransactions, \* set of transactions to be executed 
+  votedPrepare,
   test
 
   
@@ -108,7 +109,7 @@ GRAPHTypeOK ==
   /\ msgs' = [msgs EXCEPT ![r][s] = Append(msgs[r][s], [type |-> "preparedResponsePhase1", tn |->tnInfo, rm |-> r])]
   
   /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
-    acceptedTransactions, rejectedTransactions, pendingTransactions, test>>
+    acceptedTransactions, rejectedTransactions, pendingTransactions, votedPrepare, test>>
   
   
   
@@ -357,7 +358,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
             
             /\ msgs' = [node1 \in NODES |-> [node2 \in NODES |-> modifyMessage(node1, node2)]]
             /\ UNCHANGED <<transactionNumbers, 
-            localNodesGraph, transactionOperation, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState, test>>
+            localNodesGraph, transactionOperation, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState, votedPrepare, test>>
                 
           ELSE
 \*          /\ rmState[tnInfo, r] = "follower"
@@ -365,7 +366,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
 \*          /\ ParticipantChooseToAbort(r, s, tnInfo, depdencyInfo, tnOperations)
           /\ msgs' = [node1 \in NODES |-> [node2 \in NODES |-> sendAbortMsg(node1, node2)]]
           /\ UNCHANGED <<transactionNumbers, 
-            localNodesGraph, transactionOperation, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState, localTransactionHistory, test>>
+            localNodesGraph, transactionOperation, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState, localTransactionHistory, votedPrepare, test>>
                
   
   
@@ -375,7 +376,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
    /\ localTransactionHistory' = [ localTransactionHistory EXCEPT  ![r]["prepared"] = localTransactionHistory[r]["prepared"]  \ {tnInfo}]
    /\ msgs' = [msgs EXCEPT ![r][s] = Tail(msgs[r][s]) ]
    /\ UNCHANGED <<rmState, transactionNumbers, clientRequests, localNodesGraph, 
-    acceptedTransactions, rejectedTransactions, pendingTransactions, transactionOperation, test>>
+    acceptedTransactions, rejectedTransactions, pendingTransactions, transactionOperation, votedPrepare, test>>
   
   
   RcvCommitMsg(r, s, tnInfo, depdencyInfo, tnOperations) == 
@@ -387,7 +388,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
   /\ localNodesGraph' = [localNodesGraph EXCEPT! [r] = Apply(tnOperations, r, localNodesGraph[r])]
   /\ msgs' = [msgs EXCEPT ![r][s] = Tail(msgs[r][s]) ]
   /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, 
-    acceptedTransactions, rejectedTransactions, pendingTransactions, transactionOperation, test>>
+    acceptedTransactions, rejectedTransactions, pendingTransactions, transactionOperation, votedPrepare, test>>
 \*  /\ UNCHANGED <<tmState, 
 
   LeaderHandleRes(tnInfo, r, s, msg) ==
@@ -398,12 +399,12 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
            THEN 
                 /\ LeaderSendCommit(tnInfo, r, transactionOperation[tnInfo].dependency, transactionOperation[tnInfo].op, r, s)
                 /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
-                        rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions, rmState, transactionOperation, test>>
+                        rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions, rmState, transactionOperation, votedPrepare, test>>
      
            ELSE 
                 /\ LeaderSendAbort(tnInfo, r, transactionOperation[tnInfo].dependency, transactionOperation[tnInfo].op, r, s)  
                 /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
-                        rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions, rmState, transactionOperation, test>>
+                        rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions, rmState, transactionOperation, votedPrepare, test>>
  
            
             
@@ -413,13 +414,13 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
                     /\ acceptedTransactions' = [acceptedTransactions EXCEPT ![tnInfo] = Append(acceptedTransactions[tnInfo], s)]
                     /\ msgs' = [msgs  EXCEPT! [r][s] = Tail(msgs[r][s])]
                     /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
-                        rejectedTransactions, pendingTransactions, test>>
+                        rejectedTransactions, pendingTransactions, votedPrepare, test>>
                     
                 ELSE 
                     /\ rejectedTransactions' = [rejectedTransactions EXCEPT ![tnInfo] = Append(rejectedTransactions[tnInfo], s)]
                     /\ msgs' = [msgs  EXCEPT! [r][s] = Tail(msgs[r][s])]
                     /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, transactionOperation, 
-                        acceptedTransactions, pendingTransactions, test>>
+                        acceptedTransactions, pendingTransactions, votedPrepare, test>>
                 
             
        
@@ -450,7 +451,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
     /\ clientRequests' = [clientRequests EXCEPT ![i] = Append(clientRequests[i], nextExecuteTx)]
     /\ pendingTransactions' = Tail(pendingTransactions)
     /\ UNCHANGED <<transactionNumbers, msgs, localTransactionHistory, 
-        localNodesGraph, transactionOperation, acceptedTransactions, rejectedTransactions, test>>
+        localNodesGraph, transactionOperation, acceptedTransactions, rejectedTransactions, votedPrepare, test>>
     
 
         
@@ -502,7 +503,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
         /\ clientRequests' = [clientRequests EXCEPT ![i] = Tail(clientRequests[i])]
         
        /\ UNCHANGED <<transactionNumbers, localTransactionHistory, 
-        localNodesGraph, acceptedTransactions, rejectedTransactions, pendingTransactions, rmState, test>>
+        localNodesGraph, acceptedTransactions, rejectedTransactions, pendingTransactions, rmState, votedPrepare, test>>
            
         
         
@@ -526,6 +527,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
     ]
   /\ acceptedTransactions = [tn \in tSet |-> <<>>]
   /\ rejectedTransactions = [tn \in tSet |-> <<>>]
+  /\ votedPrepare = [r \in NODES |-> {}]
   /\ test = TRUE
   
   
@@ -585,5 +587,5 @@ LivenessDummy == <> (Cardinality(localNodesGraph[1]) = 1)
   
 =============================================================================
 \* Modification History
-\* Last modified Tue Apr 22 22:11:20 CST 2025 by junhaohu
+\* Last modified Tue Apr 22 23:45:21 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
