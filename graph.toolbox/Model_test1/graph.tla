@@ -342,6 +342,10 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
 
 
   LeaderHandleCommit(tnInfo, r, msg) ==
+  (*******************************************************************************************************************************)
+  (*Leader r received preparedResponsePhase1 from other nodes,                                                                  *)
+  (*if majority have votes preparedResponsePhase1. then votes commit                                                             *)
+  (*******************************************************************************************************************************)
     /\ rmState[tnInfo, r] = "leader"             
     /\ \E MS \in Quorum :    
         LET 
@@ -364,6 +368,10 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
             
             
   LeaderHandleAbort(tnInfo, r, msg) ==
+  (*********************************************************************************)
+  (*Leader r received abortedResponsePhase1 from other nodes,                      *)
+  (*if majority have votes abortedResponsePhase1. then votes abort                 *)
+  (*********************************************************************************)
     /\ rmState[tnInfo, r] = "leader"             
     /\ \E MS \in Quorum :    
         LET 
@@ -396,9 +404,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
   
     
 
-       
-\*         
-\*   /\ msgs[r][s]' = Tail(msgs[r][s])
+
   RecvPrepared(r, msg) ==
    /\ msg.type = "prepared" 
    /\  
@@ -553,5 +559,5 @@ LivenessDummy == <> (Cardinality(localNodesGraph[1]) = 1)
   
 =============================================================================
 \* Modification History
-\* Last modified Thu Apr 24 13:59:53 CST 2025 by junhaohu
+\* Last modified Thu Apr 24 16:26:18 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
