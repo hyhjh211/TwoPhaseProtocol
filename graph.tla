@@ -447,10 +447,6 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
    
    
    ClientRequest(i) == 
-\*  LET 
-\*    setNodes == [n \in NODES |-> IF n = i THEN "leader" ELSE "follower"]
-\*  IN
-\*    rmState[tnInfo]' = setNodes
     LET 
        nextExecuteTx == Head(pendingTransactions)
     IN
@@ -559,5 +555,5 @@ LivenessDummy == <> (Cardinality(localNodesGraph[1]) = 1)
   
 =============================================================================
 \* Modification History
-\* Last modified Thu Apr 24 16:26:18 CST 2025 by junhaohu
+\* Last modified Thu Apr 24 16:29:10 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
