@@ -253,9 +253,12 @@ GRAPHTypeOK ==
       hasIntersection == \E x \in operatedNodes : targetNodes \cap x # {}
       
 \*      operatedNodes == 
+        aaa == FALSE
             
     IN
       hasIntersection
+
+        
   
   strictSubset(depdencyInfo, nodeID) == 
     depdencyInfo \subseteq localTransactionHistory[nodeID]["recentCommitted"] /\  ~(depdencyInfo = localTransactionHistory[nodeID]["recentCommitted"])
@@ -289,8 +292,9 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
                      operations |-> tnOperations
                 ])
             /\ tnState' = [tnState EXCEPT ![tnInfo, r] = "sendPreparedResponsePhase1"]
+            /\ test' = test + 1
             /\ UNCHANGED <<transactionNumbers, 
-            localNodesGraph, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState, test>>
+            localNodesGraph, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState>>
                 
           ELSE
           
@@ -301,9 +305,10 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
                    dst |-> s, 
                    operations |-> tnOperations
               ])
-          /\ tnState' = [tnState EXCEPT ![tnInfo, s] = "sendAbortedResponsePhase1"]
+          /\ tnState' = [tnState EXCEPT ![tnInfo, r] = "sendAbortedResponsePhase1"]
+          /\ test' = test + 1
           /\ UNCHANGED <<transactionNumbers, 
-            localNodesGraph, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState, localTransactionHistory, test>>
+            localNodesGraph, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState, localTransactionHistory>>
                
   
   
@@ -371,9 +376,8 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
             
         IN  /\ \A ac \in MS : \E m \in mset : m.src = ac
             /\ LeaderSendAbort(tnInfo, r, msg.dependency, msg.operations)
-     /\ test' = FALSE
      /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, 
-                        rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions>>           
+                        rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions, test>>           
             
        
             
@@ -488,11 +492,12 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
   /\ acceptedTransactions = [tn \in tSet |-> <<>>]
   /\ rejectedTransactions = [tn \in tSet |-> <<>>]
   /\ tnState = [r \in tSet, t \in NODES |-> "unknown"]
-  /\ test = TRUE
+  /\ test = 0
   
   
   Next ==
 \*      \/ \E i,j \in NODES : Receive(i, j)
+
 
       \/ \E i \in NODES, m \in ValidMessage :  RecvPrepared(i,m)
       \/ \E i \in NODES, m \in ValidMessage : RecvCommit(i,m)
@@ -520,7 +525,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
     \/Cardinality(localNodesGraph[1]) = 2
     
  DummyInvariant2 == 
-    test = TRUE
+    test < 10 /\ Cardinality(DOMAIN(msgs)) < 15
     
 \*Spec == Init /\ [][Next]_<<localNodesGraph>>
 \*THEOREM Spec => <> (Cardinality(localNodesGraph[1]) = 1)
@@ -548,5 +553,5 @@ LivenessDummy == <> (Cardinality(localNodesGraph[1]) = 1)
   
 =============================================================================
 \* Modification History
-\* Last modified Thu Apr 24 01:21:31 CST 2025 by junhaohu
+\* Last modified Thu Apr 24 13:59:53 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu

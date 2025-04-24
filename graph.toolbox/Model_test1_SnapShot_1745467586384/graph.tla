@@ -256,8 +256,8 @@ GRAPHTypeOK ==
         aaa == FALSE
             
     IN
-      hasIntersection
-
+\*      hasIntersection
+        aaa
         
   
   strictSubset(depdencyInfo, nodeID) == 
@@ -292,9 +292,8 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
                      operations |-> tnOperations
                 ])
             /\ tnState' = [tnState EXCEPT ![tnInfo, r] = "sendPreparedResponsePhase1"]
-            /\ test' = test + 1
             /\ UNCHANGED <<transactionNumbers, 
-            localNodesGraph, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState>>
+            localNodesGraph, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState, test>>
                 
           ELSE
           
@@ -305,10 +304,9 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
                    dst |-> s, 
                    operations |-> tnOperations
               ])
-          /\ tnState' = [tnState EXCEPT ![tnInfo, r] = "sendAbortedResponsePhase1"]
-          /\ test' = test + 1
+          /\ tnState' = [tnState EXCEPT ![tnInfo, s] = "sendAbortedResponsePhase1"]
           /\ UNCHANGED <<transactionNumbers, 
-            localNodesGraph, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState, localTransactionHistory>>
+            localNodesGraph, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState, localTransactionHistory, test>>
                
   
   
@@ -376,8 +374,9 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
             
         IN  /\ \A ac \in MS : \E m \in mset : m.src = ac
             /\ LeaderSendAbort(tnInfo, r, msg.dependency, msg.operations)
+     /\ test' = FALSE
      /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, 
-                        rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions, test>>           
+                        rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions>>           
             
        
             
@@ -492,7 +491,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
   /\ acceptedTransactions = [tn \in tSet |-> <<>>]
   /\ rejectedTransactions = [tn \in tSet |-> <<>>]
   /\ tnState = [r \in tSet, t \in NODES |-> "unknown"]
-  /\ test = 0
+  /\ test = TRUE
   
   
   Next ==
@@ -500,10 +499,10 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
 
 
       \/ \E i \in NODES, m \in ValidMessage :  RecvPrepared(i,m)
-      \/ \E i \in NODES, m \in ValidMessage : RecvCommit(i,m)
-      \/ \E m \in ValidMessage : RecvPreparedResponsePhase1(m)
-      \/ \E m \in ValidMessage : RecvAbortedResponsePhase1(m)
-      \/ \E i \in NODES, m \in ValidMessage : RecvAbort(i,m)
+\*      \/ \E i \in NODES, m \in ValidMessage : RecvCommit(i,m)
+\*      \/ \E m \in ValidMessage : RecvPreparedResponsePhase1(m)
+\*      \/ \E m \in ValidMessage : RecvAbortedResponsePhase1(m)
+\*      \/ \E i \in NODES, m \in ValidMessage : RecvAbort(i,m)
       \/ \E i \in NODES : ClientRequest(i)
       \/ \E i \in NODES : ReceiveClient(i)
        
@@ -525,7 +524,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
     \/Cardinality(localNodesGraph[1]) = 2
     
  DummyInvariant2 == 
-    test < 10 /\ Cardinality(DOMAIN(msgs)) < 15
+    test = TRUE /\ Cardinality(DOMAIN(msgs)) < 15
     
 \*Spec == Init /\ [][Next]_<<localNodesGraph>>
 \*THEOREM Spec => <> (Cardinality(localNodesGraph[1]) = 1)
@@ -553,5 +552,5 @@ LivenessDummy == <> (Cardinality(localNodesGraph[1]) = 1)
   
 =============================================================================
 \* Modification History
-\* Last modified Thu Apr 24 13:59:53 CST 2025 by junhaohu
+\* Last modified Thu Apr 24 12:06:21 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu

@@ -305,7 +305,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
                    dst |-> s, 
                    operations |-> tnOperations
               ])
-          /\ tnState' = [tnState EXCEPT ![tnInfo, r] = "sendAbortedResponsePhase1"]
+          /\ tnState' = [tnState EXCEPT ![tnInfo, s] = "sendAbortedResponsePhase1"]
           /\ test' = test + 1
           /\ UNCHANGED <<transactionNumbers, 
             localNodesGraph, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState, localTransactionHistory>>
@@ -376,8 +376,9 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
             
         IN  /\ \A ac \in MS : \E m \in mset : m.src = ac
             /\ LeaderSendAbort(tnInfo, r, msg.dependency, msg.operations)
+     /\ test' = FALSE
      /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, 
-                        rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions, test>>           
+                        rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions>>           
             
        
             
@@ -500,10 +501,10 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
 
 
       \/ \E i \in NODES, m \in ValidMessage :  RecvPrepared(i,m)
-      \/ \E i \in NODES, m \in ValidMessage : RecvCommit(i,m)
-      \/ \E m \in ValidMessage : RecvPreparedResponsePhase1(m)
-      \/ \E m \in ValidMessage : RecvAbortedResponsePhase1(m)
-      \/ \E i \in NODES, m \in ValidMessage : RecvAbort(i,m)
+\*      \/ \E i \in NODES, m \in ValidMessage : RecvCommit(i,m)
+\*      \/ \E m \in ValidMessage : RecvPreparedResponsePhase1(m)
+\*      \/ \E m \in ValidMessage : RecvAbortedResponsePhase1(m)
+\*      \/ \E i \in NODES, m \in ValidMessage : RecvAbort(i,m)
       \/ \E i \in NODES : ClientRequest(i)
       \/ \E i \in NODES : ReceiveClient(i)
        
@@ -553,5 +554,5 @@ LivenessDummy == <> (Cardinality(localNodesGraph[1]) = 1)
   
 =============================================================================
 \* Modification History
-\* Last modified Thu Apr 24 13:59:53 CST 2025 by junhaohu
+\* Last modified Thu Apr 24 13:51:45 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu

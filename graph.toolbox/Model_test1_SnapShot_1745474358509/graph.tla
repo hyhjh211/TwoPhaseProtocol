@@ -376,8 +376,9 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
             
         IN  /\ \A ac \in MS : \E m \in mset : m.src = ac
             /\ LeaderSendAbort(tnInfo, r, msg.dependency, msg.operations)
+     /\ test' = FALSE
      /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, 
-                        rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions, test>>           
+                        rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions>>           
             
        
             
@@ -553,5 +554,5 @@ LivenessDummy == <> (Cardinality(localNodesGraph[1]) = 1)
   
 =============================================================================
 \* Modification History
-\* Last modified Thu Apr 24 13:59:53 CST 2025 by junhaohu
+\* Last modified Thu Apr 24 13:59:11 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
