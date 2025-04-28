@@ -9,6 +9,7 @@ VARIABLES
   rmState,       \* rmState[r, transactionNumber] is the state of node r for transcation transactionNumber "leader" or "follower".
 
   msgs,
+  msgsShards,
   clientRequests, \* clientRequests[r] is the set of requests coming from a clietn at node r
   localTransactionHistory,\*  localTransactionHistory[nodes] is the transcation history graph for the corresponding node 
                           \* localTransactionHistory[nodes]["committed"] is the set of local committed transactions
@@ -35,8 +36,8 @@ Graph == {Vertex}
    
    
    
-ValidMessage ==
-    { m \in DOMAIN msgs : msgs[m] > 0 }
+ValidMessage(messages) ==
+    { m \in DOMAIN messages : messages[m] > 0 }
 
 WithMessage(m, messages) ==
     IF m \in DOMAIN msgs THEN
@@ -49,7 +50,7 @@ Send(m) == msgs' = WithMessage(m, msgs)
 
 
 ExistMsg(r, msgType) ==
-    Cardinality({m \in ValidMessage: m.dst = r /\ m.type = msgType})
+    Cardinality({m \in ValidMessage(msgs): m.dst = r /\ m.type = msgType})
 
 
 
@@ -342,11 +343,15 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
 
 
   LeaderHandleCommit(tnInfo, r, msg) ==
+  (*******************************************************************************************************************************)
+  (*Leader r received preparedResponsePhase1 from other nodes,                                                                  *)
+  (*if majority have votes preparedResponsePhase1. then votes commit                                                             *)
+  (*******************************************************************************************************************************)
     /\ rmState[tnInfo, r] = "leader"             
     /\ \E MS \in Quorum :    
         LET 
             
-            mset == {m \in ValidMessage : /\ m.type = "preparedResponsePhase1"
+            mset == {m \in ValidMessage(msgs) : /\ m.type = "preparedResponsePhase1"
                                   /\ m.dst = r
                                   /\ m.tn  = tnInfo
                                   /\ m.src  \in MS}
@@ -364,11 +369,15 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
             
             
   LeaderHandleAbort(tnInfo, r, msg) ==
+  (*********************************************************************************)
+  (*Leader r received abortedResponsePhase1 from other nodes,                      *)
+  (*if majority have votes abortedResponsePhase1. then votes abort                 *)
+  (*********************************************************************************)
     /\ rmState[tnInfo, r] = "leader"             
     /\ \E MS \in Quorum :    
         LET 
             
-            mset == {m \in ValidMessage : /\ m.type = "abortedResponsePhase1"
+            mset == {m \in ValidMessage(msgs) : /\ m.type = "abortedResponsePhase1"
                                   /\ m.dst = r
                                   /\ m.tn  = tnInfo
                                   /\ m.src  \in MS}
@@ -376,9 +385,8 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
             
         IN  /\ \A ac \in MS : \E m \in mset : m.src = ac
             /\ LeaderSendAbort(tnInfo, r, msg.dependency, msg.operations)
-     /\ test' = FALSE
      /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, 
-                        rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions>>           
+                        rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions, test>>           
             
        
             
@@ -397,9 +405,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
   
     
 
-       
-\*         
-\*   /\ msgs[r][s]' = Tail(msgs[r][s])
+
   RecvPrepared(r, msg) ==
    /\ msg.type = "prepared" 
    /\  
@@ -442,10 +448,6 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
    
    
    ClientRequest(i) == 
-\*  LET 
-\*    setNodes == [n \in NODES |-> IF n = i THEN "leader" ELSE "follower"]
-\*  IN
-\*    rmState[tnInfo]' = setNodes
     LET 
        nextExecuteTx == Head(pendingTransactions)
     IN
@@ -482,6 +484,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
   (*************************************************************************)
   /\ rmState = [r \in tSet, y \in NODES |-> "follower"]
   /\ msgs = [m \in {} |-> 0]
+  /\ msgsShards = [m \in {} |-> 0]
   /\ pendingTransactions = transactionNumbers
   /\ clientRequests = [r \in NODES |-> <<>>]
   /\ localNodesGraph = [r \in NODES |-> {}]
@@ -500,11 +503,11 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
 \*      \/ \E i,j \in NODES : Receive(i, j)
 
 
-      \/ \E i \in NODES, m \in ValidMessage :  RecvPrepared(i,m)
-\*      \/ \E i \in NODES, m \in ValidMessage : RecvCommit(i,m)
-\*      \/ \E m \in ValidMessage : RecvPreparedResponsePhase1(m)
-\*      \/ \E m \in ValidMessage : RecvAbortedResponsePhase1(m)
-\*      \/ \E i \in NODES, m \in ValidMessage : RecvAbort(i,m)
+      \/ \E i \in NODES, m \in ValidMessage(msgs) :  RecvPrepared(i,m)
+      \/ \E i \in NODES, m \in ValidMessage(msgs) : RecvCommit(i,m)
+      \/ \E m \in ValidMessage(msgs) : RecvPreparedResponsePhase1(m)
+      \/ \E m \in ValidMessage(msgs) : RecvAbortedResponsePhase1(m)
+      \/ \E i \in NODES, m \in ValidMessage(msgs) : RecvAbort(i,m)
       \/ \E i \in NODES : ClientRequest(i)
       \/ \E i \in NODES : ReceiveClient(i)
        
@@ -554,5 +557,5 @@ LivenessDummy == <> (Cardinality(localNodesGraph[1]) = 1)
   
 =============================================================================
 \* Modification History
-\* Last modified Thu Apr 24 13:58:59 CST 2025 by junhaohu
+\* Last modified Mon Apr 28 18:02:36 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu

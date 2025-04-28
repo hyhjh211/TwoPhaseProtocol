@@ -1,0 +1,250 @@
+@!@!@STARTMSG 2262:0 @!@!@
+TLC2 Version 2.16 of 31 December 2020 (rev: cdddf55)
+@!@!@ENDMSG 2262 @!@!@
+@!@!@STARTMSG 2187:0 @!@!@
+Running breadth-first search Model-Checking with fp 69 and seed -4420090601558255309 with 5 workers on 10 cores with 1214MB heap and 2730MB offheap memory [pid: 48632] (Mac OS X 10.16 x86_64, AdoptOpenJDK 14.0.1 x86_64, OffHeapDiskFPSet, DiskStateQueue).
+@!@!@ENDMSG 2187 @!@!@
+@!@!@STARTMSG 2220:0 @!@!@
+Starting SANY...
+@!@!@ENDMSG 2220 @!@!@
+Parsing file /Users/junhaohu/Desktop/Files/research_thesis/graph.toolbox/Model_test1/MC.tla
+Parsing file /Users/junhaohu/Desktop/Files/research_thesis/graph.toolbox/Model_test1/graph.tla
+Parsing file /private/var/folders/6x/qls53vqx0s58w_mhxknhtyp80000gn/T/AppTranslocation/A3B566D5-B404-4C6B-A2E4-C99C1BEE9472/d/TLA+ Toolbox.app/Contents/Eclipse/plugins/org.lamport.tlatools_1.0.0.202012311918/tla2sany/StandardModules/TLC.tla
+Parsing file /private/var/folders/6x/qls53vqx0s58w_mhxknhtyp80000gn/T/AppTranslocation/A3B566D5-B404-4C6B-A2E4-C99C1BEE9472/d/TLA+ Toolbox.app/Contents/Eclipse/plugins/org.lamport.tlatools_1.0.0.202012311918/tla2sany/StandardModules/Integers.tla
+Parsing file /private/var/folders/6x/qls53vqx0s58w_mhxknhtyp80000gn/T/AppTranslocation/A3B566D5-B404-4C6B-A2E4-C99C1BEE9472/d/TLA+ Toolbox.app/Contents/Eclipse/plugins/org.lamport.tlatools_1.0.0.202012311918/tla2sany/StandardModules/Sequences.tla
+Parsing file /private/var/folders/6x/qls53vqx0s58w_mhxknhtyp80000gn/T/AppTranslocation/A3B566D5-B404-4C6B-A2E4-C99C1BEE9472/d/TLA+ Toolbox.app/Contents/Eclipse/plugins/org.lamport.tlatools_1.0.0.202012311918/tla2sany/StandardModules/FiniteSets.tla
+Parsing file /private/var/folders/6x/qls53vqx0s58w_mhxknhtyp80000gn/T/AppTranslocation/A3B566D5-B404-4C6B-A2E4-C99C1BEE9472/d/TLA+ Toolbox.app/Contents/Eclipse/plugins/org.lamport.tlatools_1.0.0.202012311918/tla2sany/StandardModules/Naturals.tla
+Semantic processing of module Naturals
+Semantic processing of module Integers
+Semantic processing of module Sequences
+Semantic processing of module FiniteSets
+Semantic processing of module TLC
+Semantic processing of module graph
+Semantic processing of module MC
+@!@!@STARTMSG 2219:0 @!@!@
+SANY finished.
+@!@!@ENDMSG 2219 @!@!@
+@!@!@STARTMSG 2185:0 @!@!@
+Starting... (2025-04-28 18:02:43)
+@!@!@ENDMSG 2185 @!@!@
+@!@!@STARTMSG 2189:0 @!@!@
+Computing initial states...
+@!@!@ENDMSG 2189 @!@!@
+@!@!@STARTMSG 2190:0 @!@!@
+Finished computing initial states: 1 distinct state generated at 2025-04-28 18:02:44.
+@!@!@ENDMSG 2190 @!@!@
+@!@!@STARTMSG 2109:1 @!@!@
+Successor state is not completely specified by action ClientRequest of the next-state relation. The following variable is not assigned: msgsShards.
+
+@!@!@ENDMSG 2109 @!@!@
+@!@!@STARTMSG 2121:1 @!@!@
+The behavior up to this point is:
+@!@!@ENDMSG 2121 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+1: <Initial predicate>
+/\ clientRequests = <<<<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<<<>>>>
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}] >>
+/\ msgs = << >>
+/\ tnState = (<<1, 1>> :> "unknown" @@ <<1, 2>> :> "unknown" @@ <<1, 3>> :> "unknown")
+/\ localNodesGraph = <<{}, {}, {}>>
+/\ msgsShards = << >>
+/\ rmState = (<<1, 1>> :> "follower" @@ <<1, 2>> :> "follower" @@ <<1, 3>> :> "follower")
+/\ pendingTransactions = <<1>>
+/\ test = 0
+/\ rejectedTransactions = <<<<>>>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+2: <ClientRequest line 454, col 5 to line 459, col 84 of module graph>
+/\ clientRequests = <<<<1>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<<<>>>>
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}] >>
+/\ msgs = << >>
+/\ tnState = (<<1, 1>> :> "unknown" @@ <<1, 2>> :> "unknown" @@ <<1, 3>> :> "unknown")
+/\ localNodesGraph = <<{}, {}, {}>>
+/\ msgsShards = null
+/\ rmState = (<<1, 1>> :> "leader" @@ <<1, 2>> :> "follower" @@ <<1, 3>> :> "follower")
+/\ pendingTransactions = <<>>
+/\ test = 0
+/\ rejectedTransactions = <<<<>>>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2201:0 @!@!@
+The coverage statistics at 2025-04-28 18:02:44
+@!@!@ENDMSG 2201 @!@!@
+@!@!@STARTMSG 2773:0 @!@!@
+<Init line 478, col 2 to line 478, col 5 of module graph>: 1:1
+@!@!@ENDMSG 2773 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 485, col 3 to line 499, col 13 of module graph: 1
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<ClientRequest line 450, col 4 to line 450, col 19 of module graph (454 5 459 84)>: 0:2
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 454, col 8 to line 454, col 35 of module graph: 1
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 454, col 8 to line 454, col 31 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 455, col 8 to line 455, col 64 of module graph: 1
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 455, col 19 to line 455, col 64 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 456, col 8 to line 456, col 96 of module graph: 1
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 456, col 26 to line 456, col 96 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 457, col 8 to line 457, col 55 of module graph: 1
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 457, col 31 to line 457, col 55 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 458, col 8 to line 459, col 84 of module graph: 1
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<ReceiveClient line 465, col 3 to line 465, col 18 of module graph (469 9 474 105)>: 0:0
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 48, col 12 to line 48, col 39 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 182, col 12 to line 182, col 68 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 471, col 12 to line 471, col 83 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 473, col 11 to line 474, col 105 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<Next line 502, col 3 to line 502, col 6 of module graph (506 10 506 70)>: 0:0
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 280, col 17 to line 282, col 126 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 48, col 12 to line 48, col 39 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 295, col 16 to line 295, col 86 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 296, col 16 to line 296, col 31 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 297, col 16 to line 298, col 119 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 48, col 12 to line 48, col 39 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 309, col 14 to line 309, col 83 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 310, col 14 to line 310, col 29 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 311, col 14 to line 312, col 144 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 506, col 19 to line 506, col 23 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 506, col 32 to line 506, col 49 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<Next line 502, col 3 to line 502, col 6 of module graph (507 10 507 67)>: 0:0
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 334, col 6 to line 336, col 181 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 337, col 6 to line 337, col 98 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 338, col 6 to line 338, col 59 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 339, col 6 to line 340, col 75 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 507, col 19 to line 507, col 23 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 507, col 32 to line 507, col 49 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<Next line 502, col 3 to line 502, col 6 of module graph (508 10 508 68)>: 0:0
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 48, col 12 to line 48, col 39 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 211, col 6 to line 211, col 60 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 363, col 9 to line 364, col 205 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 508, col 19 to line 508, col 36 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<Next line 502, col 3 to line 502, col 6 of module graph (509 10 509 67)>: 0:0
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 48, col 12 to line 48, col 39 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 240, col 7 to line 240, col 60 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 388, col 9 to line 389, col 196 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 509, col 19 to line 509, col 36 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<Next line 502, col 3 to line 502, col 6 of module graph (510 10 510 66)>: 0:0
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 321, col 7 to line 321, col 137 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 322, col 7 to line 322, col 58 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 323, col 7 to line 324, col 75 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 510, col 19 to line 510, col 23 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 510, col 32 to line 510, col 49 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2202:0 @!@!@
+End of statistics.
+@!@!@ENDMSG 2202 @!@!@
+@!@!@STARTMSG 2200:0 @!@!@
+Progress(1) at 2025-04-28 18:02:44: 2 states generated (62 s/min), 1 distinct states found (31 ds/min), 0 states left on queue.
+@!@!@ENDMSG 2200 @!@!@
+@!@!@STARTMSG 2199:0 @!@!@
+2 states generated, 1 distinct states found, 0 states left on queue.
+@!@!@ENDMSG 2199 @!@!@
+@!@!@STARTMSG 2194:0 @!@!@
+The depth of the complete state graph search is 1.
+@!@!@ENDMSG 2194 @!@!@
+@!@!@STARTMSG 2186:0 @!@!@
+Finished in 1943ms at (2025-04-28 18:02:44)
+@!@!@ENDMSG 2186 @!@!@

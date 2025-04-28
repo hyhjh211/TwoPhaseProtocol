@@ -2,20 +2,20 @@
 EXTENDS graph, TLC
 
 \* CONSTANT definitions @modelParameterConstants:0NODES
-const_1745474353747372000 == 
+const_174583462069911000 == 
 {1,2,3}
 ----
 
 \* CONSTANT definitions @modelParameterConstants:1transactions
-const_1745474353747373000 == 
+const_174583462069912000 == 
 <<<<[type |-> "nodes" , Operation |-> "add", sourceVertex|-> 0], [type |-> "nodes" , Operation |-> "add", sourceVertex|-> 1], [type |-> "edges", Operation  |-> "add", sourceVertex |-> 0, desVertex |-> 1]>>, <<[type |-> "nodes", Operation |-> "remove", sourceVertex |-> 0]>>>>
 ----
 
 \* CONSTANT definitions @modelParameterConstants:2transactionNumbers
-const_1745474353747374000 == 
+const_174583462069913000 == 
 <<1,2>>
 ----
 
 =============================================================================
 \* Modification History
-\* Created Thu Apr 24 13:59:13 CST 2025 by junhaohu
+\* Created Mon Apr 28 18:03:40 CST 2025 by junhaohu
