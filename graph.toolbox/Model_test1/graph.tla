@@ -1,15 +1,26 @@
 ------------------------------- MODULE graph -------------------------------
 EXTENDS Integers,
          Sequences, TLC, FiniteSets
+         
+         
 CONSTANT NODES,  \* The set of nodes in the system,
         transactionNumbers, \* all transcations happened in the system
-        transactions \* transactions[transactionNumber] is the set of operations for transaction identified by transactionNumber 
+        transactions, \* transactions[transactionNumber] is the set of operations for transaction identified by transactionNumber 
+        transactionShards, \* transactionShards[transactionNumber] is the set of shards involved in the transaction identified by transactionNumber
+        ShardNodeMapping, \* [shard2 |-> {nodeID1, nodeID2}
+        Shard \* The set of shards (e.g. {s1, s2))
+        
+        
+
+
 
 VARIABLES
-  rmState,       \* rmState[r, transactionNumber] is the state of node r for transcation transactionNumber "leader" or "follower".
-
-  msgs,
-\*  msgsShards,
+  rmState,       \* rmState[transactionNumber, r, shard] is the state of node r for transcation transactionNumber "leader" or "follower" or "primaryLeader".
+                 \* rmState[transactionNumber, r, -1] to check whether the node is the primary leader
+                 
+  msgs,          \* inter shards communication
+  msgsShards,    \* intra shards communication
+  
   clientRequests, \* clientRequests[r] is the set of requests coming from a clietn at node r
   localTransactionHistory,\*  localTransactionHistory[nodes] is the transcation history graph for the corresponding node 
                           \* localTransactionHistory[nodes]["committed"] is the set of local committed transactions
@@ -21,7 +32,8 @@ VARIABLES
   acceptedTransactions, \* acceptedTransactions[tn] is the set of nodes that have sent accept for transaction tn
   rejectedTransactions,  \* rejectedTransactions[tn] is the set of nodes that have sent reject for transaction tn
   pendingTransactions, \* set of transactions to be executed 
-  tnState,
+  tnState, \* intra shard transactions node state mapping 
+  tnShardState, \* inter shards transactions node state mapping if receiver or sender is in the other shard
   test
 
   
@@ -49,6 +61,10 @@ Send(m) == msgs' = WithMessage(m, msgs)
 
 
 
+SendShardMsg(m) == msgsShards' = WithMessage(m, msgsShards)
+
+
+
 ExistMsg(r, msgType) ==
     Cardinality({m \in ValidMessage(msgs): m.dst = r /\ m.type = msgType})
 
@@ -56,8 +72,8 @@ ExistMsg(r, msgType) ==
 
 
 OperationSet == 
-   [type: "edges", Operation: {"add", "remove"}, sourceVertex: Int, desVertex: Int] \cup 
-   [type: "nodes", Operation: {"add", "remove"}, sourceVertex: Int]
+   [type: "edges", Operation: {"add", "remove"}, sourceVertex: Int, desVertex: Int, shard: Shard] \cup 
+   [type: "nodes", Operation: {"add", "remove"}, sourceVertex: Int, shard: Shard]
 
 
 
@@ -93,14 +109,15 @@ GRAPHTypeOK ==
   (* received by participants.  The set msgs contains just a single copy of     *)
   (* such a message.                                                       *)
   (*************************************************************************)
-  [type : {"preparedResponsePhase1", "abortedResponsePhase1", "prepared","aborted", "committed"}, tn:  transactionNumbers, dependency : SUBSET transactionNumbers, src : NODES, dst : NODES, operations: Seq(OperationSet)]  
-  \cup [type: {"clientRequest"}, tn: transactionNumbers, operations: Seq(OperationSet) ]
+  [type : {"preparedResponsePhase1", "abortedResponsePhase1", "prepared","aborted", "committed"}, tn:  transactionNumbers, dependency : SUBSET transactionNumbers, src : NODES, dst : NODES, operations: Seq(OperationSet), shard: Shard, shards: SUBSET Shard]  
+  \cup [type : { "preparedResponse", "abortedResponse", "prepared","aborted", "committed"}, tn:  transactionNumbers, dependency : SUBSET transactionNumbers, src : NODES, dst : NODES, operations: Seq(OperationSet), shard: Shard, shards: SUBSET Shard ]  
+  \cup [type: {"clientRequest"}, tn: transactionNumbers, operations: Seq(OperationSet),  shards: Shard]
   
   
   
   
   
-  Quorum == {i \in SUBSET(NODES) : Cardinality(i) * 2 > Cardinality(NODES)}
+  Quorum(shardInfo) == {i \in SUBSET(NODES) : Cardinality(i) * 2 > Cardinality(ShardNodeMapping[shardInfo])}
   
   
   
@@ -108,49 +125,53 @@ GRAPHTypeOK ==
   
   
   
-  ApplyOp(op, G) ==
-    CASE op.type = "nodes" /\ op.Operation = "add"   -> G \union { [NodeID |-> op.sourceVertex, neighbours |-> {}]}
-    [] op.type = "nodes" /\ op.Operation = "remove"   -> 
-    LET 
-          G1 == G \  {[NodeID |-> op.sourceVertex, neighbours |->  (CHOOSE v \in G : v.NodeID = op.sourceVertex).neighbours]} \* Remove the node itself
-\*          G2 == [ v \in DOMAIN G1 |-> v.neighbours \ {op.sourceVertex} ] \* Remove it from neighbors
-          GraphWithRemovedNodes == { v \in G1 :  op.sourceVertex \in v.neighbours}
-          GraphWithoutRemovedNodes == { v \in G1 :  op.sourceVertex \notin v.neighbours}
-          Gtemp == { [NodeID |-> v1.NodeID, neighbours |-> v1.neighbours \ {op.sourceVertex}] : v1 \in GraphWithRemovedNodes }
-          G2 == Gtemp \union GraphWithoutRemovedNodes
-    IN  
-          IF Cardinality({v \in G : v.NodeID = op.sourceVertex}) > 0 
-          THEN G2
-          ELSE G
-    [] op.type = "edges" /\ op.Operation = "add" ->
-    LET 
-        addEdge(v) == 
-            IF v.NodeID = op.sourceVertex THEN 
-                    [NodeID |-> v.NodeID, neighbours |-> v.neighbours \union {op.desVertex}]
-                ELSE IF v.NodeID = op.desVertex THEN             
-                    [NodeID |-> v.NodeID, neighbours |-> v.neighbours \union {op.sourceVertex}]
-                ELSE v
-    IN
-    {addEdge(v) : v \in G}
-    [] op.type = "edges" /\ op.Operation = "remove" -> 
-    LET
-        removeEdge(v) ==
-            IF v.NodeID = op.sourceVertex THEN 
-                               [NodeID |-> v.NodeID, neighbours |-> v.neighbours \ {op.desVertex}]
-                          ELSE IF v.NodeID = op.desVertex THEN
-                               [NodeID |-> v.NodeID, neighbours |-> v.neighbours \ {op.sourceVertex}]
-                             ELSE v
-\*        connectedNode == {CHOOSE v \in G : v[op.sourceVertex] = op.sourceVertex}
-\*        G1  == G \ connectedNode
-\*        G2 == G1 \union {[[NodeID |-> connectedNode.NodeID, neighbours |-> connectedNode.neighbours \ {desVertex}]}
-        
-     IN 
-         { removeEdge(v): v \in G }
+  ApplyOp(op, nodeID, G) ==
+    IF nodeID \in ShardNodeMapping[op.shard]
+    THEN
+        CASE op.type = "nodes" /\ op.Operation = "add"   -> G \union { [NodeID |-> op.sourceVertex, neighbours |-> {}]}
+        [] op.type = "nodes" /\ op.Operation = "remove"   -> 
+        LET 
+              G1 == G \  {[NodeID |-> op.sourceVertex, neighbours |->  (CHOOSE v \in G : v.NodeID = op.sourceVertex).neighbours]} \* Remove the node itself
+    \*          G2 == [ v \in DOMAIN G1 |-> v.neighbours \ {op.sourceVertex} ] \* Remove it from neighbors
+              GraphWithRemovedNodes == { v \in G1 :  op.sourceVertex \in v.neighbours}
+              GraphWithoutRemovedNodes == { v \in G1 :  op.sourceVertex \notin v.neighbours}
+              Gtemp == { [NodeID |-> v1.NodeID, neighbours |-> v1.neighbours \ {op.sourceVertex}] : v1 \in GraphWithRemovedNodes }
+              G2 == Gtemp \union GraphWithoutRemovedNodes
+        IN  
+              IF Cardinality({v \in G : v.NodeID = op.sourceVertex}) > 0 
+              THEN G2
+              ELSE G
+        [] op.type = "edges" /\ op.Operation = "add" ->
+        LET 
+            addEdge(v) == 
+                IF v.NodeID = op.sourceVertex THEN 
+                        [NodeID |-> v.NodeID, neighbours |-> v.neighbours \union {op.desVertex}]
+                    ELSE IF v.NodeID = op.desVertex THEN             
+                        [NodeID |-> v.NodeID, neighbours |-> v.neighbours \union {op.sourceVertex}]
+                    ELSE v
+        IN
+        {addEdge(v) : v \in G}
+        [] op.type = "edges" /\ op.Operation = "remove" -> 
+        LET
+            removeEdge(v) ==
+                IF v.NodeID = op.sourceVertex THEN 
+                                   [NodeID |-> v.NodeID, neighbours |-> v.neighbours \ {op.desVertex}]
+                              ELSE IF v.NodeID = op.desVertex THEN
+                                   [NodeID |-> v.NodeID, neighbours |-> v.neighbours \ {op.sourceVertex}]
+                                 ELSE v
+    \*        connectedNode == {CHOOSE v \in G : v[op.sourceVertex] = op.sourceVertex}
+    \*        G1  == G \ connectedNode
+    \*        G2 == G1 \union {[[NodeID |-> connectedNode.NodeID, neighbours |-> connectedNode.neighbours \ {desVertex}]}
+            
+         IN 
+             { removeEdge(v): v \in G }
+    ELSE
+        G
         
  RECURSIVE ApplyOperations(_, _, _)
  ApplyOperations(ops, nodeID, G) ==    
     IF ops = <<>> THEN G
-    ELSE ApplyOperations(Tail(ops), nodeID,  ApplyOp(Head(ops),G))
+    ELSE ApplyOperations(Tail(ops), nodeID,  ApplyOp(Head(ops), nodeID, G))
     
  Apply(ops, nodeID, G) ==
   
@@ -168,17 +189,19 @@ GRAPHTypeOK ==
 \*  /\ msgs' = [msgs EXCEPT ![r][s] = Append(msgs[r][s], "aaa")]
 
  
-  LeaderSendPrepares(tnInfo, s, tnOperations) ==
+  LeaderSendPrepares(tnInfo, s, tnOperations, shardsInfo, shardInfo) ==
   (*************************************************************************)
   (* leader s sends prepare message to all followers                       *)
   (*************************************************************************) 
-        /\ rmState[tnInfo, s] = "leader"
         /\ Send([type |-> "prepared", 
                 tn |->tnInfo, 
                 dependency |-> localTransactionHistory[s]["recentCommitted"], 
                 src |-> s, 
                 dst |-> -1, 
-                operations |-> tnOperations])
+                operations |-> tnOperations,
+                shard |-> shardInfo, 
+                shards |-> shardsInfo
+                ])
         /\ tnState' = [tnState EXCEPT ![tnInfo, s] = "sendPrepared"]
         
 
@@ -196,17 +219,19 @@ GRAPHTypeOK ==
 \*  
   
   
-  LeaderSendCommit(tnInfo, s, depdencyInfo, tnOperations) == 
+  LeaderSendCommit(tnInfo, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) == 
   (*************************************************************************)
   (* leader s sends commit message to all followers                        *)
   (*************************************************************************) 
-  /\ rmState[tnInfo, s] = "leader"
+  /\ rmState[tnInfo, s, shardInfo] = "leader"
   /\ Send([type |-> "committed", 
             tn |-> tnInfo, 
             dependency |-> depdencyInfo, 
             src |-> s, 
             dst |-> -1, 
-            operations |-> tnOperations
+            operations |-> tnOperations,
+            shards |-> shardsInfo,
+            shard |-> shardInfo
      ])
   /\ tnState' = [tnState EXCEPT ![tnInfo, s] = "sendCommit"]
 
@@ -225,17 +250,19 @@ GRAPHTypeOK ==
 \*  /\ msgs[r][s]' = Append(msgs[r][s], [type |-> "aborted", tn|-> tnInfo, src |-> s, dst |-> r, operations |-> tnOperations])
   
   
-  LeaderSendAbort(tnInfo, s, depdencyInfo, tnOperations) ==
+  LeaderSendAbort(tnInfo, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
   (*********************************************************************************)
   (* leader s sends the abort message to everyone.*)
   (*********************************************************************************)
-  /\ rmState[tnInfo, s] = "leader"
+  /\ rmState[tnInfo, s, shardInfo] = "leader"
   /\ Send([type |-> "aborted", 
            tn|-> tnInfo, 
            dependency |-> depdencyInfo, 
            src |-> s, 
            dst |-> -1, 
-           operations |-> tnOperations
+           operations |-> tnOperations,
+           shards |-> shardsInfo,
+           shard |-> shardInfo
    ])
    /\ tnState' = [tnState EXCEPT ![tnInfo, s] = "sendAbort"]
 
@@ -264,7 +291,7 @@ GRAPHTypeOK ==
   strictSubset(depdencyInfo, nodeID) == 
     depdencyInfo \subseteq localTransactionHistory[nodeID]["recentCommitted"] /\  ~(depdencyInfo = localTransactionHistory[nodeID]["recentCommitted"])
   
-RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) == 
+RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) == 
   (*************************************************************************)
   (* node r receives message from leader s                                 *)
   (*************************************************************************)
@@ -290,12 +317,15 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
                      dependency |-> depdencyInfo, 
                      src |-> r, 
                      dst |-> s, 
-                     operations |-> tnOperations
+                     operations |-> tnOperations,
+                     shards |-> shardsInfo,
+                     shard |-> shardInfo
                 ])
             /\ tnState' = [tnState EXCEPT ![tnInfo, r] = "sendPreparedResponsePhase1"]
+            /\ acceptedTransactions' = [acceptedTransactions EXCEPT ![tnInfo] = @ \union {r}]
             /\ test' = test + 1
             /\ UNCHANGED <<transactionNumbers, 
-            localNodesGraph, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState>>
+            localNodesGraph, rejectedTransactions, clientRequests, pendingTransactions, rmState, msgsShards, tnShardState>>
                 
           ELSE
           
@@ -304,63 +334,106 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
                    dependency |-> depdencyInfo, 
                    src |-> r, 
                    dst |-> s, 
-                   operations |-> tnOperations
+                   operations |-> tnOperations,
+                   shards |-> shardsInfo,
+                   shard |-> shardInfo
               ])
           /\ tnState' = [tnState EXCEPT ![tnInfo, r] = "sendAbortedResponsePhase1"]
           /\ test' = test + 1
           /\ UNCHANGED <<transactionNumbers, 
-            localNodesGraph, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState, localTransactionHistory>>
+            localNodesGraph, acceptedTransactions, rejectedTransactions, clientRequests, pendingTransactions, rmState, localTransactionHistory, msgsShards, tnShardState>>
                
   
   
-  RcvAbortMsg(r, s, tnInfo, tnOperations) ==
+  RcvAbortMsg(r, s, tnInfo, tnOperations, shardInfo) ==
   (*************************************************************************)
   (* node r receives aborted message from leader s                       *)
   (*************************************************************************)
-   /\ rmState[tnInfo, s] = "leader"
+   /\ rmState[tnInfo, s, shardInfo] = "leader"
    /\ localTransactionHistory' = [ localTransactionHistory EXCEPT  ![r]["prepared"] = localTransactionHistory[r]["prepared"]  \ {tnInfo}]
    /\ tnState' = [tnState EXCEPT ![tnInfo, r] = "aborted"]
    /\ UNCHANGED <<rmState, msgs, transactionNumbers, clientRequests, localNodesGraph, 
-    acceptedTransactions, rejectedTransactions, pendingTransactions, test>>
+    acceptedTransactions, rejectedTransactions, pendingTransactions, msgsShards, tnShardState, test>>
   
   
   
-  RcvCommitMsg(r, s, tnInfo, depdencyInfo, tnOperations) == 
+  RcvCommitMsg(r, s, tnInfo, depdencyInfo, tnOperations, shardInfo) == 
   (*************************************************************************)
   (* node r receives committed message from leader s                       *)
   (*************************************************************************)
-  /\ rmState[tnInfo, s] = "leader"
-  
+  /\ rmState[tnInfo, s, shardInfo] = "leader"
+  /\ r \in acceptedTransactions[tnInfo]
   /\ localTransactionHistory' =  [ localTransactionHistory   EXCEPT ![r]["prepared"] = localTransactionHistory[r]["prepared"] \ {tnInfo}
                                                                            ,![r]["committed"] =  localTransactionHistory[r]["committed"] \cup {tnInfo}
                                                                            ,![r]["recentCommitted"] = (localTransactionHistory[r]["recentCommitted"] \ depdencyInfo) \union {tnInfo}]                                                                        
   /\ localNodesGraph' = [localNodesGraph EXCEPT! [r] = Apply(tnOperations, r, localNodesGraph[r])]
   /\ tnState' = [tnState EXCEPT ![tnInfo, r] = "committed"]
   /\ UNCHANGED <<transactionNumbers, msgs, rmState, clientRequests, 
-    acceptedTransactions, rejectedTransactions, pendingTransactions, test>>
+    acceptedTransactions, rejectedTransactions, pendingTransactions, msgsShards, tnShardState, test>>
 \*  /\ UNCHANGED <<tmState, 
-
+  
+  
+  
+  
+  LeaderFowardSingleShardCommit(tnInfo, r, dependencyInfo, tnOperations, shardsInfo, shardInfo) ==
+   LET 
+       primaryLeader == CHOOSE n \in NODES : rmState[tnInfo, n, -1] = "primaryLeader"
+   IN
+       /\ SendShardMsg([type |-> "preparedResponse", 
+                            tn |-> tnInfo, 
+                            dependency |-> dependencyInfo,
+                            src |-> r,
+                            dst |-> primaryLeader,
+                            operations |-> tnOperations,
+                            shards |-> shardsInfo,
+                            shard |-> shardInfo])
+       /\ tnShardState' = [tnShardState EXCEPT ![tnInfo, r] = "fowardCommitted"]
+       /\ tnState' = [tnState EXCEPT ![tnInfo, r] = "fowardCommitted"]
+  
+  
+  
+  
+  
+  
+  LeaderFowardSingleShardAbort(tnInfo, r, dependencyInfo, tnOperations, shardsInfo, shardInfo) ==
+  LET 
+       primaryLeader == CHOOSE n \in NODES : rmState[tnInfo, n, -1] = "primaryLeader"
+   IN
+       /\ SendShardMsg([type |-> "abortedResponse", 
+                            tn |-> tnInfo, 
+                            dependency |-> dependencyInfo,
+                            src |-> r,
+                            dst |-> primaryLeader,
+                            operations |-> tnOperations,
+                            shards |-> shardsInfo,
+                            shard |-> shardInfo])
+       /\ tnShardState' = [tnShardState EXCEPT ![tnInfo, r] = "fowardAborted"]
+  
+                            
 
 
   LeaderHandleCommit(tnInfo, r, msg) ==
   (*******************************************************************************************************************************)
-  (*Leader r received preparedResponsePhase1 from other nodes,                                                                  *)
+  (*Leader r received preparedResponsePhase1 from other nodes,                                                                   *)
   (*if majority have votes preparedResponsePhase1. then votes commit                                                             *)
   (*******************************************************************************************************************************)
-    /\ rmState[tnInfo, r] = "leader"             
-    /\ \E MS \in Quorum :    
+    /\ rmState[tnInfo, r, msg.shard] = "leader"             
+    /\ \E MS \in Quorum(msg.shard):    
         LET 
             
             mset == {m \in ValidMessage(msgs) : /\ m.type = "preparedResponsePhase1"
                                   /\ m.dst = r
                                   /\ m.tn  = tnInfo
+                                  /\ m.shard = msg.shard
+                                  /\ m.shards = msg.shards
                                   /\ m.src  \in MS}
             
             
         IN  /\ \A ac \in MS : \E m \in mset : m.src = ac
-            /\ LeaderSendCommit(tnInfo, r, msg.dependency, msg.operations)
+\*            /\ LeaderSendCommit(tnInfo, r, msg.dependency, msg.operations)
+            /\ LeaderFowardSingleShardCommit(msg.tn, r, msg.dependency, msg.operations, msg.shards, msg.shard)
      
-     /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, 
+     /\ UNCHANGED <<transactionNumbers, msgs, rmState, clientRequests, localTransactionHistory, localNodesGraph, 
                         rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions, rmState, test>>
  
             
@@ -373,20 +446,23 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
   (*Leader r received abortedResponsePhase1 from other nodes,                      *)
   (*if majority have votes abortedResponsePhase1. then votes abort                 *)
   (*********************************************************************************)
-    /\ rmState[tnInfo, r] = "leader"             
-    /\ \E MS \in Quorum :    
+    /\ rmState[tnInfo, r, msg.shard] = "leader"             
+    /\ \E MS \in Quorum(msg.shard):   
         LET 
             
             mset == {m \in ValidMessage(msgs) : /\ m.type = "abortedResponsePhase1"
                                   /\ m.dst = r
                                   /\ m.tn  = tnInfo
+                                  /\ m.shard = msg.shard
+                                  /\ m.shards = msg.shards
                                   /\ m.src  \in MS}
             
             
         IN  /\ \A ac \in MS : \E m \in mset : m.src = ac
-            /\ LeaderSendAbort(tnInfo, r, msg.dependency, msg.operations)
+\*            /\ LeaderSendAbort(tnInfo, r, msg.dependency, msg.operations)
+            /\ LeaderFowardSingleShardAbort(tnInfo, r, msg.dependency, msg.operations, msg.shards, msg.shard)
      /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, 
-                        rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions, test>>           
+                        rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions, msgs, tnState, test>>           
             
        
             
@@ -403,40 +479,200 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
 \*            /\ LeaderSendCommit(tnInfo, r, transactionOperation[tnInfo].dependency, transactionOperation[tnInfo].op)
             
   
-    
+   PrimaryLeaderHandleCommit(tnInfo, r, msg) ==
+   LET 
+            
+      mset == {m \in ValidMessage(msgsShards) : /\ m.type = "preparedResponse"
+                                  /\ m.dst = r
+                                  /\ m.tn  = tnInfo
+                    }
+      commitMsg == [ m \in { 
+                          [type |-> "committed", 
+                            tn |-> tnInfo, 
+                            dependency |-> msg.dependency, 
+                            src |-> s, 
+                            dst |-> -1, 
+                            operations |-> msg.operations,
+                            shards |-> msg.shards,
+                            shard |-> s
+                          ]
+                          : s \in msg.shards
+                            } 
+                   |-> 1 ]
+   IN
+       /\ Cardinality(mset) = Cardinality(msg.shards)
+       /\ msgsShards' = msgsShards @@ commitMsg
+       /\ tnShardState' = [tnShardState EXCEPT ![tnInfo, r] = "primarySendCommitted"]
+   
+   
+   
+   
+   
+   PimaryLeaderHandleAbort(tnInfo, r, msg) ==
+   LET 
+            
+      mset == {m \in ValidMessage(msgsShards) : /\ m.type = "abortedResponse"
+                                  /\ m.dst = r
+                                  /\ m.tn  = tnInfo
+                    }
+      commitMsg == [ m \in { 
+                          [type |-> "aborted", 
+                            tn |-> tnInfo, 
+                            dependency |-> msg.dependency, 
+                            src |-> s, 
+                            dst |-> -1, 
+                            operations |-> msg.operations,
+                            shards |-> msg.shards,
+                            shard |-> s
+                          ]
+                          : s \in msg.shards
+                            } 
+                   |-> 1 ]
+   IN
+       /\ Cardinality(mset) > 0
+       /\ msgsShards' = msgsShards @@ commitMsg
+       /\ tnShardState' = [tnShardState EXCEPT ![tnInfo, r] = "primarySendAborted"]
+   
+   
+   PrimaryLeaderSendPrepares(tnInfo, s, tnOperations, shardsInfo) ==
+   LET 
+   prepareMsg == [ m \in { 
+                          [type |-> "prepared", 
+                            tn |-> tnInfo, 
+                            dependency |-> localTransactionHistory[s]["recentCommitted"],
+                            src |-> s,
+                            dst |-> -1,
+                            operations |-> tnOperations,
+                            shards |-> shardsInfo,
+                            shard |-> sh
+                          ]
+                          : sh \in shardsInfo
+                            } 
+                   |-> 1 ]
+   IN
+      /\ msgsShards' = msgsShards @@ prepareMsg
+      /\ tnShardState' = [tnShardState EXCEPT! [tnInfo, s] = "primarySendPrepared"]
+      
+      
+      
+      
+   LeaderRecvPrepareMsgFromPrimaryLeader(r, msg) ==
+   LET 
+       NoLeaderExist == \A x \in ShardNodeMapping[msg.shard], s \in {msg.shard} \union {-1} : rmState[msg.tn, x, s] = "follower" 
+   IN 
+      /\ 
+        \/ 
+           /\ NoLeaderExist
+           /\ tnShardState[msg.tn, r] = "unknown"
+            
+        \/ 
+           /\ rmState[msg.tn, r, -1] = "primaryLeader"
+           /\ rmState[msg.tn, r, msg.shard] = "follower"
+           /\ tnShardState[msg.tn, r] = "primarySendPrepared"
+      
+      /\ rmState' = [rmState EXCEPT! [msg.tn, r, msg.shard] = "leader"]
+      /\ LeaderSendPrepares(msg.tn, r, msg.operations, msg.shards, msg.shard)
+      /\ tnShardState' = [tnShardState EXCEPT![msg.tn, r] = "leaderRcvPrepare"]
+      /\ UNCHANGED <<acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, msgsShards, pendingTransactions, rejectedTransactions, test>>
+      
+      
+      
+      
+   LeaderRecvCommitMsgFromPrimaryLeader(r, msg) ==
+   /\ msg.type = "committed"
+   /\ rmState[msg.tn, r, msg.shard] = "leader"
+   /\ 
+        \/ tnShardState[msg.tn, r] = "fowardCommitted"
+        \/ tnShardState[msg.tn, r] = "primarySendCommitted"  \*  primary leader should be aboe to recv the commit msg even itself sent out committed
+   /\ LeaderSendCommit(msg.tn, r, msg.dependency, msg.operations, msg.shards, msg.shard)
+   /\ tnShardState' = [tnShardState EXCEPT! [msg.tn, r] = "recvCommitFromPrimary"]
+   /\ UNCHANGED <<acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, msgsShards, pendingTransactions, rejectedTransactions, rmState, test>>
+   
+   
+   LeaderRecvAbortMsgFromPrimaryLeader(r, msg) ==
+   /\ msg.type = "aborted"
+   /\ rmState[msg.tn, r, msg.shard] = "leader"
+   /\
+        \/ tnShardState[msg.tn, r] = "fowardCommitted"
+        \/ tnShardState[msg.tn, r] = "fowardAborted"
+        \/ tnShardState[msg.tn, r] = "primarySendAborted" \*  primary leader should be aboe to recv the commit msg even itself sent out aborted
+   /\ LeaderSendAbort(msg.tn, r, msg.dependency, msg.operations, msg.shards, msg.shard)
+   /\ tnShardState' = [tnShardState EXCEPT! [msg.tn, r] = "recvAbortFromPrimary"]
+   /\ UNCHANGED <<acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, msgsShards, pendingTransactions, rejectedTransactions, rmState, test>>
+   
+   
+   
+   PimaryLeaderRecvLeaderCommitResponse(msg) ==
+   /\ msg.type = "preparedResponse"
+   /\ rmState[msg.tn, msg.dst, -1] = "primaryLeader"
+   /\ 
+        \/tnShardState[msg.tn, msg.dst] = "primarySendPrepared"
+        \/tnShardState[msg.tn, msg.dst] = "fowardCommitted" \*  primary leader should be aboe to recv the commit msg even itself sent out fowardCommitted
+   /\ PrimaryLeaderHandleCommit(msg.tn, msg.dst, msg)
+   /\ UNCHANGED << acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, msgs, pendingTransactions, rejectedTransactions, rmState, test, tnState>>
+   
+   
+   
+   PrimaryLeaderRecvLeaderAbortResponse(msg) ==
+   /\ msg.type = "abortedResponse"
+   /\ rmState[msg.tn, msg.dst, -1] = "primaryLeader"
+   /\ 
+        \/tnShardState[msg.tn, msg.dst] = "primarySendPrepared"
+        \/tnShardState[msg.tn, msg.dst] = "fowardAborted"
+   /\ PimaryLeaderHandleAbort(msg.tn, msg.dst, msg) 
+   /\ UNCHANGED <<acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, msgs, pendingTransactions, rejectedTransactions, rmState, test, tnState>> 
+      
+       
+   
+\*   ReceiveClient(i) ==
+\*    LET 
+\*        clientRequest == Head(clientRequests[i])
+\*    IN
+\*        /\ Len(clientRequests[i]) > 0
+\*        /\ LeaderSendPrepares(clientRequest, i, transactions[clientRequest])
+\*        /\ clientRequests' = [clientRequests EXCEPT ![i] = Tail(clientRequests[i])]
+\*        
+\*       /\ UNCHANGED <<transactionNumbers, localTransactionHistory, 
+\*        localNodesGraph, acceptedTransactions, rejectedTransactions, pendingTransactions, rmState, test>>    
+       
 
 
   RecvPrepared(r, msg) ==
    /\ msg.type = "prepared" 
    /\  
-       \/tnState[msg.tn, r] = "unknown"
-       \/tnState[msg.tn, r] = "sendPrepared"
+       \/tnState[msg.tn, r] = "unknown"   \*   other ndoes didn't know the new transaction 
+       \/tnState[msg.tn, r] = "sendPrepared"   \*   the node sent out send prepared should still able to recv its own prepare message 
     \*      (tnInfo, r, s, depdencyInfo, tnOperations)
-   /\ RecvPhase1(msg.tn, r, msg.src, msg.dependency, msg.operations)
-   
+   /\ RecvPhase1(msg.tn, r, msg.src, msg.dependency, msg.operations, msg.shards, msg.shard)
+ 
             
             
   RecvPreparedResponsePhase1(msg) ==
    /\ msg.type = "preparedResponsePhase1" 
-   /\ tnState[msg.tn, msg.dst] # "sendCommit"
-   /\ tnState[msg.tn, msg.dst] # "sendAbort"
-   /\ tnState[msg.tn, msg.dst] # "committed"
-   /\ tnState[msg.tn, msg.dst] # "aborted"
+   /\             
+       \/tnState[msg.tn, msg.dst] = "sendPrepared"
+       \/tnState[msg.tn, msg.dst] = "sendPreparedResponsePhase1" \*   leader should be aboe to recv reponse from other nodes even itself sent out prepare
+       \/tnState[msg.tn, msg.dst] = "sendAbortedResponsePhase1" \*   leader should be aboe to recv reponse from other nodes even itself sent out abort
    /\ LeaderHandleCommit(msg.tn, msg.dst, msg)
    
   
   RecvAbortedResponsePhase1(msg) ==
    /\ msg.type = "abortedResponsePhase1"
-   /\ tnState[msg.tn, msg.dst] = "sendPrepared"
+   /\             
+       \/tnState[msg.tn, msg.dst] = "sendPrepared"
+       \/tnState[msg.tn, msg.dst] = "sendPreparedResponsePhase1"
+       \/tnState[msg.tn, msg.dst] = "sendAbortedResponsePhase1"
    /\ LeaderHandleAbort(msg.tn, msg.dst, msg)
   
-  
-   
-   
-  RecvCommit(r, msg) ==
+    
+    
+    
+   RecvCommit(r, msg) ==
    /\ msg.type = "committed"
-   /\ tnState[msg.tn, r] = "sendPreparedResponsePhase1"
-   /\ RcvCommitMsg(r, msg.src, msg.tn, msg.dependency,  msg.operations)
+   /\ 
+        \/ tnState[msg.tn, r] = "sendPreparedResponsePhase1"
+        \/ tnState[msg.tn, r] = "sendCommit"
+   /\ RcvCommitMsg(r, msg.src, msg.tn, msg.dependency,  msg.operations, msg.shard)
    
    
   RecvAbort(r,msg) ==
@@ -444,7 +680,8 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
   /\ 
       \/ tnState[msg.tn, r] = "sendPreparedResponsePhase1" 
       \/ tnState[msg.tn, r] = "sendAbortedResponsePhase1"
-  /\ RcvAbortMsg(r, msg.src, msg.tn, msg.operations)
+      \/ tnState[msg.tn, r] = "sendAbort"
+  /\ RcvAbortMsg(r, msg.src, msg.tn, msg.operations, msg.shard)
    
    
    ClientRequest(i) == 
@@ -452,11 +689,12 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
        nextExecuteTx == Head(pendingTransactions)
     IN
     /\ Len(pendingTransactions) > 0
-    /\ rmState' = [rmState EXCEPT ![nextExecuteTx,i] = "leader"]
+    /\ i \in UNION{ShardNodeMapping[sh] : sh \in transactionShards[nextExecuteTx]}
+    /\ rmState' = [rmState EXCEPT ![nextExecuteTx,i,-1] = "primaryLeader"]
     /\ clientRequests' = [clientRequests EXCEPT ![i] = Append(clientRequests[i], nextExecuteTx)]
     /\ pendingTransactions' = Tail(pendingTransactions)
     /\ UNCHANGED <<transactionNumbers, msgs, localTransactionHistory, 
-        localNodesGraph, acceptedTransactions, rejectedTransactions, tnState, test>>
+        localNodesGraph, acceptedTransactions, rejectedTransactions, tnState, msgsShards, tnShardState, test>>
    
    
    
@@ -467,11 +705,11 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
         clientRequest == Head(clientRequests[i])
     IN
         /\ Len(clientRequests[i]) > 0
-        /\ LeaderSendPrepares(clientRequest, i, transactions[clientRequest])
+        /\ PrimaryLeaderSendPrepares(clientRequest, i, transactions[clientRequest], transactionShards[clientRequest])
         /\ clientRequests' = [clientRequests EXCEPT ![i] = Tail(clientRequests[i])]
         
        /\ UNCHANGED <<transactionNumbers, localTransactionHistory, 
-        localNodesGraph, acceptedTransactions, rejectedTransactions, pendingTransactions, rmState, test>>
+        localNodesGraph, acceptedTransactions, rejectedTransactions, pendingTransactions, rmState, msgs, tnState, test>>
            
         
         
@@ -482,9 +720,9 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
   (*************************************************************************)
   (* The initial predicate.                                                *)
   (*************************************************************************)
-  /\ rmState = [r \in tSet, y \in NODES |-> "follower"]
+  /\ rmState = [r \in tSet, y \in NODES, s \in Shard \union {-1} |-> "follower"]
   /\ msgs = [m \in {} |-> 0]
-\*  /\ msgsShards = [m \in {} |-> 0]
+  /\ msgsShards = [m \in {} |-> 0]
   /\ pendingTransactions = transactionNumbers
   /\ clientRequests = [r \in NODES |-> <<>>]
   /\ localNodesGraph = [r \in NODES |-> {}]
@@ -493,9 +731,10 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
             i \in {"committed","recentCommitted","prepared" } |-> {}
         ]
     ]
-  /\ acceptedTransactions = [tn \in tSet |-> <<>>]
-  /\ rejectedTransactions = [tn \in tSet |-> <<>>]
+  /\ acceptedTransactions = [tn \in tSet |-> {}]
+  /\ rejectedTransactions = [tn \in tSet |-> {}]
   /\ tnState = [r \in tSet, t \in NODES |-> "unknown"]
+  /\ tnShardState = [r \in tSet, t \in NODES |-> "unknown"]
   /\ test = 0
   
   
@@ -510,7 +749,11 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
       \/ \E i \in NODES, m \in ValidMessage(msgs) : RecvAbort(i,m)
       \/ \E i \in NODES : ClientRequest(i)
       \/ \E i \in NODES : ReceiveClient(i)
-       
+      \/ \E i \in NODES, m \in ValidMessage(msgsShards) : LeaderRecvPrepareMsgFromPrimaryLeader(i, m)
+      \/ \E i \in NODES, m \in ValidMessage(msgsShards) : LeaderRecvCommitMsgFromPrimaryLeader(i, m)
+      \/ \E i \in NODES, m \in ValidMessage(msgsShards) : LeaderRecvAbortMsgFromPrimaryLeader(i, m) 
+      \/ \E m \in ValidMessage(msgsShards) : PimaryLeaderRecvLeaderCommitResponse(m)
+      \/ \E m \in ValidMessage(msgsShards) : PrimaryLeaderRecvLeaderAbortResponse(m)
    
       
       
@@ -530,6 +773,9 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations) ==
     
  DummyInvariant2 == 
     test < 10 /\ Cardinality(DOMAIN(msgs)) < 15
+    
+  DummyInvariant3 == 
+    Cardinality(localNodesGraph[1]) = 0 
     
 \*Spec == Init /\ [][Next]_<<localNodesGraph>>
 \*THEOREM Spec => <> (Cardinality(localNodesGraph[1]) = 1)
@@ -557,5 +803,5 @@ LivenessDummy == <> (Cardinality(localNodesGraph[1]) = 1)
   
 =============================================================================
 \* Modification History
-\* Last modified Mon Apr 28 18:02:59 CST 2025 by junhaohu
+\* Last modified Mon May 05 16:43:50 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu

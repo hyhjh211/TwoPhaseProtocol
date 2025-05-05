@@ -110,7 +110,7 @@ GRAPHTypeOK ==
   (* such a message.                                                       *)
   (*************************************************************************)
   [type : {"preparedResponsePhase1", "abortedResponsePhase1", "prepared","aborted", "committed"}, tn:  transactionNumbers, dependency : SUBSET transactionNumbers, src : NODES, dst : NODES, operations: Seq(OperationSet), shard: Shard, shards: SUBSET Shard]  
-  \cup [type : { "preparedResponse", "abortedResponse", "prepared","aborted", "committed"}, tn:  transactionNumbers, dependency : SUBSET transactionNumbers, src : NODES, dst : NODES, operations: Seq(OperationSet), shard: Shard, shards: SUBSET Shard ]  
+  \cup [type : { "preparedResponse", "abortedResponse", "prepared","aborted", "committed", "abortedResponse", "committedResponse"}, tn:  transactionNumbers, dependency : SUBSET transactionNumbers, src : NODES, dst : NODES, operations: Seq(OperationSet), shard: Shard, shards: SUBSET Shard ]  
   \cup [type: {"clientRequest"}, tn: transactionNumbers, operations: Seq(OperationSet),  shards: Shard]
   
   
@@ -379,7 +379,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
    LET 
        primaryLeader == CHOOSE n \in NODES : rmState[tnInfo, n, -1] = "primaryLeader"
    IN
-       /\ SendShardMsg([type |-> "preparedResponse", 
+       /\ SendShardMsg([type |-> "committedResponse", 
                             tn |-> tnInfo, 
                             dependency |-> dependencyInfo,
                             src |-> r,
@@ -603,13 +603,12 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
    
    
    PimaryLeaderRecvLeaderCommitResponse(msg) ==
-   /\ msg.type = "preparedResponse"
+   /\ msg.type = "committedResponse"
    /\ rmState[msg.tn, msg.dst, -1] = "primaryLeader"
    /\ 
         \/tnShardState[msg.tn, msg.dst] = "primarySendPrepared"
         \/tnShardState[msg.tn, msg.dst] = "fowardCommitted" \*  primary leader should be aboe to recv the commit msg even itself sent out fowardCommitted
    /\ PrimaryLeaderHandleCommit(msg.tn, msg.dst, msg)
-   /\ UNCHANGED << acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, msgs, pendingTransactions, rejectedTransactions, rmState, test, tnState>>
    
    
    
@@ -619,8 +618,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
    /\ 
         \/tnShardState[msg.tn, msg.dst] = "primarySendPrepared"
         \/tnShardState[msg.tn, msg.dst] = "fowardAborted"
-   /\ PimaryLeaderHandleAbort(msg.tn, msg.dst, msg) 
-   /\ UNCHANGED <<acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, msgs, pendingTransactions, rejectedTransactions, rmState, test, tnState>> 
+   /\ PimaryLeaderHandleAbort(msg.tn, msg.dst, msg)  
       
        
    
@@ -803,5 +801,5 @@ LivenessDummy == <> (Cardinality(localNodesGraph[1]) = 1)
   
 =============================================================================
 \* Modification History
-\* Last modified Mon May 05 16:43:50 CST 2025 by junhaohu
+\* Last modified Mon May 05 16:27:49 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu

@@ -609,7 +609,6 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
         \/tnShardState[msg.tn, msg.dst] = "primarySendPrepared"
         \/tnShardState[msg.tn, msg.dst] = "fowardCommitted" \*  primary leader should be aboe to recv the commit msg even itself sent out fowardCommitted
    /\ PrimaryLeaderHandleCommit(msg.tn, msg.dst, msg)
-   /\ UNCHANGED << acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, msgs, pendingTransactions, rejectedTransactions, rmState, test, tnState>>
    
    
    
@@ -803,5 +802,5 @@ LivenessDummy == <> (Cardinality(localNodesGraph[1]) = 1)
   
 =============================================================================
 \* Modification History
-\* Last modified Mon May 05 16:43:50 CST 2025 by junhaohu
+\* Last modified Mon May 05 16:43:11 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu

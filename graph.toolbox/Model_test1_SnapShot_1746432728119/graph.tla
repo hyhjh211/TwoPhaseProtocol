@@ -379,7 +379,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
    LET 
        primaryLeader == CHOOSE n \in NODES : rmState[tnInfo, n, -1] = "primaryLeader"
    IN
-       /\ SendShardMsg([type |-> "preparedResponse", 
+       /\ SendShardMsg([type |-> "committed", 
                             tn |-> tnInfo, 
                             dependency |-> dependencyInfo,
                             src |-> r,
@@ -399,7 +399,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
   LET 
        primaryLeader == CHOOSE n \in NODES : rmState[tnInfo, n, -1] = "primaryLeader"
    IN
-       /\ SendShardMsg([type |-> "abortedResponse", 
+       /\ SendShardMsg([type |-> "aborted", 
                             tn |-> tnInfo, 
                             dependency |-> dependencyInfo,
                             src |-> r,
@@ -603,24 +603,22 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
    
    
    PimaryLeaderRecvLeaderCommitResponse(msg) ==
-   /\ msg.type = "preparedResponse"
-   /\ rmState[msg.tn, msg.dst, -1] = "primaryLeader"
+   /\ msg.type = "committed"
+   /\ rmState[msg.tn, msg.dst, msg.shard] = "primaryLeader"
    /\ 
         \/tnShardState[msg.tn, msg.dst] = "primarySendPrepared"
         \/tnShardState[msg.tn, msg.dst] = "fowardCommitted" \*  primary leader should be aboe to recv the commit msg even itself sent out fowardCommitted
    /\ PrimaryLeaderHandleCommit(msg.tn, msg.dst, msg)
-   /\ UNCHANGED << acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, msgs, pendingTransactions, rejectedTransactions, rmState, test, tnState>>
    
    
    
    PrimaryLeaderRecvLeaderAbortResponse(msg) ==
-   /\ msg.type = "abortedResponse"
-   /\ rmState[msg.tn, msg.dst, -1] = "primaryLeader"
+   /\ msg.type = "aborted"
+   /\ rmState[msg.tn, msg.dst, msg.shard] = "primaryLeader"
    /\ 
         \/tnShardState[msg.tn, msg.dst] = "primarySendPrepared"
         \/tnShardState[msg.tn, msg.dst] = "fowardAborted"
-   /\ PimaryLeaderHandleAbort(msg.tn, msg.dst, msg) 
-   /\ UNCHANGED <<acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, msgs, pendingTransactions, rejectedTransactions, rmState, test, tnState>> 
+   /\ PimaryLeaderHandleAbort(msg.tn, msg.dst, msg)  
       
        
    
@@ -774,9 +772,6 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
  DummyInvariant2 == 
     test < 10 /\ Cardinality(DOMAIN(msgs)) < 15
     
-  DummyInvariant3 == 
-    Cardinality(localNodesGraph[1]) = 0 
-    
 \*Spec == Init /\ [][Next]_<<localNodesGraph>>
 \*THEOREM Spec => <> (Cardinality(localNodesGraph[1]) = 1)
 
@@ -803,5 +798,5 @@ LivenessDummy == <> (Cardinality(localNodesGraph[1]) = 1)
   
 =============================================================================
 \* Modification History
-\* Last modified Mon May 05 16:43:50 CST 2025 by junhaohu
+\* Last modified Mon May 05 16:05:28 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
