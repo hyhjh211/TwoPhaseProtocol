@@ -2,35 +2,35 @@
 EXTENDS graph, TLC
 
 \* CONSTANT definitions @modelParameterConstants:0NODES
-const_1746463712266555000 == 
+const_1746459627527541000 == 
 {1,2,3,4,5,6}
 ----
 
 \* CONSTANT definitions @modelParameterConstants:1transactions
-const_1746463712266556000 == 
+const_1746459627527542000 == 
 <<<<[type |-> "nodes" , Operation |-> "add", sourceVertex|-> 0, shard |-> 1], [type |-> "nodes" , Operation |-> "add", sourceVertex|-> 1, shard |-> 2], [type |-> "edges", Operation  |-> "add", sourceVertex |-> 0, desVertex |-> 1, shard |-> 1]>>, <<[type |-> "nodes", Operation |-> "remove", sourceVertex |-> 0, shard |-> 1]>>>>
 ----
 
 \* CONSTANT definitions @modelParameterConstants:2transactionNumbers
-const_1746463712266557000 == 
+const_1746459627527543000 == 
 <<1,2>>
 ----
 
 \* CONSTANT definitions @modelParameterConstants:3Shard
-const_1746463712266558000 == 
+const_1746459627527544000 == 
 {1,2}
 ----
 
 \* CONSTANT definitions @modelParameterConstants:4ShardNodeMapping
-const_1746463712266559000 == 
+const_1746459627527545000 == 
 [i \in {1, 2} |-> IF i = 1 THEN {1,2, 3} ELSE {4,5,6}]
 ----
 
 \* CONSTANT definitions @modelParameterConstants:5transactionShards
-const_1746463712266560000 == 
+const_1746459627527546000 == 
 <<{1,2}, {1}>>
 ----
 
 =============================================================================
 \* Modification History
-\* Created Tue May 06 00:48:32 CST 2025 by junhaohu
+\* Created Mon May 05 23:40:27 CST 2025 by junhaohu

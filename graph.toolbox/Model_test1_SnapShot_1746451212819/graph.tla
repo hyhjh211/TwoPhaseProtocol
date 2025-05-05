@@ -52,7 +52,7 @@ ValidMessage(messages) ==
     { m \in DOMAIN messages : messages[m] > 0 }
 
 WithMessage(m, messages) ==
-    IF m \in DOMAIN messages THEN
+    IF m \in DOMAIN msgs THEN
         [messages EXCEPT ![m] = messages[m] + 1]
     ELSE
         messages @@ (m :> 1)
@@ -410,7 +410,6 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
                             shards |-> shardsInfo,
                             shard |-> shardInfo])
        /\ tnShardState' = [tnShardState EXCEPT ![tnInfo, r] = "fowardAborted"]
-       /\ tnState' = [tnState EXCEPT ![tnInfo, r] = "fowardAborted"]
   
                             
 
@@ -435,7 +434,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
         IN  /\ \A ac \in MS : \E m \in mset : m.src = ac
 \*            /\ LeaderSendCommit(tnInfo, r, msg.dependency, msg.operations)
             /\ LeaderFowardSingleShardCommit(msg.tn, r, msg.dependency, msg.operations, msg.shards, msg.shard)
-            /\ test' = test + 1
+     /\ test' = test + 1
      /\ UNCHANGED <<transactionNumbers, msgs, rmState, clientRequests, localTransactionHistory, localNodesGraph, 
                         rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions, rmState>>
  
@@ -464,9 +463,9 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
         IN  /\ \A ac \in MS : \E m \in mset : m.src = ac
 \*            /\ LeaderSendAbort(tnInfo, r, msg.dependency, msg.operations)
             /\ LeaderFowardSingleShardAbort(tnInfo, r, msg.dependency, msg.operations, msg.shards, msg.shard)
-            /\ test' = test + 1
+     /\ test' = test + 1
      /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, 
-                        rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions, msgs>>           
+                        rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions, msgs, tnState>>           
             
        
             
@@ -787,7 +786,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
     \/Cardinality(localNodesGraph[1]) = 2
     
  DummyInvariant2 == 
-    test < 35 /\ Cardinality(DOMAIN(msgs)) < 35 /\ Cardinality(DOMAIN(msgsShards)) < 35
+    test < 20 /\ Cardinality(DOMAIN(msgs)) < 15 /\ Cardinality(DOMAIN(msgsShards)) < 15
     
   DummyInvariant3 == 
     Cardinality(localNodesGraph[1]) = 0 
@@ -818,5 +817,5 @@ LivenessDummy == <> (Cardinality(localNodesGraph[1]) = 1)
   
 =============================================================================
 \* Modification History
-\* Last modified Tue May 06 00:48:29 CST 2025 by junhaohu
+\* Last modified Mon May 05 20:41:45 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu

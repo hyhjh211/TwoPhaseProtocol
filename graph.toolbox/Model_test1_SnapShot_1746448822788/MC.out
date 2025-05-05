@@ -1,0 +1,5334 @@
+@!@!@STARTMSG 2262:0 @!@!@
+TLC2 Version 2.16 of 31 December 2020 (rev: cdddf55)
+@!@!@ENDMSG 2262 @!@!@
+@!@!@STARTMSG 2187:0 @!@!@
+Running breadth-first search Model-Checking with fp 120 and seed -3270424161295222477 with 5 workers on 10 cores with 1214MB heap and 2730MB offheap memory [pid: 90663] (Mac OS X 10.16 x86_64, AdoptOpenJDK 14.0.1 x86_64, OffHeapDiskFPSet, DiskStateQueue).
+@!@!@ENDMSG 2187 @!@!@
+@!@!@STARTMSG 2220:0 @!@!@
+Starting SANY...
+@!@!@ENDMSG 2220 @!@!@
+Parsing file /Users/junhaohu/Desktop/Files/research_thesis/graph.toolbox/Model_test1/MC.tla
+Parsing file /Users/junhaohu/Desktop/Files/research_thesis/graph.toolbox/Model_test1/graph.tla
+Parsing file /private/var/folders/6x/qls53vqx0s58w_mhxknhtyp80000gn/T/AppTranslocation/95CAE0FD-7CB4-42AA-AC06-E0B330489586/d/TLA+ Toolbox.app/Contents/Eclipse/plugins/org.lamport.tlatools_1.0.0.202012311918/tla2sany/StandardModules/TLC.tla
+Parsing file /private/var/folders/6x/qls53vqx0s58w_mhxknhtyp80000gn/T/AppTranslocation/95CAE0FD-7CB4-42AA-AC06-E0B330489586/d/TLA+ Toolbox.app/Contents/Eclipse/plugins/org.lamport.tlatools_1.0.0.202012311918/tla2sany/StandardModules/Integers.tla
+Parsing file /private/var/folders/6x/qls53vqx0s58w_mhxknhtyp80000gn/T/AppTranslocation/95CAE0FD-7CB4-42AA-AC06-E0B330489586/d/TLA+ Toolbox.app/Contents/Eclipse/plugins/org.lamport.tlatools_1.0.0.202012311918/tla2sany/StandardModules/Sequences.tla
+Parsing file /private/var/folders/6x/qls53vqx0s58w_mhxknhtyp80000gn/T/AppTranslocation/95CAE0FD-7CB4-42AA-AC06-E0B330489586/d/TLA+ Toolbox.app/Contents/Eclipse/plugins/org.lamport.tlatools_1.0.0.202012311918/tla2sany/StandardModules/FiniteSets.tla
+Parsing file /private/var/folders/6x/qls53vqx0s58w_mhxknhtyp80000gn/T/AppTranslocation/95CAE0FD-7CB4-42AA-AC06-E0B330489586/d/TLA+ Toolbox.app/Contents/Eclipse/plugins/org.lamport.tlatools_1.0.0.202012311918/tla2sany/StandardModules/Naturals.tla
+Semantic processing of module Naturals
+Semantic processing of module Integers
+Semantic processing of module Sequences
+Semantic processing of module FiniteSets
+Semantic processing of module TLC
+Semantic processing of module graph
+Semantic processing of module MC
+@!@!@STARTMSG 2219:0 @!@!@
+SANY finished.
+@!@!@ENDMSG 2219 @!@!@
+@!@!@STARTMSG 2185:0 @!@!@
+Starting... (2025-05-05 20:40:17)
+@!@!@ENDMSG 2185 @!@!@
+@!@!@STARTMSG 2189:0 @!@!@
+Computing initial states...
+@!@!@ENDMSG 2189 @!@!@
+@!@!@STARTMSG 2190:0 @!@!@
+Finished computing initial states: 1 distinct state generated at 2025-05-05 20:40:18.
+@!@!@ENDMSG 2190 @!@!@
+@!@!@STARTMSG 2200:0 @!@!@
+Progress(15) at 2025-05-05 20:40:21: 19,830 states generated (19,830 s/min), 5,290 distinct states found (5,290 ds/min), 1,300 states left on queue.
+@!@!@ENDMSG 2200 @!@!@
+@!@!@STARTMSG 2110:1 @!@!@
+Invariant DummyInvariant2 is violated.
+@!@!@ENDMSG 2110 @!@!@
+@!@!@STARTMSG 2121:1 @!@!@
+The behavior up to this point is:
+@!@!@ENDMSG 2121 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+1: <Initial predicate>
+/\ clientRequests = <<<<>>, <<>>, <<>>, <<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<{}>>
+/\ tnShardState = ( <<1, 1>> :> "unknown" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<1, 4>> :> "unknown" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}] >>
+/\ msgs = << >>
+/\ tnState = ( <<1, 1>> :> "unknown" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<1, 4>> :> "unknown" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localNodesGraph = <<{}, {}, {}, {}, {}, {}>>
+/\ msgsShards = << >>
+/\ rmState = ( <<1, 1, -1>> :> "follower" @@
+  <<1, 1, 1>> :> "follower" @@
+  <<1, 1, 2>> :> "follower" @@
+  <<1, 2, -1>> :> "follower" @@
+  <<1, 2, 1>> :> "follower" @@
+  <<1, 2, 2>> :> "follower" @@
+  <<1, 3, -1>> :> "follower" @@
+  <<1, 3, 1>> :> "follower" @@
+  <<1, 3, 2>> :> "follower" @@
+  <<1, 4, -1>> :> "follower" @@
+  <<1, 4, 1>> :> "follower" @@
+  <<1, 4, 2>> :> "follower" @@
+  <<1, 5, -1>> :> "follower" @@
+  <<1, 5, 1>> :> "follower" @@
+  <<1, 5, 2>> :> "follower" @@
+  <<1, 6, -1>> :> "follower" @@
+  <<1, 6, 1>> :> "follower" @@
+  <<1, 6, 2>> :> "follower" )
+/\ pendingTransactions = <<1>>
+/\ test = 0
+/\ rejectedTransactions = <<{}>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+2: <ClientRequest line 705, col 5 to line 711, col 110 of module graph>
+/\ clientRequests = <<<<1>>, <<>>, <<>>, <<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<{}>>
+/\ tnShardState = ( <<1, 1>> :> "unknown" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<1, 4>> :> "unknown" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}] >>
+/\ msgs = << >>
+/\ tnState = ( <<1, 1>> :> "unknown" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<1, 4>> :> "unknown" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localNodesGraph = <<{}, {}, {}, {}, {}, {}>>
+/\ msgsShards = << >>
+/\ rmState = ( <<1, 1, -1>> :> "primaryLeader" @@
+  <<1, 1, 1>> :> "follower" @@
+  <<1, 1, 2>> :> "follower" @@
+  <<1, 2, -1>> :> "follower" @@
+  <<1, 2, 1>> :> "follower" @@
+  <<1, 2, 2>> :> "follower" @@
+  <<1, 3, -1>> :> "follower" @@
+  <<1, 3, 1>> :> "follower" @@
+  <<1, 3, 2>> :> "follower" @@
+  <<1, 4, -1>> :> "follower" @@
+  <<1, 4, 1>> :> "follower" @@
+  <<1, 4, 2>> :> "follower" @@
+  <<1, 5, -1>> :> "follower" @@
+  <<1, 5, 1>> :> "follower" @@
+  <<1, 5, 2>> :> "follower" @@
+  <<1, 6, -1>> :> "follower" @@
+  <<1, 6, 1>> :> "follower" @@
+  <<1, 6, 2>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = 0
+/\ rejectedTransactions = <<{}>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+3: <ReceiveClient line 721, col 9 to line 726, col 120 of module graph>
+/\ clientRequests = <<<<>>, <<>>, <<>>, <<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<{}>>
+/\ tnShardState = ( <<1, 1>> :> "primarySendPrepared" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<1, 4>> :> "unknown" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}] >>
+/\ msgs = << >>
+/\ tnState = ( <<1, 1>> :> "unknown" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<1, 4>> :> "unknown" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localNodesGraph = <<{}, {}, {}, {}, {}, {}>>
+/\ msgsShards = ( [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ rmState = ( <<1, 1, -1>> :> "primaryLeader" @@
+  <<1, 1, 1>> :> "follower" @@
+  <<1, 1, 2>> :> "follower" @@
+  <<1, 2, -1>> :> "follower" @@
+  <<1, 2, 1>> :> "follower" @@
+  <<1, 2, 2>> :> "follower" @@
+  <<1, 3, -1>> :> "follower" @@
+  <<1, 3, 1>> :> "follower" @@
+  <<1, 3, 2>> :> "follower" @@
+  <<1, 4, -1>> :> "follower" @@
+  <<1, 4, 1>> :> "follower" @@
+  <<1, 4, 2>> :> "follower" @@
+  <<1, 5, -1>> :> "follower" @@
+  <<1, 5, 1>> :> "follower" @@
+  <<1, 5, 2>> :> "follower" @@
+  <<1, 6, -1>> :> "follower" @@
+  <<1, 6, 1>> :> "follower" @@
+  <<1, 6, 2>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = 0
+/\ rejectedTransactions = <<{}>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+4: <Next line 766, col 10 to line 766, col 101 of module graph>
+/\ clientRequests = <<<<>>, <<>>, <<>>, <<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<{}>>
+/\ tnShardState = ( <<1, 1>> :> "leaderRcvPrepare" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<1, 4>> :> "unknown" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}] >>
+/\ msgs = ( [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "sendPrepared" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<1, 4>> :> "unknown" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localNodesGraph = <<{}, {}, {}, {}, {}, {}>>
+/\ msgsShards = ( [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ rmState = ( <<1, 1, -1>> :> "primaryLeader" @@
+  <<1, 1, 1>> :> "leader" @@
+  <<1, 1, 2>> :> "follower" @@
+  <<1, 2, -1>> :> "follower" @@
+  <<1, 2, 1>> :> "follower" @@
+  <<1, 2, 2>> :> "follower" @@
+  <<1, 3, -1>> :> "follower" @@
+  <<1, 3, 1>> :> "follower" @@
+  <<1, 3, 2>> :> "follower" @@
+  <<1, 4, -1>> :> "follower" @@
+  <<1, 4, 1>> :> "follower" @@
+  <<1, 4, 2>> :> "follower" @@
+  <<1, 5, -1>> :> "follower" @@
+  <<1, 5, 1>> :> "follower" @@
+  <<1, 5, 2>> :> "follower" @@
+  <<1, 6, -1>> :> "follower" @@
+  <<1, 6, 1>> :> "follower" @@
+  <<1, 6, 2>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = 1
+/\ rejectedTransactions = <<{}>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+5: <Next line 759, col 10 to line 759, col 70 of module graph>
+/\ clientRequests = <<<<>>, <<>>, <<>>, <<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<{1}>>
+/\ tnShardState = ( <<1, 1>> :> "leaderRcvPrepare" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<1, 4>> :> "unknown" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}] >>
+/\ msgs = ( [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "sendPreparedResponsePhase1" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<1, 4>> :> "unknown" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localNodesGraph = <<{}, {}, {}, {}, {}, {}>>
+/\ msgsShards = ( [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ rmState = ( <<1, 1, -1>> :> "primaryLeader" @@
+  <<1, 1, 1>> :> "leader" @@
+  <<1, 1, 2>> :> "follower" @@
+  <<1, 2, -1>> :> "follower" @@
+  <<1, 2, 1>> :> "follower" @@
+  <<1, 2, 2>> :> "follower" @@
+  <<1, 3, -1>> :> "follower" @@
+  <<1, 3, 1>> :> "follower" @@
+  <<1, 3, 2>> :> "follower" @@
+  <<1, 4, -1>> :> "follower" @@
+  <<1, 4, 1>> :> "follower" @@
+  <<1, 4, 2>> :> "follower" @@
+  <<1, 5, -1>> :> "follower" @@
+  <<1, 5, 1>> :> "follower" @@
+  <<1, 5, 2>> :> "follower" @@
+  <<1, 6, -1>> :> "follower" @@
+  <<1, 6, 1>> :> "follower" @@
+  <<1, 6, 2>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = 2
+/\ rejectedTransactions = <<{}>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+6: <Next line 759, col 10 to line 759, col 70 of module graph>
+/\ clientRequests = <<<<>>, <<>>, <<>>, <<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<{1, 2}>>
+/\ tnShardState = ( <<1, 1>> :> "leaderRcvPrepare" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<1, 4>> :> "unknown" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}] >>
+/\ msgs = ( [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "sendPreparedResponsePhase1" @@
+  <<1, 2>> :> "sendPreparedResponsePhase1" @@
+  <<1, 3>> :> "unknown" @@
+  <<1, 4>> :> "unknown" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localNodesGraph = <<{}, {}, {}, {}, {}, {}>>
+/\ msgsShards = ( [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ rmState = ( <<1, 1, -1>> :> "primaryLeader" @@
+  <<1, 1, 1>> :> "leader" @@
+  <<1, 1, 2>> :> "follower" @@
+  <<1, 2, -1>> :> "follower" @@
+  <<1, 2, 1>> :> "follower" @@
+  <<1, 2, 2>> :> "follower" @@
+  <<1, 3, -1>> :> "follower" @@
+  <<1, 3, 1>> :> "follower" @@
+  <<1, 3, 2>> :> "follower" @@
+  <<1, 4, -1>> :> "follower" @@
+  <<1, 4, 1>> :> "follower" @@
+  <<1, 4, 2>> :> "follower" @@
+  <<1, 5, -1>> :> "follower" @@
+  <<1, 5, 1>> :> "follower" @@
+  <<1, 5, 2>> :> "follower" @@
+  <<1, 6, -1>> :> "follower" @@
+  <<1, 6, 1>> :> "follower" @@
+  <<1, 6, 2>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = 3
+/\ rejectedTransactions = <<{}>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+7: <Next line 759, col 10 to line 759, col 70 of module graph>
+/\ clientRequests = <<<<>>, <<>>, <<>>, <<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<{1, 2, 3}>>
+/\ tnShardState = ( <<1, 1>> :> "leaderRcvPrepare" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<1, 4>> :> "unknown" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}] >>
+/\ msgs = ( [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "sendPreparedResponsePhase1" @@
+  <<1, 2>> :> "sendPreparedResponsePhase1" @@
+  <<1, 3>> :> "sendPreparedResponsePhase1" @@
+  <<1, 4>> :> "unknown" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localNodesGraph = <<{}, {}, {}, {}, {}, {}>>
+/\ msgsShards = ( [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ rmState = ( <<1, 1, -1>> :> "primaryLeader" @@
+  <<1, 1, 1>> :> "leader" @@
+  <<1, 1, 2>> :> "follower" @@
+  <<1, 2, -1>> :> "follower" @@
+  <<1, 2, 1>> :> "follower" @@
+  <<1, 2, 2>> :> "follower" @@
+  <<1, 3, -1>> :> "follower" @@
+  <<1, 3, 1>> :> "follower" @@
+  <<1, 3, 2>> :> "follower" @@
+  <<1, 4, -1>> :> "follower" @@
+  <<1, 4, 1>> :> "follower" @@
+  <<1, 4, 2>> :> "follower" @@
+  <<1, 5, -1>> :> "follower" @@
+  <<1, 5, 1>> :> "follower" @@
+  <<1, 5, 2>> :> "follower" @@
+  <<1, 6, -1>> :> "follower" @@
+  <<1, 6, 1>> :> "follower" @@
+  <<1, 6, 2>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = 4
+/\ rejectedTransactions = <<{}>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+8: <Next line 761, col 10 to line 761, col 68 of module graph>
+/\ clientRequests = <<<<>>, <<>>, <<>>, <<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<{1, 2, 3}>>
+/\ tnShardState = ( <<1, 1>> :> "fowardCommitted" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<1, 4>> :> "unknown" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}] >>
+/\ msgs = ( [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "fowardCommitted" @@
+  <<1, 2>> :> "sendPreparedResponsePhase1" @@
+  <<1, 3>> :> "sendPreparedResponsePhase1" @@
+  <<1, 4>> :> "unknown" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localNodesGraph = <<{}, {}, {}, {}, {}, {}>>
+/\ msgsShards = ( [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponse",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ rmState = ( <<1, 1, -1>> :> "primaryLeader" @@
+  <<1, 1, 1>> :> "leader" @@
+  <<1, 1, 2>> :> "follower" @@
+  <<1, 2, -1>> :> "follower" @@
+  <<1, 2, 1>> :> "follower" @@
+  <<1, 2, 2>> :> "follower" @@
+  <<1, 3, -1>> :> "follower" @@
+  <<1, 3, 1>> :> "follower" @@
+  <<1, 3, 2>> :> "follower" @@
+  <<1, 4, -1>> :> "follower" @@
+  <<1, 4, 1>> :> "follower" @@
+  <<1, 4, 2>> :> "follower" @@
+  <<1, 5, -1>> :> "follower" @@
+  <<1, 5, 1>> :> "follower" @@
+  <<1, 5, 2>> :> "follower" @@
+  <<1, 6, -1>> :> "follower" @@
+  <<1, 6, 1>> :> "follower" @@
+  <<1, 6, 2>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = 5
+/\ rejectedTransactions = <<{}>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+9: <Next line 766, col 10 to line 766, col 101 of module graph>
+/\ clientRequests = <<<<>>, <<>>, <<>>, <<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<{1, 2, 3}>>
+/\ tnShardState = ( <<1, 1>> :> "fowardCommitted" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<1, 4>> :> "leaderRcvPrepare" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}] >>
+/\ msgs = ( [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 4,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "fowardCommitted" @@
+  <<1, 2>> :> "sendPreparedResponsePhase1" @@
+  <<1, 3>> :> "sendPreparedResponsePhase1" @@
+  <<1, 4>> :> "sendPrepared" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localNodesGraph = <<{}, {}, {}, {}, {}, {}>>
+/\ msgsShards = ( [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponse",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ rmState = ( <<1, 1, -1>> :> "primaryLeader" @@
+  <<1, 1, 1>> :> "leader" @@
+  <<1, 1, 2>> :> "follower" @@
+  <<1, 2, -1>> :> "follower" @@
+  <<1, 2, 1>> :> "follower" @@
+  <<1, 2, 2>> :> "follower" @@
+  <<1, 3, -1>> :> "follower" @@
+  <<1, 3, 1>> :> "follower" @@
+  <<1, 3, 2>> :> "follower" @@
+  <<1, 4, -1>> :> "follower" @@
+  <<1, 4, 1>> :> "follower" @@
+  <<1, 4, 2>> :> "leader" @@
+  <<1, 5, -1>> :> "follower" @@
+  <<1, 5, 1>> :> "follower" @@
+  <<1, 5, 2>> :> "follower" @@
+  <<1, 6, -1>> :> "follower" @@
+  <<1, 6, 1>> :> "follower" @@
+  <<1, 6, 2>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = 6
+/\ rejectedTransactions = <<{}>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+10: <Next line 759, col 10 to line 759, col 70 of module graph>
+/\ clientRequests = <<<<>>, <<>>, <<>>, <<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<{1, 2, 3, 4}>>
+/\ tnShardState = ( <<1, 1>> :> "fowardCommitted" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<1, 4>> :> "leaderRcvPrepare" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}] >>
+/\ msgs = ( [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 2,
+    dst |-> 4,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 4,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 4,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "fowardCommitted" @@
+  <<1, 2>> :> "sendPreparedResponsePhase1" @@
+  <<1, 3>> :> "sendPreparedResponsePhase1" @@
+  <<1, 4>> :> "sendPreparedResponsePhase1" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localNodesGraph = <<{}, {}, {}, {}, {}, {}>>
+/\ msgsShards = ( [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponse",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ rmState = ( <<1, 1, -1>> :> "primaryLeader" @@
+  <<1, 1, 1>> :> "leader" @@
+  <<1, 1, 2>> :> "follower" @@
+  <<1, 2, -1>> :> "follower" @@
+  <<1, 2, 1>> :> "follower" @@
+  <<1, 2, 2>> :> "follower" @@
+  <<1, 3, -1>> :> "follower" @@
+  <<1, 3, 1>> :> "follower" @@
+  <<1, 3, 2>> :> "follower" @@
+  <<1, 4, -1>> :> "follower" @@
+  <<1, 4, 1>> :> "follower" @@
+  <<1, 4, 2>> :> "leader" @@
+  <<1, 5, -1>> :> "follower" @@
+  <<1, 5, 1>> :> "follower" @@
+  <<1, 5, 2>> :> "follower" @@
+  <<1, 6, -1>> :> "follower" @@
+  <<1, 6, 1>> :> "follower" @@
+  <<1, 6, 2>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = 7
+/\ rejectedTransactions = <<{}>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+11: <Next line 759, col 10 to line 759, col 70 of module graph>
+/\ clientRequests = <<<<>>, <<>>, <<>>, <<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<{1, 2, 3, 4, 5}>>
+/\ tnShardState = ( <<1, 1>> :> "fowardCommitted" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<1, 4>> :> "leaderRcvPrepare" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}] >>
+/\ msgs = ( [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 2,
+    dst |-> 4,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 4,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 2,
+    dst |-> 4,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 5,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 4,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "fowardCommitted" @@
+  <<1, 2>> :> "sendPreparedResponsePhase1" @@
+  <<1, 3>> :> "sendPreparedResponsePhase1" @@
+  <<1, 4>> :> "sendPreparedResponsePhase1" @@
+  <<1, 5>> :> "sendPreparedResponsePhase1" @@
+  <<1, 6>> :> "unknown" )
+/\ localNodesGraph = <<{}, {}, {}, {}, {}, {}>>
+/\ msgsShards = ( [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponse",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ rmState = ( <<1, 1, -1>> :> "primaryLeader" @@
+  <<1, 1, 1>> :> "leader" @@
+  <<1, 1, 2>> :> "follower" @@
+  <<1, 2, -1>> :> "follower" @@
+  <<1, 2, 1>> :> "follower" @@
+  <<1, 2, 2>> :> "follower" @@
+  <<1, 3, -1>> :> "follower" @@
+  <<1, 3, 1>> :> "follower" @@
+  <<1, 3, 2>> :> "follower" @@
+  <<1, 4, -1>> :> "follower" @@
+  <<1, 4, 1>> :> "follower" @@
+  <<1, 4, 2>> :> "leader" @@
+  <<1, 5, -1>> :> "follower" @@
+  <<1, 5, 1>> :> "follower" @@
+  <<1, 5, 2>> :> "follower" @@
+  <<1, 6, -1>> :> "follower" @@
+  <<1, 6, 1>> :> "follower" @@
+  <<1, 6, 2>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = 8
+/\ rejectedTransactions = <<{}>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+12: <Next line 761, col 10 to line 761, col 68 of module graph>
+/\ clientRequests = <<<<>>, <<>>, <<>>, <<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<{1, 2, 3, 4, 5}>>
+/\ tnShardState = ( <<1, 1>> :> "fowardCommitted" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<1, 4>> :> "fowardCommitted" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {}, recentCommitted |-> {}] >>
+/\ msgs = ( [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 2,
+    dst |-> 4,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 4,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 2,
+    dst |-> 4,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 5,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 4,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "fowardCommitted" @@
+  <<1, 2>> :> "sendPreparedResponsePhase1" @@
+  <<1, 3>> :> "sendPreparedResponsePhase1" @@
+  <<1, 4>> :> "fowardCommitted" @@
+  <<1, 5>> :> "sendPreparedResponsePhase1" @@
+  <<1, 6>> :> "unknown" )
+/\ localNodesGraph = <<{}, {}, {}, {}, {}, {}>>
+/\ msgsShards = ( [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponse",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponse",
+    shard |-> 2,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 4,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ rmState = ( <<1, 1, -1>> :> "primaryLeader" @@
+  <<1, 1, 1>> :> "leader" @@
+  <<1, 1, 2>> :> "follower" @@
+  <<1, 2, -1>> :> "follower" @@
+  <<1, 2, 1>> :> "follower" @@
+  <<1, 2, 2>> :> "follower" @@
+  <<1, 3, -1>> :> "follower" @@
+  <<1, 3, 1>> :> "follower" @@
+  <<1, 3, 2>> :> "follower" @@
+  <<1, 4, -1>> :> "follower" @@
+  <<1, 4, 1>> :> "follower" @@
+  <<1, 4, 2>> :> "leader" @@
+  <<1, 5, -1>> :> "follower" @@
+  <<1, 5, 1>> :> "follower" @@
+  <<1, 5, 2>> :> "follower" @@
+  <<1, 6, -1>> :> "follower" @@
+  <<1, 6, 1>> :> "follower" @@
+  <<1, 6, 2>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = 9
+/\ rejectedTransactions = <<{}>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+13: <Next line 759, col 10 to line 759, col 70 of module graph>
+/\ clientRequests = <<<<>>, <<>>, <<>>, <<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<{1, 2, 3, 4, 5, 6}>>
+/\ tnShardState = ( <<1, 1>> :> "fowardCommitted" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<1, 4>> :> "fowardCommitted" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}] >>
+/\ msgs = ( [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 2,
+    dst |-> 4,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 4,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 2,
+    dst |-> 4,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 5,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 2,
+    dst |-> 4,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 6,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 4,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "fowardCommitted" @@
+  <<1, 2>> :> "sendPreparedResponsePhase1" @@
+  <<1, 3>> :> "sendPreparedResponsePhase1" @@
+  <<1, 4>> :> "fowardCommitted" @@
+  <<1, 5>> :> "sendPreparedResponsePhase1" @@
+  <<1, 6>> :> "sendPreparedResponsePhase1" )
+/\ localNodesGraph = <<{}, {}, {}, {}, {}, {}>>
+/\ msgsShards = ( [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponse",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponse",
+    shard |-> 2,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 4,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ rmState = ( <<1, 1, -1>> :> "primaryLeader" @@
+  <<1, 1, 1>> :> "leader" @@
+  <<1, 1, 2>> :> "follower" @@
+  <<1, 2, -1>> :> "follower" @@
+  <<1, 2, 1>> :> "follower" @@
+  <<1, 2, 2>> :> "follower" @@
+  <<1, 3, -1>> :> "follower" @@
+  <<1, 3, 1>> :> "follower" @@
+  <<1, 3, 2>> :> "follower" @@
+  <<1, 4, -1>> :> "follower" @@
+  <<1, 4, 1>> :> "follower" @@
+  <<1, 4, 2>> :> "leader" @@
+  <<1, 5, -1>> :> "follower" @@
+  <<1, 5, 1>> :> "follower" @@
+  <<1, 5, 2>> :> "follower" @@
+  <<1, 6, -1>> :> "follower" @@
+  <<1, 6, 1>> :> "follower" @@
+  <<1, 6, 2>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = 10
+/\ rejectedTransactions = <<{}>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+14: <Next line 769, col 10 to line 769, col 84 of module graph>
+/\ clientRequests = <<<<>>, <<>>, <<>>, <<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<{1, 2, 3, 4, 5, 6}>>
+/\ tnShardState = ( <<1, 1>> :> "primarySendCommitted" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<1, 4>> :> "fowardCommitted" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}] >>
+/\ msgs = ( [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 2,
+    dst |-> 4,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 4,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 2,
+    dst |-> 4,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 5,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 2,
+    dst |-> 4,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 6,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 4,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "fowardCommitted" @@
+  <<1, 2>> :> "sendPreparedResponsePhase1" @@
+  <<1, 3>> :> "sendPreparedResponsePhase1" @@
+  <<1, 4>> :> "fowardCommitted" @@
+  <<1, 5>> :> "sendPreparedResponsePhase1" @@
+  <<1, 6>> :> "sendPreparedResponsePhase1" )
+/\ localNodesGraph = <<{}, {}, {}, {}, {}, {}>>
+/\ msgsShards = ( [ type |-> "committed",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "committed",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponse",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponse",
+    shard |-> 2,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 4,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ rmState = ( <<1, 1, -1>> :> "primaryLeader" @@
+  <<1, 1, 1>> :> "leader" @@
+  <<1, 1, 2>> :> "follower" @@
+  <<1, 2, -1>> :> "follower" @@
+  <<1, 2, 1>> :> "follower" @@
+  <<1, 2, 2>> :> "follower" @@
+  <<1, 3, -1>> :> "follower" @@
+  <<1, 3, 1>> :> "follower" @@
+  <<1, 3, 2>> :> "follower" @@
+  <<1, 4, -1>> :> "follower" @@
+  <<1, 4, 1>> :> "follower" @@
+  <<1, 4, 2>> :> "leader" @@
+  <<1, 5, -1>> :> "follower" @@
+  <<1, 5, 1>> :> "follower" @@
+  <<1, 5, 2>> :> "follower" @@
+  <<1, 6, -1>> :> "follower" @@
+  <<1, 6, 1>> :> "follower" @@
+  <<1, 6, 2>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = 11
+/\ rejectedTransactions = <<{}>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+15: <Next line 767, col 10 to line 767, col 100 of module graph>
+/\ clientRequests = <<<<>>, <<>>, <<>>, <<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<{1, 2, 3, 4, 5, 6}>>
+/\ tnShardState = ( <<1, 1>> :> "recvCommitFromPrimary" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<1, 4>> :> "fowardCommitted" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localTransactionHistory = << [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}] >>
+/\ msgs = ( [ type |-> "committed",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 2,
+    dst |-> 4,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 4,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 2,
+    dst |-> 4,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 5,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 2,
+    dst |-> 4,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 6,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 4,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "sendCommit" @@
+  <<1, 2>> :> "sendPreparedResponsePhase1" @@
+  <<1, 3>> :> "sendPreparedResponsePhase1" @@
+  <<1, 4>> :> "fowardCommitted" @@
+  <<1, 5>> :> "sendPreparedResponsePhase1" @@
+  <<1, 6>> :> "sendPreparedResponsePhase1" )
+/\ localNodesGraph = <<{}, {}, {}, {}, {}, {}>>
+/\ msgsShards = ( [ type |-> "committed",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "committed",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponse",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponse",
+    shard |-> 2,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 4,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ rmState = ( <<1, 1, -1>> :> "primaryLeader" @@
+  <<1, 1, 1>> :> "leader" @@
+  <<1, 1, 2>> :> "follower" @@
+  <<1, 2, -1>> :> "follower" @@
+  <<1, 2, 1>> :> "follower" @@
+  <<1, 2, 2>> :> "follower" @@
+  <<1, 3, -1>> :> "follower" @@
+  <<1, 3, 1>> :> "follower" @@
+  <<1, 3, 2>> :> "follower" @@
+  <<1, 4, -1>> :> "follower" @@
+  <<1, 4, 1>> :> "follower" @@
+  <<1, 4, 2>> :> "leader" @@
+  <<1, 5, -1>> :> "follower" @@
+  <<1, 5, 1>> :> "follower" @@
+  <<1, 5, 2>> :> "follower" @@
+  <<1, 6, -1>> :> "follower" @@
+  <<1, 6, 1>> :> "follower" @@
+  <<1, 6, 2>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = 12
+/\ rejectedTransactions = <<{}>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+16: <Next line 760, col 10 to line 760, col 67 of module graph>
+/\ clientRequests = <<<<>>, <<>>, <<>>, <<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<{1, 2, 3, 4, 5, 6}>>
+/\ tnShardState = ( <<1, 1>> :> "recvCommitFromPrimary" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<1, 4>> :> "fowardCommitted" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localTransactionHistory = << [committed |-> {1}, prepared |-> {}, recentCommitted |-> {1}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}] >>
+/\ msgs = ( [ type |-> "committed",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 2,
+    dst |-> 4,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 4,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 2,
+    dst |-> 4,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 5,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 2,
+    dst |-> 4,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 6,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 4,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "committed" @@
+  <<1, 2>> :> "sendPreparedResponsePhase1" @@
+  <<1, 3>> :> "sendPreparedResponsePhase1" @@
+  <<1, 4>> :> "fowardCommitted" @@
+  <<1, 5>> :> "sendPreparedResponsePhase1" @@
+  <<1, 6>> :> "sendPreparedResponsePhase1" )
+/\ localNodesGraph = <<{[NodeID |-> 0, neighbours |-> {1}]}, {}, {}, {}, {}, {}>>
+/\ msgsShards = ( [ type |-> "committed",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "committed",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponse",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponse",
+    shard |-> 2,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 4,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ rmState = ( <<1, 1, -1>> :> "primaryLeader" @@
+  <<1, 1, 1>> :> "leader" @@
+  <<1, 1, 2>> :> "follower" @@
+  <<1, 2, -1>> :> "follower" @@
+  <<1, 2, 1>> :> "follower" @@
+  <<1, 2, 2>> :> "follower" @@
+  <<1, 3, -1>> :> "follower" @@
+  <<1, 3, 1>> :> "follower" @@
+  <<1, 3, 2>> :> "follower" @@
+  <<1, 4, -1>> :> "follower" @@
+  <<1, 4, 1>> :> "follower" @@
+  <<1, 4, 2>> :> "leader" @@
+  <<1, 5, -1>> :> "follower" @@
+  <<1, 5, 1>> :> "follower" @@
+  <<1, 5, 2>> :> "follower" @@
+  <<1, 6, -1>> :> "follower" @@
+  <<1, 6, 1>> :> "follower" @@
+  <<1, 6, 2>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = 13
+/\ rejectedTransactions = <<{}>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+17: <Next line 760, col 10 to line 760, col 67 of module graph>
+/\ clientRequests = <<<<>>, <<>>, <<>>, <<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<{1, 2, 3, 4, 5, 6}>>
+/\ tnShardState = ( <<1, 1>> :> "recvCommitFromPrimary" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<1, 4>> :> "fowardCommitted" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localTransactionHistory = << [committed |-> {1}, prepared |-> {}, recentCommitted |-> {1}],
+   [committed |-> {1}, prepared |-> {}, recentCommitted |-> {1}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}] >>
+/\ msgs = ( [ type |-> "committed",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 2,
+    dst |-> 4,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 4,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 2,
+    dst |-> 4,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 5,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 2,
+    dst |-> 4,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 6,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 4,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "committed" @@
+  <<1, 2>> :> "committed" @@
+  <<1, 3>> :> "sendPreparedResponsePhase1" @@
+  <<1, 4>> :> "fowardCommitted" @@
+  <<1, 5>> :> "sendPreparedResponsePhase1" @@
+  <<1, 6>> :> "sendPreparedResponsePhase1" )
+/\ localNodesGraph = << {[NodeID |-> 0, neighbours |-> {1}]},
+   {[NodeID |-> 0, neighbours |-> {1}]},
+   {},
+   {},
+   {},
+   {} >>
+/\ msgsShards = ( [ type |-> "committed",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "committed",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponse",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponse",
+    shard |-> 2,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 4,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ rmState = ( <<1, 1, -1>> :> "primaryLeader" @@
+  <<1, 1, 1>> :> "leader" @@
+  <<1, 1, 2>> :> "follower" @@
+  <<1, 2, -1>> :> "follower" @@
+  <<1, 2, 1>> :> "follower" @@
+  <<1, 2, 2>> :> "follower" @@
+  <<1, 3, -1>> :> "follower" @@
+  <<1, 3, 1>> :> "follower" @@
+  <<1, 3, 2>> :> "follower" @@
+  <<1, 4, -1>> :> "follower" @@
+  <<1, 4, 1>> :> "follower" @@
+  <<1, 4, 2>> :> "leader" @@
+  <<1, 5, -1>> :> "follower" @@
+  <<1, 5, 1>> :> "follower" @@
+  <<1, 5, 2>> :> "follower" @@
+  <<1, 6, -1>> :> "follower" @@
+  <<1, 6, 1>> :> "follower" @@
+  <<1, 6, 2>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = 14
+/\ rejectedTransactions = <<{}>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2217:4 @!@!@
+18: <Next line 760, col 10 to line 760, col 67 of module graph>
+/\ clientRequests = <<<<>>, <<>>, <<>>, <<>>, <<>>, <<>>>>
+/\ acceptedTransactions = <<{1, 2, 3, 4, 5, 6}>>
+/\ tnShardState = ( <<1, 1>> :> "recvCommitFromPrimary" @@
+  <<1, 2>> :> "unknown" @@
+  <<1, 3>> :> "unknown" @@
+  <<1, 4>> :> "fowardCommitted" @@
+  <<1, 5>> :> "unknown" @@
+  <<1, 6>> :> "unknown" )
+/\ localTransactionHistory = << [committed |-> {1}, prepared |-> {}, recentCommitted |-> {1}],
+   [committed |-> {1}, prepared |-> {}, recentCommitted |-> {1}],
+   [committed |-> {1}, prepared |-> {}, recentCommitted |-> {1}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}],
+   [committed |-> {}, prepared |-> {1}, recentCommitted |-> {}] >>
+/\ msgs = ( [ type |-> "committed",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 3,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 2,
+    dst |-> 4,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 4,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 2,
+    dst |-> 4,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 5,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponsePhase1",
+    shard |-> 2,
+    dst |-> 4,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 6,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 4,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ tnState = ( <<1, 1>> :> "committed" @@
+  <<1, 2>> :> "committed" @@
+  <<1, 3>> :> "committed" @@
+  <<1, 4>> :> "fowardCommitted" @@
+  <<1, 5>> :> "sendPreparedResponsePhase1" @@
+  <<1, 6>> :> "sendPreparedResponsePhase1" )
+/\ localNodesGraph = << {[NodeID |-> 0, neighbours |-> {1}]},
+   {[NodeID |-> 0, neighbours |-> {1}]},
+   {[NodeID |-> 0, neighbours |-> {1}]},
+   {},
+   {},
+   {} >>
+/\ msgsShards = ( [ type |-> "committed",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "committed",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 2,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 1,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "prepared",
+    shard |-> 2,
+    dst |-> -1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponse",
+    shard |-> 1,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 1,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 @@
+  [ type |-> "preparedResponse",
+    shard |-> 2,
+    dst |-> 1,
+    tn |-> 1,
+    dependency |-> {},
+    src |-> 4,
+    operations |->
+        << [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1 ],
+           [ type |-> "nodes",
+             Operation |-> "add",
+             sourceVertex |-> 1,
+             shard |-> 2 ],
+           [ type |-> "edges",
+             Operation |-> "add",
+             sourceVertex |-> 0,
+             shard |-> 1,
+             desVertex |-> 1 ] >>,
+    shards |-> {1, 2} ] :>
+      1 )
+/\ rmState = ( <<1, 1, -1>> :> "primaryLeader" @@
+  <<1, 1, 1>> :> "leader" @@
+  <<1, 1, 2>> :> "follower" @@
+  <<1, 2, -1>> :> "follower" @@
+  <<1, 2, 1>> :> "follower" @@
+  <<1, 2, 2>> :> "follower" @@
+  <<1, 3, -1>> :> "follower" @@
+  <<1, 3, 1>> :> "follower" @@
+  <<1, 3, 2>> :> "follower" @@
+  <<1, 4, -1>> :> "follower" @@
+  <<1, 4, 1>> :> "follower" @@
+  <<1, 4, 2>> :> "leader" @@
+  <<1, 5, -1>> :> "follower" @@
+  <<1, 5, 1>> :> "follower" @@
+  <<1, 5, 2>> :> "follower" @@
+  <<1, 6, -1>> :> "follower" @@
+  <<1, 6, 1>> :> "follower" @@
+  <<1, 6, 2>> :> "follower" )
+/\ pendingTransactions = <<>>
+/\ test = 15
+/\ rejectedTransactions = <<{}>>
+
+@!@!@ENDMSG 2217 @!@!@
+@!@!@STARTMSG 2201:0 @!@!@
+The coverage statistics at 2025-05-05 20:40:22
+@!@!@ENDMSG 2201 @!@!@
+@!@!@STARTMSG 2773:0 @!@!@
+<Init line 730, col 2 to line 730, col 5 of module graph>: 2:2
+@!@!@ENDMSG 2773 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 737, col 3 to line 752, col 13 of module graph: 2
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<ClientRequest line 701, col 4 to line 701, col 19 of module graph (705 5 711 110)>: 6:7
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 705, col 8 to line 705, col 35 of module graph: 7
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 705, col 8 to line 705, col 31 of module graph: 45385
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 706, col 8 to line 706, col 82 of module graph: 14
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 706, col 8 to line 706, col 8 of module graph: 7
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 706, col 14 to line 706, col 82 of module graph: 7
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 706, col 19 to line 706, col 82 of module graph: 7
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 706, col 20 to line 706, col 39 of module graph: 14
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 706, col 50 to line 706, col 81 of module graph: 7
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 707, col 8 to line 707, col 74 of module graph: 7
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 708, col 8 to line 708, col 96 of module graph: 7
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 709, col 8 to line 709, col 55 of module graph: 7
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 710, col 8 to line 711, col 110 of module graph: 7
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<ReceiveClient line 717, col 3 to line 717, col 18 of module graph (721 9 726 120)>: 6:7
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 721, col 12 to line 721, col 37 of module graph: 7
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 721, col 12 to line 721, col 33 of module graph: 45379
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 556, col 10 to line 556, col 47 of module graph: 7
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 556, col 24 to line 556, col 47 of module graph: 7
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 556, col 24 to line 556, col 33 of module graph: 7
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 556, col 38 to line 556, col 47 of module graph: 7
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |||line 542, col 18 to line 554, col 26 of module graph: 7:14
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  ||||line 542, col 26 to line 553, col 29 of module graph: 7:21
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 543, col 27 to line 551, col 27 of module graph: 14
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 552, col 36 to line 552, col 45 of module graph: 7
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 557, col 10 to line 557, col 83 of module graph: 7
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 722, col 38 to line 722, col 50 of module graph: 7
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 722, col 53 to line 722, col 53 of module graph: 7
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 722, col 56 to line 722, col 82 of module graph: 7
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 722, col 85 to line 722, col 116 of module graph: 7
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 723, col 12 to line 723, col 83 of module graph: 7
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 725, col 11 to line 726, col 120 of module graph: 7
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<Next line 755, col 3 to line 755, col 6 of module graph (759 10 759 70)>: 1911:11343
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 650, col 7 to line 650, col 27 of module graph: 319449
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 650, col 7 to line 650, col 14 of module graph: 308106
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 651, col 7 to line 651, col 39 of module graph: 100329
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 651, col 7 to line 651, col 7 of module graph: 88986
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 651, col 13 to line 651, col 39 of module graph: 88986
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 653, col 10 to line 653, col 39 of module graph: 54010
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 653, col 10 to line 653, col 27 of module graph: 44493
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 654, col 10 to line 654, col 44 of module graph: 46319
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 654, col 10 to line 654, col 27 of module graph: 44493
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 302, col 10 to line 303, col 88 of module graph: 11343
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 307, col 14 to line 326, col 31 of module graph: 11343
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 327, col 16 to line 328, col 123 of module graph: 11343
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 60, col 12 to line 60, col 39 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 341, col 14 to line 341, col 83 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 342, col 14 to line 342, col 29 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 343, col 14 to line 344, col 170 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 656, col 18 to line 656, col 23 of module graph: 11343
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 656, col 26 to line 656, col 26 of module graph: 11343
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 656, col 29 to line 656, col 35 of module graph: 11343
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 656, col 38 to line 656, col 51 of module graph: 11343
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 656, col 54 to line 656, col 67 of module graph: 11343
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 656, col 70 to line 656, col 79 of module graph: 11343
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 656, col 82 to line 656, col 90 of module graph: 11343
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 759, col 67 to line 759, col 67 of module graph: 88986
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 759, col 69 to line 759, col 69 of module graph: 308106
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 759, col 19 to line 759, col 23 of module graph: 7578
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 759, col 32 to line 759, col 49 of module graph: 7578
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |line 52, col 5 to line 52, col 47 of module graph: 7578:58929
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 52, col 31 to line 52, col 45 of module graph: 51351
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 52, col 13 to line 52, col 27 of module graph: 7578
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 759, col 45 to line 759, col 48 of module graph: 7578
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<Next line 755, col 3 to line 755, col 6 of module graph (760 10 760 67)>: 4110:9097
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 683, col 7 to line 683, col 28 of module graph: 316958
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 683, col 7 to line 683, col 14 of module graph: 307863
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 684, col 7 to line 684, col 39 of module graph: 46952
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 684, col 7 to line 684, col 7 of module graph: 37857
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 684, col 13 to line 684, col 39 of module graph: 37857
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 686, col 12 to line 686, col 60 of module graph: 24998
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 686, col 12 to line 686, col 29 of module graph: 18930
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 687, col 12 to line 687, col 44 of module graph: 21955
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 687, col 12 to line 687, col 29 of module graph: 18928
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 365, col 6 to line 365, col 45 of module graph: 19884
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 365, col 6 to line 365, col 34 of module graph: 10789
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 366, col 6 to line 366, col 39 of module graph: 19884
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 366, col 6 to line 366, col 6 of module graph: 10789
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 366, col 12 to line 366, col 39 of module graph: 10789
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 367, col 6 to line 369, col 181 of module graph: 9095
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 367, col 34 to line 369, col 181 of module graph: 9097
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 370, col 6 to line 370, col 98 of module graph: 9095
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 370, col 25 to line 370, col 98 of module graph: 9097
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 370, col 26 to line 370, col 40 of module graph: 9097
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 370, col 48 to line 370, col 97 of module graph: 9097
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 370, col 56 to line 370, col 97 of module graph: 9097
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 178, col 3 to line 178, col 33 of module graph: 9097
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 173, col 5 to line 174, col 75 of module graph: 36388
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 173, col 8 to line 173, col 17 of module graph: 36388
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 173, col 24 to line 173, col 24 of module graph: 9097
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 174, col 10 to line 174, col 75 of module graph: 27291
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||line 174, col 26 to line 174, col 34 of module graph: 27291
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||line 174, col 37 to line 174, col 42 of module graph: 18194
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||line 174, col 46 to line 174, col 74 of module graph: 27291
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||line 129, col 5 to line 169, col 9 of module graph: 27291
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||||line 129, col 8 to line 129, col 44 of module graph: 27291
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||||line 131, col 9 to line 167, col 39 of module graph: 13648
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||||line 131, col 14 to line 131, col 54 of module graph: 13648
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||||||line 131, col 14 to line 131, col 30 of module graph: 13648
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||||||line 131, col 35 to line 131, col 54 of module graph: 9097
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||||line 131, col 61 to line 131, col 119 of module graph: 9097
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||||line 132, col 12 to line 143, col 20 of module graph: 4551
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||||line 144, col 12 to line 153, col 30 of module graph: 4551
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||||line 169, col 9 to line 169, col 9 of module graph: 13643
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||line 174, col 54 to line 174, col 62 of module graph: 27291
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||line 174, col 65 to line 174, col 70 of module graph: 27291
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||line 174, col 73 to line 174, col 73 of module graph: 27291
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 178, col 19 to line 178, col 21 of module graph: 9097
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 178, col 24 to line 178, col 29 of module graph: 9097
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 178, col 32 to line 178, col 32 of module graph: 9097
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 370, col 62 to line 370, col 73 of module graph: 9097
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 370, col 76 to line 370, col 76 of module graph: 9097
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 370, col 79 to line 370, col 96 of module graph: 9097
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 371, col 6 to line 371, col 59 of module graph: 9095
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 371, col 17 to line 371, col 59 of module graph: 9097
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 372, col 6 to line 372, col 21 of module graph: 9095
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 372, col 14 to line 372, col 21 of module graph: 9097
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 373, col 6 to line 374, col 95 of module graph: 9095
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 688, col 20 to line 688, col 20 of module graph: 10789
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 688, col 23 to line 688, col 29 of module graph: 10789
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 688, col 32 to line 688, col 37 of module graph: 10789
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 688, col 40 to line 688, col 53 of module graph: 9097
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 688, col 57 to line 688, col 70 of module graph: 9097
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 688, col 73 to line 688, col 81 of module graph: 10789
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 760, col 64 to line 760, col 64 of module graph: 37857
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 760, col 66 to line 760, col 66 of module graph: 307863
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 760, col 19 to line 760, col 23 of module graph: 7572
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 760, col 32 to line 760, col 49 of module graph: 7572
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |line 52, col 5 to line 52, col 47 of module graph: 7572:58882
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 52, col 31 to line 52, col 45 of module graph: 51327
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 52, col 13 to line 52, col 27 of module graph: 7572
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 760, col 45 to line 760, col 48 of module graph: 7572
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<Next line 755, col 3 to line 755, col 6 of module graph (761 10 761 68)>: 801:8222
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 661, col 7 to line 661, col 41 of module graph: 55391
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 661, col 7 to line 661, col 14 of module graph: 51282
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 662, col 7 to line 662, col 45 of module graph: 34274
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 662, col 7 to line 662, col 13 of module graph: 30165
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 662, col 19 to line 662, col 45 of module graph: 30165
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 664, col 10 to line 664, col 50 of module graph: 31077
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 664, col 10 to line 664, col 33 of module graph: 30165
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 665, col 10 to line 665, col 64 of module graph: 33362
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 665, col 10 to line 665, col 33 of module graph: 30165
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 666, col 10 to line 666, col 63 of module graph: 30165
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 422, col 8 to line 422, col 47 of module graph: 9586
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 422, col 8 to line 422, col 36 of module graph: 5477
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 434, col 47 to line 434, col 56 of module graph: 518978
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 434, col 47 to line 434, col 51 of module graph: 501163
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 434, col 55 to line 434, col 56 of module graph: 501163
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 434, col 40 to line 434, col 43 of module graph: 418607
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |line 426, col 21 to line 431, col 51 of module graph: 418607:919770
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 426, col 49 to line 431, col 50 of module graph: 2373398
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 426, col 49 to line 430, col 58 of module graph: 2373398
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 426, col 49 to line 429, col 56 of module graph: 2373398
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 426, col 49 to line 428, col 51 of module graph: 2373398
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||line 426, col 49 to line 427, col 46 of module graph: 2373398
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||line 426, col 49 to line 426, col 84 of module graph: 2373398
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||||line 427, col 38 to line 427, col 46 of module graph: 1558525
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||line 428, col 38 to line 428, col 51 of module graph: 864907
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 429, col 38 to line 429, col 56 of module graph: 864907
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 430, col 38 to line 430, col 58 of module graph: 864907
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 431, col 38 to line 431, col 50 of module graph: 864907
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 426, col 28 to line 426, col 45 of module graph: 418607
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |||line 52, col 5 to line 52, col 47 of module graph: 418607:2792005
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 52, col 31 to line 52, col 45 of module graph: 2373398
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 52, col 13 to line 52, col 27 of module graph: 418607
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 426, col 41 to line 426, col 44 of module graph: 418607
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 434, col 26 to line 434, col 27 of module graph: 312189
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 64, col 20 to line 64, col 59 of module graph: 8222
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 384, col 24 to line 391, col 48 of module graph: 8222
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 385, col 29 to line 385, col 41 of module graph: 8222
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 386, col 29 to line 386, col 57 of module graph: 8222
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 387, col 29 to line 387, col 37 of module graph: 8222
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 388, col 37 to line 388, col 49 of module graph: 8222
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 382, col 25 to line 382, col 85 of module graph: 8222
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 382, col 46 to line 382, col 85 of module graph: 28742
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 382, col 38 to line 382, col 42 of module graph: 8222
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 389, col 29 to line 389, col 55 of module graph: 8222
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 390, col 29 to line 390, col 49 of module graph: 8222
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 391, col 29 to line 391, col 47 of module graph: 8222
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 392, col 11 to line 392, col 80 of module graph: 8222
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 393, col 11 to line 393, col 70 of module graph: 8222
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 436, col 46 to line 436, col 51 of module graph: 8222
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 436, col 54 to line 436, col 54 of module graph: 8222
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 436, col 57 to line 436, col 70 of module graph: 8222
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 436, col 73 to line 436, col 86 of module graph: 8222
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 436, col 89 to line 436, col 98 of module graph: 8222
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 436, col 101 to line 436, col 109 of module graph: 8222
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 437, col 9 to line 437, col 24 of module graph: 8222
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 438, col 9 to line 439, col 199 of module graph: 8222
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 423, col 18 to line 423, col 34 of module graph: 5477
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |line 120, col 24 to line 120, col 108 of module graph: 5477:350528
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 120, col 47 to line 120, col 107 of module graph: 350528
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  ||line 120, col 31 to line 120, col 43 of module graph: 5477:1330911
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 423, col 25 to line 423, col 33 of module graph: 5477
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 667, col 26 to line 667, col 31 of module graph: 5477
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 667, col 34 to line 667, col 40 of module graph: 5477
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 667, col 43 to line 667, col 45 of module graph: 5477
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 761, col 67 to line 761, col 67 of module graph: 51282
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 761, col 19 to line 761, col 36 of module graph: 7567
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |line 52, col 5 to line 52, col 47 of module graph: 7567:58849
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 52, col 31 to line 52, col 45 of module graph: 51282
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 52, col 13 to line 52, col 27 of module graph: 7567
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 761, col 32 to line 761, col 35 of module graph: 7567
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<Next line 755, col 3 to line 755, col 6 of module graph (762 10 762 67)>: 0:0
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 671, col 7 to line 671, col 40 of module graph: 51271
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 64, col 20 to line 64, col 59 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 412, col 11 to line 412, col 78 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 466, col 9 to line 466, col 24 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 467, col 9 to line 468, col 205 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 762, col 66 to line 762, col 66 of module graph: 51271
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 762, col 19 to line 762, col 36 of module graph: 7565
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |line 52, col 5 to line 52, col 47 of module graph: 7565:58836
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 52, col 31 to line 52, col 45 of module graph: 51271
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 52, col 13 to line 52, col 27 of module graph: 7565
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 762, col 32 to line 762, col 35 of module graph: 7565
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<Next line 755, col 3 to line 755, col 6 of module graph (763 10 763 66)>: 0:0
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 692, col 6 to line 692, col 25 of module graph: 307626
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 353, col 7 to line 353, col 137 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 354, col 7 to line 354, col 58 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 355, col 7 to line 355, col 22 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 356, col 7 to line 357, col 95 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 763, col 65 to line 763, col 65 of module graph: 307626
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 763, col 19 to line 763, col 23 of module graph: 7565
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 763, col 32 to line 763, col 49 of module graph: 7565
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |line 52, col 5 to line 52, col 47 of module graph: 7565:58836
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 52, col 31 to line 52, col 45 of module graph: 51271
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 52, col 13 to line 52, col 27 of module graph: 7565
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 763, col 45 to line 763, col 48 of module graph: 7565
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<Next line 755, col 3 to line 755, col 6 of module graph (766 10 766 101)>: 221:463
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 566, col 10 to line 566, col 42 of module graph: 214105
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 566, col 10 to line 566, col 10 of module graph: 213642
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 566, col 16 to line 566, col 42 of module graph: 213642
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 564, col 95 to line 564, col 128 of module graph: 273711
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 564, col 95 to line 564, col 115 of module graph: 272271
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 564, col 34 to line 564, col 60 of module graph: 106821
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 564, col 69 to line 564, col 91 of module graph: 106821
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 570, col 15 to line 570, col 49 of module graph: 480
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 570, col 15 to line 570, col 37 of module graph: 240
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 573, col 15 to line 573, col 54 of module graph: 107044
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 573, col 15 to line 573, col 36 of module graph: 106821
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 574, col 15 to line 574, col 56 of module graph: 18003
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 574, col 15 to line 574, col 43 of module graph: 17780
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 575, col 15 to line 575, col 61 of module graph: 446
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 575, col 15 to line 575, col 37 of module graph: 223
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 577, col 10 to line 577, col 71 of module graph: 463
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 578, col 10 to line 578, col 77 of module graph: 463
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 579, col 10 to line 579, col 79 of module graph: 463
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 580, col 10 to line 580, col 25 of module graph: 463
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 581, col 10 to line 581, col 156 of module graph: 463
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 766, col 97 to line 766, col 97 of module graph: 213642
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 766, col 100 to line 766, col 100 of module graph: 213642
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 766, col 19 to line 766, col 23 of module graph: 7563
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 766, col 32 to line 766, col 55 of module graph: 7563
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |line 52, col 5 to line 52, col 47 of module graph: 7563:43170
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 52, col 31 to line 52, col 45 of module graph: 35607
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 52, col 13 to line 52, col 27 of module graph: 7563
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 766, col 45 to line 766, col 54 of module graph: 7563
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<Next line 755, col 3 to line 755, col 6 of module graph (767 10 767 100)>: 2301:3029
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 587, col 7 to line 587, col 28 of module graph: 216551
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 587, col 7 to line 587, col 14 of module graph: 213525
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 588, col 7 to line 588, col 46 of module graph: 59015
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 588, col 7 to line 588, col 35 of module graph: 55989
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 590, col 12 to line 590, col 54 of module graph: 10846
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 590, col 12 to line 590, col 34 of module graph: 9333
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 591, col 12 to line 591, col 59 of module graph: 10844
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 591, col 12 to line 591, col 34 of module graph: 9331
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 226, col 6 to line 226, col 45 of module graph: 6055
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 226, col 6 to line 226, col 34 of module graph: 3029
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 60, col 12 to line 60, col 39 of module graph: 3026
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 60, col 20 to line 60, col 39 of module graph: 3029
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 227, col 11 to line 235, col 6 of module graph: 3029
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 236, col 6 to line 236, col 60 of module graph: 3026
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 236, col 17 to line 236, col 60 of module graph: 3029
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 592, col 24 to line 592, col 29 of module graph: 3029
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 592, col 32 to line 592, col 32 of module graph: 3029
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 592, col 35 to line 592, col 48 of module graph: 3029
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 592, col 51 to line 592, col 64 of module graph: 3029
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 592, col 67 to line 592, col 76 of module graph: 3029
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 592, col 79 to line 592, col 87 of module graph: 3029
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 593, col 7 to line 593, col 82 of module graph: 3026
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 593, col 23 to line 593, col 82 of module graph: 3029
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 594, col 7 to line 594, col 22 of module graph: 3026
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 594, col 15 to line 594, col 22 of module graph: 3029
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 595, col 7 to line 595, col 162 of module graph: 3026
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 767, col 96 to line 767, col 96 of module graph: 55989
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 767, col 99 to line 767, col 99 of module graph: 213525
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 767, col 19 to line 767, col 23 of module graph: 7561
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 767, col 32 to line 767, col 55 of module graph: 7561
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |line 52, col 5 to line 52, col 47 of module graph: 7561:43147
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 52, col 31 to line 52, col 45 of module graph: 35602
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 52, col 13 to line 52, col 27 of module graph: 7561
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 767, col 45 to line 767, col 54 of module graph: 7561
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<Next line 755, col 3 to line 755, col 6 of module graph (768 10 768 99)>: 0:0
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 599, col 7 to line 599, col 26 of module graph: 213468
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 60, col 12 to line 60, col 39 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 267, col 7 to line 267, col 60 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 606, col 7 to line 606, col 81 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 607, col 7 to line 607, col 22 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 608, col 7 to line 608, col 162 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 768, col 98 to line 768, col 98 of module graph: 213468
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 768, col 19 to line 768, col 23 of module graph: 7557
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 768, col 32 to line 768, col 55 of module graph: 7557
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |line 52, col 5 to line 52, col 47 of module graph: 7557:43135
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 52, col 31 to line 52, col 45 of module graph: 35578
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 52, col 13 to line 52, col 27 of module graph: 7557
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 768, col 45 to line 768, col 54 of module graph: 7557
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<Next line 755, col 3 to line 755, col 6 of module graph (769 10 769 84)>: 267:578
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 613, col 7 to line 613, col 35 of module graph: 36156
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 613, col 7 to line 613, col 14 of module graph: 35578
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 614, col 7 to line 614, col 52 of module graph: 11730
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 614, col 7 to line 614, col 34 of module graph: 11152
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 616, col 11 to line 616, col 63 of module graph: 11152
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 617, col 11 to line 617, col 59 of module graph: 11730
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 617, col 11 to line 617, col 39 of module graph: 11152
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 506, col 11 to line 506, col 53 of module graph: 1828
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 506, col 11 to line 506, col 27 of module graph: 1250
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 506, col 23 to line 506, col 26 of module graph: 1250
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||line 488, col 15 to line 491, col 21 of module graph: 1250
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 488, col 49 to line 490, col 51 of module graph: 4328
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 488, col 49 to line 489, col 46 of module graph: 4328
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||line 488, col 49 to line 488, col 78 of module graph: 4328
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||line 489, col 38 to line 489, col 46 of module graph: 1828
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 490, col 38 to line 490, col 51 of module graph: 1828
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||line 488, col 22 to line 488, col 45 of module graph: 1250
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |||||line 52, col 5 to line 52, col 47 of module graph: 1250:5578
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||line 52, col 31 to line 52, col 45 of module graph: 4328
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||||||line 52, col 13 to line 52, col 27 of module graph: 1250
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 488, col 35 to line 488, col 44 of module graph: 1250
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 506, col 31 to line 506, col 53 of module graph: 1250
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 507, col 11 to line 507, col 47 of module graph: 578
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 507, col 25 to line 507, col 47 of module graph: 578
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 507, col 25 to line 507, col 34 of module graph: 578
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 507, col 39 to line 507, col 47 of module graph: 578
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |||line 492, col 20 to line 504, col 26 of module graph: 578:1156
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  ||||line 492, col 28 to line 503, col 29 of module graph: 578:1734
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 493, col 27 to line 501, col 27 of module graph: 1156
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |||||line 502, col 35 to line 502, col 44 of module graph: 578
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 508, col 11 to line 508, col 85 of module graph: 578
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 618, col 33 to line 618, col 38 of module graph: 1250
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 618, col 41 to line 618, col 47 of module graph: 1250
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 618, col 50 to line 618, col 52 of module graph: 1250
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 619, col 7 to line 619, col 22 of module graph: 578
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 620, col 7 to line 620, col 166 of module graph: 578
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 769, col 83 to line 769, col 83 of module graph: 35578
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 769, col 19 to line 769, col 42 of module graph: 7557
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |line 52, col 5 to line 52, col 47 of module graph: 7557:43135
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 52, col 31 to line 52, col 45 of module graph: 35578
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 52, col 13 to line 52, col 27 of module graph: 7557
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 769, col 32 to line 769, col 41 of module graph: 7557
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2772:0 @!@!@
+<Next line 755, col 3 to line 755, col 6 of module graph (770 10 770 84)>: 0:0
+@!@!@ENDMSG 2772 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 625, col 7 to line 625, col 34 of module graph: 35574
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 536, col 11 to line 536, col 47 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 537, col 11 to line 537, col 83 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 631, col 7 to line 631, col 22 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 632, col 7 to line 632, col 165 of module graph: 0
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 770, col 83 to line 770, col 83 of module graph: 35574
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 770, col 19 to line 770, col 42 of module graph: 7556
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2775:0 @!@!@
+  |line 52, col 5 to line 52, col 47 of module graph: 7556:43130
+@!@!@ENDMSG 2775 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 52, col 31 to line 52, col 45 of module graph: 35574
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 52, col 13 to line 52, col 27 of module graph: 7556
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 770, col 32 to line 770, col 41 of module graph: 7556
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2774:0 @!@!@
+<DummyInvariant2 line 788, col 2 to line 788, col 16 of module graph>
+@!@!@ENDMSG 2774 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  line 789, col 5 to line 789, col 87 of module graph: 9624
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 789, col 5 to line 789, col 47 of module graph: 9624
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 789, col 5 to line 789, col 13 of module graph: 9624
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  ||line 789, col 18 to line 789, col 47 of module graph: 9619
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2221:0 @!@!@
+  |line 789, col 52 to line 789, col 87 of module graph: 9619
+@!@!@ENDMSG 2221 @!@!@
+@!@!@STARTMSG 2202:0 @!@!@
+End of statistics.
+@!@!@ENDMSG 2202 @!@!@
+@!@!@STARTMSG 2200:0 @!@!@
+Progress(18) at 2025-05-05 20:40:22: 32,701 states generated (358,105 s/min), 9,624 distinct states found (105,391 ds/min), 2,058 states left on queue.
+@!@!@ENDMSG 2200 @!@!@
+@!@!@STARTMSG 2199:0 @!@!@
+32701 states generated, 9624 distinct states found, 2058 states left on queue.
+@!@!@ENDMSG 2199 @!@!@
+@!@!@STARTMSG 2194:0 @!@!@
+The depth of the complete state graph search is 18.
+@!@!@ENDMSG 2194 @!@!@
+@!@!@STARTMSG 2268:0 @!@!@
+The average outdegree of the complete state graph is 1 (minimum is 0, the maximum 6 and the 95th percentile is 3).
+@!@!@ENDMSG 2268 @!@!@
+@!@!@STARTMSG 2186:0 @!@!@
+Finished in 5484ms at (2025-05-05 20:40:22)
+@!@!@ENDMSG 2186 @!@!@

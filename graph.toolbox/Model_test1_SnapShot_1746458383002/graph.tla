@@ -466,7 +466,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
             /\ LeaderFowardSingleShardAbort(tnInfo, r, msg.dependency, msg.operations, msg.shards, msg.shard)
             /\ test' = test + 1
      /\ UNCHANGED <<transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, 
-                        rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions, msgs>>           
+                        rejectedTransactions, pendingTransactions, acceptedTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, rejectedTransactions, msgs, tnState>>           
             
        
             
@@ -787,7 +787,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
     \/Cardinality(localNodesGraph[1]) = 2
     
  DummyInvariant2 == 
-    test < 35 /\ Cardinality(DOMAIN(msgs)) < 35 /\ Cardinality(DOMAIN(msgsShards)) < 35
+    test < 20 /\ Cardinality(DOMAIN(msgs)) < 15 /\ Cardinality(DOMAIN(msgsShards)) < 15
     
   DummyInvariant3 == 
     Cardinality(localNodesGraph[1]) = 0 
@@ -818,5 +818,5 @@ LivenessDummy == <> (Cardinality(localNodesGraph[1]) = 1)
   
 =============================================================================
 \* Modification History
-\* Last modified Tue May 06 00:48:29 CST 2025 by junhaohu
+\* Last modified Mon May 05 23:01:22 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
