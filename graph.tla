@@ -18,8 +18,8 @@ VARIABLES
   rmState,       \* rmState[transactionNumber, r, shard] is the state of node r for transcation transactionNumber "leader" or "follower" or "primaryLeader".
                  \* rmState[transactionNumber, r, -1] to check whether the node is the primary leader
                  
-  msgs,          \* inter shards communication
-  msgsShards,    \* intra shards communication
+  msgs,          \* intra shards communication
+  msgsShards,    \* inter shards communication
   
   clientRequests, \* clientRequests[r] is the set of requests coming from a clietn at node r
   localTransactionHistory,\*  localTransactionHistory[nodes] is the transcation history graph for the corresponding node 
@@ -818,5 +818,5 @@ LivenessDummy == <> (Cardinality(localNodesGraph[1]) = 1)
   
 =============================================================================
 \* Modification History
-\* Last modified Tue May 06 00:48:29 CST 2025 by junhaohu
+\* Last modified Wed May 07 15:24:23 CST 2025 by junhaohu
 \* Created Sun Feb 16 22:23:24 CST 2025 by junhaohu
