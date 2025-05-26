@@ -1,4 +1,4 @@
------------------------------- MODULE twoPhase ------------------------------
+------------------------------ MODULE graph ------------------------------
 
 EXTENDS Integers,
          Sequences, TLC, FiniteSets
@@ -29,6 +29,7 @@ VARIABLES
                           \* localTransactionHistory[nodes]["prepared"]is the set of local prepared transactions
                           \* localTransactionHistory[nodes]["aborted"]is the set of aborted transactions
                           \* localTransactionHistory[nodes]["heuristic"]is the set of heuristic transactions
+  localTransactionalGraph,                        
   localNodesGraph, \* localNodesGraph[nodes] is a graph
   
                      
@@ -115,7 +116,7 @@ GRAPHTypeOK ==
   (* such a message.                                                       *)
   (*************************************************************************)
   [type : {"preparedResponsePhase1", "abortedResponsePhase1", "prepared","aborted", "committed", "committedResponse"}, tn:  transactionNumbers, dependency : SUBSET transactionNumbers, src : NODES, dst : NODES, operations: Seq(OperationSet), shard: Shard, shards: SUBSET Shard]  
-  \cup [type : { "preparedResponse", "abortedResponse", "prepared","aborted", "committed", ""}, tn:  transactionNumbers, dependency : SUBSET transactionNumbers, src : NODES, dst : NODES, operations: Seq(OperationSet), shard: Shard, shards: SUBSET Shard ]  
+  \cup [type : { "preparedResponse", "abortedResponse", "prepared","aborted", "committed", "committedResponse"}, tn:  transactionNumbers, dependency : SUBSET transactionNumbers, src : NODES, dst : NODES, operations: Seq(OperationSet), shard: Shard, shards: SUBSET Shard ]  
   \cup [type: {"clientRequest"}, tn: transactionNumbers, operations: Seq(OperationSet),  shards: Shard]
   
   
@@ -494,7 +495,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
   
   
   
-  RcvCommitMsg(r, s, tnInfo, depdencyInfo, tnOperations, shardInfo) == 
+  RcvCommitMsg(r, s, tnInfo, depdencyInfo, tnOperations, shardsInfo, shardInfo) == 
   (*************************************************************************)
   (* node r receives committed message from leader s                       *)
   (*************************************************************************)
@@ -506,7 +507,14 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
                                                                            ,![r]["committed"] =  localTransactionHistory[r]["committed"] \cup {tnInfo}
                                                                            ,![r]["recentCommitted"] = (localTransactionHistory[r]["recentCommitted"] \ depdencyInfo) \union {tnInfo}]                                                                        
   /\ localNodesGraph' = [localNodesGraph EXCEPT! [r] = Apply(tnOperations, r, localNodesGraph[r])]
-  /\  
+  /\ Send([type |-> "committedResponse", 
+             tn |->  tnInfo, 
+     dependency |-> depdencyInfo, 
+            src |-> r, 
+            dst |-> s, 
+     operations |-> tnOperations,
+         shards |-> shardsInfo,
+          shard |-> shardInfo])
 \*  /\ tnState' = [tnState EXCEPT ![tnInfo, r] = "committed"]
   /\ test' = test + 1
   /\ UNCHANGED <<transactionNumbers, msgs, rmState, clientRequests, 
@@ -851,7 +859,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
    RecvCommit(r, msg) ==
    /\ msg.type = "committed"
    /\ r \in ShardNodeMapping[msg.shard]
-   /\ RcvCommitMsg(r, msg.src, msg.tn, msg.dependency,  msg.operations, msg.shard)
+   /\ RcvCommitMsg(r, msg.src, msg.tn, msg.dependency,  msg.operations, msg.shards, msg.shard)
    
    
   RecvAbort(r,msg) ==
@@ -908,6 +916,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
         ]
     ]
 \*  /\ tnState = [r \in tSet, t \in NODES |-> "unknown"]
+  /\ localTransactionalGraph = [n \in NODES |->[ m \in {-1} |-> {}]]
   /\ test = 0
   
   
@@ -975,5 +984,5 @@ LivenessDummy == <> (Cardinality(localNodesGraph[1]) = 1)
   
 =============================================================================
 \* Modification History
-\* Last modified Fri May 23 17:56:03 CST 2025 by junhaohu
+\* Last modified Mon May 26 19:17:12 CST 2025 by junhaohu
 \* Created Tue May 06 23:51:09 CST 2025 by junhaohu
