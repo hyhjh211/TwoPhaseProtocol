@@ -12,9 +12,6 @@ CONSTANT NODES,  \* The set of nodes in the system,
         Shard \* The set of shards (e.g. {s1, s2))
         
         
-
-
-
 VARIABLES
   rmState,       \* rmState[transactionNumber, r, shard] is the state of node r for transcation transactionNumber "leader" or "follower" or "primaryLeader".
                  \* rmState[transactionNumber, r, -1] to check whether the node is the primary leader
@@ -216,11 +213,7 @@ GRAPHTypeOK ==
  ApplyOpsquence(txSequence, nodeID, G) == 
     G' = ApplyOps(txSequence, nodeID, G)
  
-\*  
-\*  deleteMsg(m) ==
-\*  IF m.src = m.dst 
-\*  THEN
-\*    \*don't delete
+
   
   
   ConflictDetect(tnInfo, i, tnOperations) ==
@@ -235,15 +228,6 @@ GRAPHTypeOK ==
             
     IN
       hasIntersection  
-\* LeaderPrepare(tnInfo, s, r, depdencyInfo, tnOperations) == 
-\*  (*************************************************************************)
-\*  (* leader s sends prepare message to follower r                           *)
-\*  (*************************************************************************)
-\*  /\ rmState[tnInfo, s] = "leader"
-\*  /\ rmState[tnInfo, r] = "follower" 
-\*  /\ Len(msgs[r][s]) \geq 0
-\*  /\ msgs' = [msgs EXCEPT ![r][s] = Append(@, [type |-> "prepared", tn |->tnInfo, dependency |-> depdencyInfo, src |-> s, dst |-> r, operations |-> tnOperations])]
-\*  /\ msgs' = [msgs EXCEPT ![r][s] = Append(msgs[r][s], "aaa")]
 
  
   InterposedCoordinatorSendPrepares(tnInfo, s, tnOperations, shardsInfo, shardInfo) ==
