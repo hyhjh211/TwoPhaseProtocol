@@ -91,20 +91,26 @@ OperationSet ==
 
 setFromSeq(s) == { s[i] : i \in DOMAIN s }
 
-RECURSIVE AllAncestors(_,_)
-AllAncestors(n, ReverseDag) ==
-    IF ReverseDag[n] = {} THEN {} 
-    ELSE ReverseDag[n] \cup UNION { AllAncestors(p, ReverseDag) : p \in ReverseDag[n] }
+RECURSIVE AllAncestors(_,_,_)
+AllAncestors(n, ReverseDag, depth) ==
+    IF Assert(depth < 5, "all ancestor error")
+    THEN
+        IF ReverseDag[n] = {} THEN {} 
+        ELSE ReverseDag[n] \cup UNION { AllAncestors(p, ReverseDag, depth + 1) : p \in ReverseDag[n] }
+    ELSE FALSE
+         
  
  
-RECURSIVE Descendants(_, _) 
-Descendants(graph, n) ==
-  LET children == graph[n]
-  IN children \cup UNION {Descendants(graph, ch) : ch \in children}
-
+RECURSIVE Descendants(_,_,_) 
+Descendants(graph, n, depth) ==
+  IF Assert(depth < 5, "Descendants error")
+  THEN
+      LET children == graph[n]
+      IN children \cup UNION {Descendants(graph, ch, depth + 1) : ch \in children}
+  ELSE FALSE
 
 AllDescendants(graph, starts) ==
-  UNION {Descendants(graph, start) : start \in starts}
+  UNION {Descendants(graph, start, 0) : start \in starts}
 
 GRAPHTypeOK == 
   (*************************************************************************)
@@ -213,13 +219,17 @@ GRAPHTypeOK ==
   
   
   
- RECURSIVE ApplyOps(_,_,_)
- ApplyOps(txSequence, nodeID, G) ==
-    IF txSequence = <<>> THEN G
-    ELSE ApplyOps(Tail(txSequence), nodeID, ApplyOperations(transactions[Head(txSequence)], nodeID, G))
- 
+ RECURSIVE ApplyOps(_,_,_,_)
+ ApplyOps(txSequence, nodeID, G, depth) ==
+    IF Assert(depth < 5, "ApplyOpsError")
+    THEN
+        IF txSequence = <<>> THEN G
+        ELSE ApplyOps(Tail(txSequence), nodeID, ApplyOperations(transactions[Head(txSequence)], nodeID, G), depth + 1)
+    ELSE
+        FALSE
+        
  ApplyOpsquence(txSequence, nodeID, G) == 
-    G' = ApplyOps(txSequence, nodeID, G)
+    G' = ApplyOps(txSequence, nodeID, G, 0)
  
 \*  
 \*  deleteMsg(m) ==
@@ -499,6 +509,19 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
   (*************************************************************************)
   LET 
         commonElements == localTransactionHistory[r]["prepared"] \intersect depdencyInfo
+        mprepareSet == {m \in ValidMessage(msgs) : /\ m.type = "prepared"
+                                      /\ m.dst = s
+                                      /\ m.tn  = tnInfo
+                                      /\ m.src = r
+                   }
+        havePrepared == Cardinality(mprepareSet) > 0
+        mset == {m \in ValidMessage(msgs) : /\ m.type = "aborted"
+                                      /\ m.dst = s
+                                      /\ m.tn  = tnInfo
+                                      /\ m.src = r
+                   }
+        haveAborted == Cardinality(mset) > 0
+        
         txExistHandler(msgType) ==
             /\ ~MsgExist([type |-> msgType,
                    tn |-> tnInfo,
@@ -507,6 +530,8 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
                    shards |-> shardsInfo,
                    shard |-> shardInfo,
                    leadingEdge |-> localTransactionalGraph[r][tnInfo]], msgs)
+            /\ ~havePrepared
+            /\ ~haveAborted
             /\ Send([ type |-> msgType,
                    tn |-> tnInfo,
                    src |-> r,
@@ -516,18 +541,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
                    leadingEdge |-> localTransactionalGraph[r][tnInfo]
                 ])
         updatedLeadingEdge == (localTransactionHistory[r]["leadingEdge"] \ Parents(commonElements, localTransactionalGraph[r])) \union commonElements
-        mset == {m \in ValidMessage(msgs) : /\ m.type = "aborted"
-                                      /\ m.dst = s
-                                      /\ m.tn  = tnInfo
-                                      /\ m.src = r
-                   }
-        haveAborted == Cardinality(mset) > 0
-        mprepareSet == {m \in ValidMessage(msgs) : /\ m.type = "prepared"
-                                      /\ m.dst = s
-                                      /\ m.tn  = tnInfo
-                                      /\ m.src = r
-                   }
-        havePrepared == Cardinality(mprepareSet) > 0
+        
         sendResponse(msgType) ==
             Send([type |-> msgType, 
                    tn |->  tnInfo, 
@@ -666,15 +680,19 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
  AppendSetToSeq(set, seq) ==
     SetToSeq(set) \o seq
  
- RECURSIVE TopoSort(_,_)
- TopoSort(graph, remaining) ==
+ RECURSIVE TopoSort(_,_,_)
+ TopoSort(graph, remaining, depth) ==
+  IF Assert(depth < 5, "error topology sort")
+  THEN
   IF remaining = {} THEN <<>>
   ELSE
     LET
       ready == { n \in remaining : \A parent \in graph[n] : parent \notin remaining }
       rest == remaining \ ready
     IN
-      AppendSetToSeq(ready,TopoSort(graph, rest))
+      AppendSetToSeq(ready,TopoSort(graph, rest, depth + 1))
+  ELSE
+     FALSE
 
 
 
@@ -691,8 +709,8 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
    LET
    newTxDag == [n \in DOMAIN localTransactionalGraph[r] |-> IF localTransactionalGraph[r][n] = {} THEN {-1} ELSE localTransactionalGraph[r][n]] @@ [i \in {-1} |-> {}]
    newReverseTxDag ==  [n \in DOMAIN newTxDag |-> {m \in DOMAIN newTxDag : n \in newTxDag[m]}]
-   AncestorsOfR == UNION {AllAncestors(n, newTxDag) : n \in leadingEdgeR}
-   AncestorsOfS == UNION {AllAncestors(n, newTxDag) : n \in (leadingEdgeS \cap DOMAIN localTransactionalGraph[r])}
+   AncestorsOfR == UNION {AllAncestors(n, newTxDag, 0) : n \in leadingEdgeR}
+   AncestorsOfS == UNION {AllAncestors(n, newTxDag, 0) : n \in (leadingEdgeS \cap DOMAIN localTransactionalGraph[r])}
    CommonAncestors == AncestorsOfR \cap AncestorsOfS
    CommonLeastAncestors == {x \in CommonAncestors : \A y \in newReverseTxDag[x]: y \notin CommonAncestors}
    SubGraph(ReverseTxDag, TxDag, startNodes) ==
@@ -703,14 +721,14 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
      /\ ~MsgExist([type |-> "catchUpResponse", 
                    src |-> r, 
                    dst |-> s, 
-                   transactions |-> TopoSort(localTransactionalGraph[r], DOMAIN constructedSubGraph),
+                   transactions |-> TopoSort(localTransactionalGraph[r], DOMAIN constructedSubGraph, 0),
                    ID |-> requestID, 
                    subGraph |-> constructedSubGraph] 
                    , msgs)
      /\  Send([type |-> "catchUpResponse", 
                    src |-> r, 
                    dst |-> s, 
-                   transactions |-> TopoSort(localTransactionalGraph[r], DOMAIN constructedSubGraph),
+                   transactions |-> TopoSort(localTransactionalGraph[r], DOMAIN constructedSubGraph, 0),
                    ID |-> requestID, 
                    subGraph |-> constructedSubGraph])
   
@@ -745,6 +763,12 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
   
   LeaderFowardSingleShardCommit(tnInfo, r, shardsInfo, shardInfo) ==
        /\ ~MsgExist([type |-> "preparedResponse", 
+                            tn |-> tnInfo, 
+                            src |-> r,
+                            dst |-> primaryLeader(tnInfo),
+                            shards |-> shardsInfo,
+                            shard |-> shardInfo], msgsShards)
+       /\ ~MsgExist([type |-> "abortedResponse", 
                             tn |-> tnInfo, 
                             src |-> r,
                             dst |-> primaryLeader(tnInfo),
@@ -797,7 +821,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
                                   /\ m.tn  = tnInfo
                                   /\ m.shard = msg.shard
                                   /\ m.shards = msg.shards
-                                  /\ msg.leadingEdge \subseteq localTransactionHistory[r]["leadingEdge"]
+                                  /\ m.leadingEdge \subseteq localTransactionHistory[r]["leadingEdge"]
                                   /\ m.src  \in MS}
             
             
@@ -1220,7 +1244,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
    \/ \E i \in NODES, m \in ValidMessage(msgs) : 
             /\ RecvCatchUpResponse(i, m)
             /\ ~(i \in failedNodes)
-   \/ \E i \in NODES : FailNodes(i)
+\*   \/ \E i \in NODES : FailNodes(i)
    \/ \E m \in ValidMessage(msgsShards) : ShardsMSGLost(m)
    \/ \E m \in ValidMessage(msgs): MSGLost(m)
       
