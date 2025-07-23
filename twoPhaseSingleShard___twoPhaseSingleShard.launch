@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.lamport.tla.toolbox.tool.tlc.modelCheck">
+    <stringAttribute key="configurationName" value="twoPhaseSingleShard"/>
+    <intAttribute key="distributedFPSetCount" value="0"/>
+    <stringAttribute key="distributedNetworkInterface" value="198.18.0.1"/>
+    <intAttribute key="distributedNodesCount" value="1"/>
+    <stringAttribute key="distributedTLC" value="off"/>
+    <intAttribute key="fpIndex" value="40"/>
+    <intAttribute key="maxHeapSize" value="25"/>
+    <stringAttribute key="modelBehaviorInit" value="Init"/>
+    <stringAttribute key="modelBehaviorNext" value="Next"/>
+    <stringAttribute key="modelBehaviorSpec" value="Spec"/>
+    <intAttribute key="modelBehaviorSpecType" value="1"/>
+    <stringAttribute key="modelBehaviorVars" value="msgs, failedNodes, pendingTransactions, localTransactionHistory, localTransactionalGraph, failedNodesCount, catchUpID, lostMsgCount, rmState, test, localNodesGraph, clientRequests"/>
+    <stringAttribute key="modelComments" value=""/>
+    <booleanAttribute key="modelCorrectnessCheckDeadlock" value="false"/>
+    <listAttribute key="modelCorrectnessInvariants">
+        <listEntry value="1LeadingEdgeInvariant"/>
+        <listEntry value="1DependencyInvariant"/>
+        <listEntry value="1DummyInvariant2"/>
+        <listEntry value="1CommitAbortInvariant"/>
+        <listEntry value="1ConflictingTxNodeCommit"/>
+        <listEntry value="0ConflictingTxNodeCommit2"/>
+        <listEntry value="0ConflictingTxNodeCommit3"/>
+    </listAttribute>
+    <listAttribute key="modelCorrectnessProperties">
+        <listEntry value="1EventuallyEqualGraph"/>
+        <listEntry value="0Spec"/>
+    </listAttribute>
+    <intAttribute key="modelEditorOpenTabs" value="0"/>
+    <stringAttribute key="modelExpressionEval" value=""/>
+    <listAttribute key="modelParameterConstants">
+        <listEntry value="transactionNumbers;;&lt;&lt;1,2&gt;&gt;;0;0"/>
+        <listEntry value="transactions;;&lt;&lt;&lt;&lt;[type |-&gt; &quot;nodes&quot; , Operation |-&gt; &quot;add&quot;, sourceVertex|-&gt; 0, shard |-&gt; 1], [type |-&gt; &quot;nodes&quot; , Operation |-&gt; &quot;add&quot;, sourceVertex|-&gt; 1, shard |-&gt; 1], [type |-&gt; &quot;edges&quot;, Operation  |-&gt; &quot;add&quot;, sourceVertex |-&gt; 0, desVertex |-&gt; 1, shard |-&gt; 1]&gt;&gt;, &lt;&lt;[type |-&gt; &quot;nodes&quot;, Operation |-&gt; &quot;remove&quot;, sourceVertex |-&gt; 0, shard |-&gt; 1]&gt;&gt;, &lt;&lt;[type |-&gt; &quot;nodes&quot;, Operation |-&gt; &quot;remove&quot;, sourceVertex |-&gt; 1, shard |-&gt; 1]&gt;&gt;&gt;&gt;;0;0"/>
+        <listEntry value="NumLostMsg;;1;0;0"/>
+        <listEntry value="transactionShards;;&lt;&lt;{1}, {1}, {1}&gt;&gt;;0;0"/>
+        <listEntry value="Shard;;{1};0;0"/>
+        <listEntry value="NumFailedNodes;;1;0;0"/>
+        <listEntry value="ShardNodeMapping;;[i \in {1} |-&gt; {1,2,3}];0;0"/>
+        <listEntry value="NODES;;{1,2,3};0;0"/>
+    </listAttribute>
+    <intAttribute key="modelVersion" value="20191005"/>
+    <intAttribute key="numberOfWorkers" value="5"/>
+    <stringAttribute key="result.mail.address" value=""/>
+    <stringAttribute key="specName" value="twoPhaseSingleShard"/>
+    <stringAttribute key="tlcResourcesProfile" value="local custom"/>
+</launchConfiguration>
