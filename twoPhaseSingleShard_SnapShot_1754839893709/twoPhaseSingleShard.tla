@@ -1277,7 +1277,6 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
   LET 
     nextExecuteTx == Head(pendingTransactions)
     IN
-    /\ Len(pendingTransactions) > 0
     /\ i \in UNION{ShardNodeMapping[sh] : sh \in transactionShards[nextExecuteTx]}
     /\ (i = 1 /\ nextExecuteTx = 1) \/ (i = 1 /\ nextExecuteTx = 2) \/ (i = 2 /\ nextExecuteTx = 3)
     /\ rmState' = [rmState EXCEPT ![nextExecuteTx,i,1] = "leader"]
@@ -1421,9 +1420,9 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
 \*            /\ InterposedCoordinatorRecvCommitResponse(i, m)
 \*            /\ ~(i \in failedNodes)
 
-\*   \/ \E i \in NODES, m \in ValidMessage(msgs) : 
-\*            /\ RecvCatchUp(i, m)
-\*            /\ ~(i \in failedNodes)
+   \/ \E i \in NODES, m \in ValidMessage(msgs) : 
+            /\ RecvCatchUp(i, m)
+            /\ ~(i \in failedNodes)
              
                    
    \/ \E i \in NODES, m \in ValidMessage(msgs) : 

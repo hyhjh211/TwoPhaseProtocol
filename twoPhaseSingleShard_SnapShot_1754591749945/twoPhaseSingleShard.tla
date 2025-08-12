@@ -209,17 +209,13 @@ GRAPHTypeOK ==
     ELSE
         G
         
- RECURSIVE ApplyOperations(_, _, _, _)
- ApplyOperations(ops, nodeID, G, depth) ==   
-    IF Assert(depth < 5, "ApplyOperationsError")
-    THEN
-        IF ops = <<>> THEN G
-        ELSE ApplyOperations(Tail(ops), nodeID,  ApplyOp(Head(ops), nodeID, G), depth + 1)
-   ELSE 
-        FALSE
+ RECURSIVE ApplyOperations(_, _, _)
+ ApplyOperations(ops, nodeID, G) ==    
+    IF ops = <<>> THEN G
+    ELSE ApplyOperations(Tail(ops), nodeID,  ApplyOp(Head(ops), nodeID, G))
     
  Apply(ops, nodeID, G) == 
-  ApplyOperations(ops, nodeID, G, 0)
+  ApplyOperations(ops, nodeID, G)
   
   
   
@@ -232,7 +228,7 @@ GRAPHTypeOK ==
         THEN
         ApplyOps(Tail(txSequence), nodeID, G, depth + 1)
         ELSE
-        ApplyOps(Tail(txSequence), nodeID, ApplyOperations(transactions[Head(txSequence)], nodeID, G, 0), depth + 1)
+        ApplyOps(Tail(txSequence), nodeID, ApplyOperations(transactions[Head(txSequence)], nodeID, G), depth + 1)
     ELSE
         FALSE
         
@@ -1273,22 +1269,6 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
   
   
   
-  startTx(i) ==
-  LET 
-    nextExecuteTx == Head(pendingTransactions)
-    IN
-    /\ Len(pendingTransactions) > 0
-    /\ i \in UNION{ShardNodeMapping[sh] : sh \in transactionShards[nextExecuteTx]}
-    /\ (i = 1 /\ nextExecuteTx = 1) \/ (i = 1 /\ nextExecuteTx = 2) \/ (i = 2 /\ nextExecuteTx = 3)
-    /\ rmState' = [rmState EXCEPT ![nextExecuteTx,i,1] = "leader"]
-    /\ InterposedCoordinatorSendPrepares(nextExecuteTx, i, transactions[nextExecuteTx], {1}, 1)
-    /\ pendingTransactions' = Tail(pendingTransactions)
-    /\ UNCHANGED <<lostMsgCount, failedNodesCount, failedNodes, transactionNumbers, 
-        localNodesGraph, test, clientRequests, catchUpID>>
-  
-  
-  
-  
   RecvCatchUp(r, message) ==     
     /\ message.type = "catchUp"
     /\ ~(localTransactionHistory[r]["leadingEdge"] \subseteq message.leadingEdge)
@@ -1368,37 +1348,27 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
   
   
   Next ==
-   \/ (\E i \in NODES, m \in ValidMessage(msgs) :  
+   \/ \E i \in NODES, m \in ValidMessage(msgs) :  
             /\ RecvPrepare(i,m)
-            /\ ~(i \in failedNodes))
-   \/ (\E i \in NODES, m \in ValidMessage(msgs) : 
+            /\ ~(i \in failedNodes)
+   \/ \E i \in NODES, m \in ValidMessage(msgs) : 
             /\ RecvCommit(i,m)
-            /\ ~(i \in failedNodes))
-   \/ (\E m \in ValidMessage(msgs) : 
+            /\ ~(i \in failedNodes)
+   \/ \E m \in ValidMessage(msgs) : 
             /\ RecvPrepared(m)
-            /\ ~(m.dst \in failedNodes))
-   \/ (\E m \in ValidMessage(msgs) : 
+            /\ ~(m.dst \in failedNodes)
+   \/ \E m \in ValidMessage(msgs) : 
             /\ RecvAborted(m)
-            /\ ~(m.dst \in failedNodes))
-   \/ (\E i \in NODES, m \in ValidMessage(msgs) : 
+            /\ ~(m.dst \in failedNodes)
+   \/ \E i \in NODES, m \in ValidMessage(msgs) : 
             /\ RecvAbort(i,m)
-            /\ ~(i \in failedNodes))
-            
-    \/ \E i \in NODES : 
-            /\ startTx(i)            
-            
-            
-               
-            
-\*   \/ \E i \in NODES : 
-\*            /\ ClientRequest(i)
-\*            /\ ~(i \in failedNodes)
-\*   \/ \E i \in NODES : 
-\*            /\ ReceiveClient(i)
-\*            /\ ~(i \in failedNodes)
-   
-            
-            
+            /\ ~(i \in failedNodes)
+   \/ \E i \in NODES : 
+            /\ ClientRequest(i)
+            /\ ~(i \in failedNodes)
+   \/ \E i \in NODES : 
+            /\ ReceiveClient(i)
+            /\ ~(i \in failedNodes)
 \*   \/ \E i \in NODES, m \in ValidMessage(msgsShards) : 
 \*            /\ InterposedCoordinatorRecvPrepareMsgFromCoordinator(i, m)
 \*            /\ ~(i \in failedNodes)
@@ -1421,11 +1391,10 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
 \*            /\ InterposedCoordinatorRecvCommitResponse(i, m)
 \*            /\ ~(i \in failedNodes)
 
-\*   \/ \E i \in NODES, m \in ValidMessage(msgs) : 
-\*            /\ RecvCatchUp(i, m)
-\*            /\ ~(i \in failedNodes)
-             
-                   
+   \/ \E i \in NODES, m \in ValidMessage(msgs) : 
+            /\ RecvCatchUp(i, m)
+            /\ ~(i \in failedNodes)
+            
    \/ \E i \in NODES, m \in ValidMessage(msgs) : 
             /\ RecvCatchUpResponse(i, m)
             /\ ~(i \in failedNodes)

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.lamport.tla.toolbox.tool.tlc.modelCheck">
-    <stringAttribute key="configurationName" value="twoPhaseSingleShard"/>
+    <stringAttribute key="configurationName" value="twoPhaseSingleShard_SnapShot_1754839826984"/>
     <intAttribute key="distributedFPSetCount" value="0"/>
-    <stringAttribute key="distributedNetworkInterface" value="172.16.33.183"/>
+    <stringAttribute key="distributedNetworkInterface" value="172.16.32.72"/>
     <intAttribute key="distributedNodesCount" value="1"/>
     <stringAttribute key="distributedTLC" value="off"/>
-    <intAttribute key="fpIndex" value="30"/>
+    <intAttribute key="fpIndex" value="22"/>
     <intAttribute key="maxHeapSize" value="25"/>
     <stringAttribute key="modelBehaviorInit" value="Init"/>
     <stringAttribute key="modelBehaviorNext" value="Next"/>
@@ -30,7 +30,7 @@
         <listEntry value="1CatchUpResponseInvariants"/>
     </listAttribute>
     <listAttribute key="modelCorrectnessProperties">
-        <listEntry value="0EventuallyEqualGraph"/>
+        <listEntry value="1EventuallyEqualGraph"/>
         <listEntry value="0Spec"/>
     </listAttribute>
     <intAttribute key="modelEditorOpenTabs" value="8"/>

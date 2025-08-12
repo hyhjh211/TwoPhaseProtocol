@@ -1421,9 +1421,9 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
 \*            /\ InterposedCoordinatorRecvCommitResponse(i, m)
 \*            /\ ~(i \in failedNodes)
 
-\*   \/ \E i \in NODES, m \in ValidMessage(msgs) : 
-\*            /\ RecvCatchUp(i, m)
-\*            /\ ~(i \in failedNodes)
+   \/ \E i \in NODES, m \in ValidMessage(msgs) : 
+            /\ RecvCatchUp(i, m)
+            /\ ~(i \in failedNodes)
              
                    
    \/ \E i \in NODES, m \in ValidMessage(msgs) : 
