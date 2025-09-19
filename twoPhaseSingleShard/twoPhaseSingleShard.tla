@@ -12,7 +12,9 @@ CONSTANT NODES,  \* The set of nodes in the system,
         Shard, \* The set of shards (e.g. {s1, s2))
         \* The variables below serve to model failures.
         NumFailedNodes,
-        NumLostMsg \* not sure whether to model this
+        NumLostMsg, \* not sure whether to model this
+        LeaderMapping,
+        RetryTimes \* the number of times to retry prepared tx
         
 
 
@@ -665,7 +667,8 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
                                                                            ![r]["committed"] =  @ \union commonElements,
                                                                            ![r]["leadingEdge"] = (@ \ Parents(commonElements, localTransactionalGraph[r])) \union commonElements]           
             /\ localNodesGraph' = [localNodesGraph EXCEPT ![r] = ApplyOpsquence(SetToSeq(commonElements), r, localNodesGraph[r])]                                                       
-            /\ localTransactionalGraph' =  [localTransactionalGraph EXCEPT ![r] = @ @@ [i \in {tnInfo} |-> depdencyInfo]]
+\*            /\ localTransactionalGraph' =  [localTransactionalGraph EXCEPT ![r] = @ @@ [i \in {tnInfo} |-> depdencyInfo]]
+            /\ localTransactionalGraph' =  [localTransactionalGraph EXCEPT ![r] = @ @@ [i \in {tnInfo} |-> (localTransactionHistory[r]["leadingEdge"] \ Parents(commonElements, localTransactionalGraph[r])) \union commonElements ]]
             /\ ~havePrepared
             /\ ~haveAborted
             /\ sendResponse("prepared")
@@ -1241,6 +1244,23 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
   /\ msg.type = "abort"
   /\ r \in ShardNodeMapping[msg.shard]
   /\ RcvAbortMsg(r, msg.src, msg.tn, msg.operations, msg.shard)
+  
+  
+  
+  
+  
+  
+  Retry(r, tn, shard) == 
+  /\ tn \in localTransactionHistory[r]["prepared"]
+  /\ rmState[tn, r, shard] = "follower"
+  /\ rmState' = [rmState EXCEPT ![tn, r, shard] = "leader"]
+  /\ InterposedCoordinatorSendPrepares(tn, r, transactions[tn], {1}, shard)
+  /\ UNCHANGED <<catchUpID, clientRequests, failedNodes, failedNodesCount, localNodesGraph, localTransactionHistory, localTransactionalGraph, lostMsgCount, pendingTransactions, test>>
+  
+  
+  
+  
+  
    
    
    ClientRequest(i) == 
@@ -1279,7 +1299,8 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
     IN
     /\ Len(pendingTransactions) > 0
     /\ i \in UNION{ShardNodeMapping[sh] : sh \in transactionShards[nextExecuteTx]}
-    /\ (i = 1 /\ nextExecuteTx = 1) \/ (i = 1 /\ nextExecuteTx = 2) \/ (i = 2 /\ nextExecuteTx = 3)
+\*    /\ (i = 1 /\ nextExecuteTx = 1) \/ (i = 1 /\ nextExecuteTx = 2) \/ (i = 3 /\ nextExecuteTx = 3)
+    /\ i = LeaderMapping[nextExecuteTx]
     /\ rmState' = [rmState EXCEPT ![nextExecuteTx,i,1] = "leader"]
     /\ InterposedCoordinatorSendPrepares(nextExecuteTx, i, transactions[nextExecuteTx], {1}, 1)
     /\ pendingTransactions' = Tail(pendingTransactions)
@@ -1338,13 +1359,10 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
             localNodesGraph, pendingTransactions, failedNodes, failedNodesCount, catchUpID>>
  
  
- 
+  tSet == { transactionNumbers[i] : i \in DOMAIN transactionNumbers }
  
         
  Init ==   
-   LET 
-        tSet == { transactionNumbers[i] : i \in DOMAIN transactionNumbers }
-   IN 
   (*************************************************************************)
   (* The initial predicate.                                                *)
   (*************************************************************************)
@@ -1421,18 +1439,21 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
 \*            /\ InterposedCoordinatorRecvCommitResponse(i, m)
 \*            /\ ~(i \in failedNodes)
 
-\*   \/ \E i \in NODES, m \in ValidMessage(msgs) : 
-\*            /\ RecvCatchUp(i, m)
-\*            /\ ~(i \in failedNodes)
+   \/ \E i \in NODES, m \in ValidMessage(msgs) : 
+            /\ RecvCatchUp(i, m)
+            /\ ~(i \in failedNodes)
              
                    
    \/ \E i \in NODES, m \in ValidMessage(msgs) : 
             /\ RecvCatchUpResponse(i, m)
             /\ ~(i \in failedNodes)
             
-\*   \/ \E i \in NODES : FailNodes(i)
+   \/ \E i \in NODES : FailNodes(i)
+
 \*   \/ \E m \in ValidMessage(msgsShards) : ShardsMSGLost(m)
+
    \/ \E m \in ValidMessage(msgs): MSGLost(m)
+   \/ \E i \in NODES, tn \in tSet: Retry(i, tn, 1)
       
    
       
@@ -1452,7 +1473,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
     \/Cardinality(localNodesGraph[1]) = 2
     
  DummyInvariant2 == 
-    test < 45 /\ Cardinality(DOMAIN(msgs)) < 45
+    test < 20 /\ Cardinality(DOMAIN(msgs)) < 45
     
   DummyInvariant3 == 
     Cardinality(localNodesGraph[1]) = 0 
@@ -1551,31 +1572,33 @@ PreparedInvariant ==
                                       /\ m.src = r
                    }
     IN 
-        \A r \in NODES : Cardinality(mset(r)) <= 3
+        \A r \in NODES : Cardinality(mset(r)) <= 6
 
 
 
 PreparedTxInvariant == 
-    LET mset(r, tn) == {m \in ValidMessage(msgs) : /\ m.type = "prepared"
+    LET mset(r, tn, d) == {m \in ValidMessage(msgs) : /\ m.type = "prepared"
                                          /\ m.src = r
                                          /\ m.tn = tn
+                                         /\ m.dst = d
                         }
        setOfTx == { transactionNumbers[i] : i \in DOMAIN transactionNumbers }
     IN 
-        \A r \in NODES, tn \in setOfTx : 
-            Cardinality(mset(r, tn)) <= 1
+        \A r, d \in NODES, tn \in setOfTx : 
+            Cardinality(mset(r, tn, d)) <= 1
 
 
 PreparedTxInvariant2 == 
-    LET mset(r, tn, type) == {m \in ValidMessage(msgs) : /\ m.type = type
+    LET mset(r, tn, type, d) == {m \in ValidMessage(msgs) : /\ m.type = type
                                           /\ m.src = r
                                           /\ m.tn = tn
+                                          /\ m.dst = d
                                           
                         }
         setOfTx == { transactionNumbers[i] : i \in DOMAIN transactionNumbers }
     IN 
-        \A r \in NODES, tn \in setOfTx : 
-            Cardinality(mset(r, tn, "prepared")) + Cardinality(mset(r, tn, "aborted")) <= 1
+        \A r, d\in NODES, tn \in setOfTx : 
+            Cardinality(mset(r, tn, "prepared", d)) + Cardinality(mset(r, tn, "aborted", d)) <= 1
 
 
 
@@ -1583,7 +1606,7 @@ GraphEqual1 == \A i, j \in NODES : localNodesGraph[i] = localNodesGraph[j]
 GraphEqual == \A i, j \in NODES : Cardinality(localNodesGraph[i]) = Cardinality(localNodesGraph[j])
 \*
 
-messgaeDuplicateInvariant == \A m \in DOMAIN msgs : msgs[m] = 1 
+messgaeDuplicateInvariant == \A m \in DOMAIN msgs : msgs[m] <= 1 
 
 
 
