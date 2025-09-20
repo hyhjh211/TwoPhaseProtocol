@@ -21,10 +21,10 @@ CONSTANT NODES,  \* The set of nodes in the system,
 
 VARIABLES
   rmState,       \* rmState[transactionNumber, r, shard] is the state of node r for transcation transactionNumber "leader" or "follower" or "primaryLeader".
-                 \* rmState[transactionNumber, r, -1] to check whether the node is the primary leader
                  
-  msgs,          \* inter shards communication
-\*  msgsShards,    \* intra shards communication
+                 
+  msgs,          \* intra shards communication
+\*  msgsShards,    \* inter shards communication
   
   clientRequests, \* clientRequests[r] is the set of requests coming from a clietn at node r
   localTransactionHistory,\*  localTransactionHistory[nodes] is the transcation history graph for the corresponding node 
@@ -36,7 +36,7 @@ VARIABLES
   localTransactionalGraph,                        
   localNodesGraph, \* localNodesGraph[nodes] is a graph
   
-                     
+\*  newCoordinator,                   
   pendingTransactions, \* set of transactions to be executed 
   catchUpID, \* to identify different catch-up requests catchUpID[nodes] 
   failedNodesCount,
@@ -151,9 +151,7 @@ GRAPHTypeOK ==
   \cup [type : {"catchUpResponse"}, src : NODES, dst : NODES, transactions: Seq(SUBSET transactionNumbers),ID: Int, subGraph: localNodesGraphType]
   \cup [type : {"finCatUp"}, src : NODES, dst : NODES, ID : Int]
   \* below are message type for inter shard communication
-  \cup [type : { "preparedResponse", "abortedResponse", "prepared","aborted", "committed", "committedResponse"}, tn:  transactionNumbers, src : NODES, dst : NODES,  shard: Shard, shards: SUBSET Shard ]  
-  \cup [type : {"prepared"}, tn:  transactionNumbers, operations: Seq(OperationSet), src : NODES, dst : NODES,  shard: Shard, shards: SUBSET Shard ]  
-  \cup [type: {"clientRequest"}, tn: transactionNumbers, operations: Seq(OperationSet),  shards: Shard]
+\*  \cup [type : { "preparedResponse", "abortedResponse", "prepared","aborted", "committed", "committedResponse"}, tn:  transactionNumbers, src : NODES, dst : NODES,  shard: Shard, shards: SUBSET Shard ]  
   
   
   
@@ -250,10 +248,10 @@ GRAPHTypeOK ==
 \*    \*don't delete
   
   
-  ConflictDetect(tnInfo, i, tnOperations) ==
+  ConflictDetect(tnInfo, i, tnOperations, newComm) ==
     LET 
       targetNodes == {tnOperations[op].sourceVertex : op \in 1..Len(tnOperations)}
-      preparedTx == localTransactionHistory[i]["prepared"]
+      preparedTx == localTransactionHistory[i]["prepared"] \ newComm
       f(x) == {transactions[x][j].sourceVertex : j \in 1..Len(transactions[x])}
       operatedNodes == { f(x) : x \in preparedTx }
       hasIntersection == \E x \in operatedNodes : targetNodes \cap x # {}
@@ -388,13 +386,13 @@ GRAPHTypeOK ==
         
         \/  
             
-            /\ ~ConflictDetect(tnInfo, s, tnOperations)
+            /\ ~ConflictDetect(tnInfo, s, tnOperations, {})
             /\ msgs' = msgs @@ prepareMsg
             /\ localTransactionalGraph' =  [localTransactionalGraph EXCEPT ![s] = @ @@ [i \in {tnInfo} |-> localTransactionHistory[s]["leadingEdge"]]]
             /\ localTransactionHistory' = [localTransactionHistory EXCEPT ![s]["prepared"] =  @ \union {tnInfo}]
             
         \/  
-            /\ ConflictDetect(tnInfo, s, tnOperations)
+            /\ ConflictDetect(tnInfo, s, tnOperations, {})
             /\ msgs' = msgs @@ prepareAndVoteAbort 
             /\ localTransactionalGraph' =  [localTransactionalGraph EXCEPT ![s] = @ @@ [i \in {tnInfo} |-> localTransactionHistory[s]["leadingEdge"]]] 
             /\ localTransactionHistory' = [localTransactionHistory EXCEPT ![s]["aborted"] =  @ \union {tnInfo}]
@@ -504,7 +502,7 @@ GRAPHTypeOK ==
 \*    /\ rmState[m.tn, r, m.shard] = "leader"
 \*    /\ InterposedCoordinatorCommitResponseHandle(m.tn, r, m.shards, m.shard)
 \*    /\ test' = test + 1
-\*    /\ UNCHANGED <<lostMsgCount, failedNodesCount, failedNodes, transactionNumbers, localTransactionHistory, 
+\*    /\ UNCHANGED <<newCoordinator,lostMsgCount, failedNodesCount, failedNodes, transactionNumbers, localTransactionHistory, 
 \*        localNodesGraph  , pendingTransactions, rmState, msgs, clientRequests, localTransactionalGraph, clientRequests, catchUpID>>
   
   
@@ -527,7 +525,7 @@ GRAPHTypeOK ==
 \*       /\ rmState[m.tn, r, -1] = "primaryLeader"
 \*       /\ CoordinatorCommitResponseHandle(m.tn, r, m.shards)
 \*       /\ test' = test + 1
-\*       /\ UNCHANGED <<lostMsgCount, failedNodesCount, failedNodes, transactionNumbers, 
+\*       /\ UNCHANGED <<newCoordinator,lostMsgCount, failedNodesCount, failedNodes, transactionNumbers, 
 \*        localNodesGraph,  clientRequests, msgsShards , pendingTransactions, rmState, msgs, localTransactionalGraph, catchUpID>>
 \*               
         
@@ -646,29 +644,29 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
                         shards |-> shardsInfo,
                          shard |-> shardInfo], msgs)
             /\ test' = test + 1
-            /\ UNCHANGED<<lostMsgCount, failedNodesCount, failedNodes, clientRequests, localNodesGraph, localTransactionHistory, localTransactionalGraph, pendingTransactions, rmState, catchUpID>>
+            /\ UNCHANGED << lostMsgCount, failedNodesCount, failedNodes, clientRequests, localNodesGraph, localTransactionHistory, localTransactionalGraph, pendingTransactions, rmState, catchUpID>>
         ELSE IF (tnInfo \in localTransactionHistory[r]["prepared"] \/ tnInfo \in localTransactionHistory[r]["heuristic"])
              THEN
                 /\ txExistHandler("prepared")
                 /\ test' = test + 1
-                /\ UNCHANGED<<lostMsgCount, failedNodesCount, failedNodes, clientRequests, localNodesGraph, localTransactionHistory, localTransactionalGraph, pendingTransactions, rmState, catchUpID>>
+                /\ UNCHANGED << lostMsgCount, failedNodesCount, failedNodes, clientRequests, localNodesGraph, localTransactionHistory, localTransactionalGraph, pendingTransactions, rmState, catchUpID>>
              ELSE 
                 /\ txExistHandler("aborted")
                 /\ test' = test + 1
-                /\ UNCHANGED<<lostMsgCount, failedNodesCount, failedNodes, clientRequests, localNodesGraph, localTransactionHistory, localTransactionalGraph, pendingTransactions, rmState, catchUpID>>
+                /\ UNCHANGED<< lostMsgCount, failedNodesCount, failedNodes, clientRequests, localNodesGraph, localTransactionHistory, localTransactionalGraph, pendingTransactions, rmState, catchUpID>>
       ELSE
       IF depdencyInfo \subseteq localTransactionHistory[r]["committed"] \cup localTransactionHistory[r]["prepared"]
       THEN   
          
-          IF ~ConflictDetect(tnInfo, r, tnOperations) 
+          IF ~ConflictDetect(tnInfo, r, tnOperations, commonElements) 
          
           THEN
             /\ localTransactionHistory' = [localTransactionHistory EXCEPT ![r]["prepared"] =  (@ \ commonElements) \union {tnInfo},
                                                                            ![r]["committed"] =  @ \union commonElements,
                                                                            ![r]["leadingEdge"] = (@ \ Parents(commonElements, localTransactionalGraph[r])) \union commonElements]           
             /\ localNodesGraph' = [localNodesGraph EXCEPT ![r] = ApplyOpsquence(SetToSeq(commonElements), r, localNodesGraph[r])]                                                       
-\*            /\ localTransactionalGraph' =  [localTransactionalGraph EXCEPT ![r] = @ @@ [i \in {tnInfo} |-> depdencyInfo]]
-            /\ localTransactionalGraph' =  [localTransactionalGraph EXCEPT ![r] = @ @@ [i \in {tnInfo} |-> (localTransactionHistory[r]["leadingEdge"] \ Parents(commonElements, localTransactionalGraph[r])) \union commonElements ]]
+            /\ localTransactionalGraph' =  [localTransactionalGraph EXCEPT ![r] = @ @@ [i \in {tnInfo} |-> depdencyInfo]]
+\*            /\ localTransactionalGraph' =  [localTransactionalGraph EXCEPT ![r] = @ @@ [i \in {tnInfo} |-> (localTransactionHistory[r]["leadingEdge"] \ Parents(commonElements, localTransactionalGraph[r])) \union commonElements ]]
             /\ ~havePrepared
             /\ ~haveAborted
             /\ sendResponse("prepared")
@@ -762,7 +760,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
     /\ UNCHANGED <<lostMsgCount, failedNodesCount, failedNodes, transactionNumbers, rmState, clientRequests, 
       pendingTransactions, localTransactionalGraph, localNodesGraph, localTransactionHistory>>
     
-\*  /\ UNCHANGED <<tmState, 
+\*  /\ UNCHANGED <<newCoordinator,tmState, 
 
 
 
@@ -999,7 +997,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
             
             
             
-  LeaderHandleAbort(tnInfo, r, msg) ==
+  newLeaderHandleAbort(tnInfo, r, msg) ==
   (*********************************************************************************)
   (*Leader r received aborted from other nodes,                                    *)
   (*if majority have votes aborted. then votes abort                               *)
@@ -1020,13 +1018,36 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
         IN  /\ \A ac \in MS : \E m \in mset : m.src = ac
 \*            /\ LeaderFowardSingleShardAbort(tnInfo, r, msg.shards, msg.shard)
             /\ LeaderSendAbort(msg.tn, r, msg.shards, msg.shard)
+\*            /\ r \in newCoordinator
             /\ test' = test + 1
      /\ UNCHANGED <<lostMsgCount, failedNodesCount, failedNodes, transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, localTransactionalGraph,
                          pendingTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, catchUpID>>           
             
        
-            
-            
+  LeaderHandleAbort(tnInfo, r, msg) ==
+   /\ ~MsgExist([type |-> "commit", 
+                tn |-> tnInfo, 
+                src |-> r, 
+                dst |-> -1, 
+                operations |-> transactions[tnInfo],
+                shards |-> msg.shards,
+                shard |-> msg.shard
+                ], msgs)
+   /\ ~MsgExist([type |-> "abort", 
+                   tn|-> tnInfo, 
+                   src |-> r, 
+                   dst |-> -1, 
+                   operations |-> transactions[tnInfo],
+                   shards |-> msg.shards,
+                   shard |-> msg.shard
+              ], msgs)
+   /\ rmState[tnInfo, r, msg.shard] = "leader"   
+\*   /\ ~(r \in newCoordinator)
+   /\ msg.type = "aborted"  
+   /\ test' = test + 1
+   /\ LeaderSendAbort(msg.tn, r, msg.shards, msg.shard)
+   /\ UNCHANGED <<lostMsgCount, failedNodesCount, failedNodes, transactionNumbers, rmState, clientRequests, localTransactionHistory, localNodesGraph, localTransactionalGraph,
+                         pendingTransactions, clientRequests, localNodesGraph, localTransactionHistory, pendingTransactions, catchUpID>>                    
 \*    /\ \E MS \in Quorum :    
 \*            /\ \A ac \in MS : 
 \*                \E msg \in msgs[ac][r]:
@@ -1183,7 +1204,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
 \*   /\ rmState[msg.tn, msg.dst, -1] = "primaryLeader"
 \*   /\ PrimaryLeaderHandleCommit(msg.tn, msg.dst, msg)
 \*   /\ test' = test + 1
-\*   /\ UNCHANGED <<lostMsgCount, failedNodesCount, failedNodes, clientRequests, localNodesGraph, localTransactionHistory, msgs, pendingTransactions, localTransactionalGraph, rmState, catchUpID>>
+\*   /\ UNCHANGED <<newCoordinator,lostMsgCount, failedNodesCount, failedNodes, clientRequests, localNodesGraph, localTransactionHistory, msgs, pendingTransactions, localTransactionalGraph, rmState, catchUpID>>
    
    
 \*   
@@ -1192,7 +1213,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
 \*   /\ rmState[msg.tn, msg.dst, -1] = "primaryLeader"
 \*   /\ PimaryLeaderHandleAbort(msg.tn, msg.dst, msg) 
 \*   /\ test' = test + 1
-\*   /\ UNCHANGED <<lostMsgCount, failedNodesCount, failedNodes, clientRequests, localNodesGraph, localTransactionHistory, msgs, pendingTransactions, rmState, localTransactionalGraph, catchUpID>> 
+\*   /\ UNCHANGED <<newCoordinator,lostMsgCount, failedNodesCount, failedNodes, clientRequests, localNodesGraph, localTransactionHistory, msgs, pendingTransactions, rmState, localTransactionalGraph, catchUpID>> 
 \*      
        
    
@@ -1204,7 +1225,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
 \*        /\ LeaderSendPrepares(clientRequest, i, transactions[clientRequest])
 \*        /\ clientRequests' = [clientRequests EXCEPT ![i] = Tail(clientRequests[i])]
 \*        
-\*       /\ UNCHANGED <<transactionNumbers, localTransactionHistory, 
+\*       /\ UNCHANGED <<newCoordinator,transactionNumbers, localTransactionHistory, 
 \*        localNodesGraph, acceptedTransactions,  , pendingTransactions, rmState, test>>    
        
 
@@ -1231,6 +1252,10 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
    /\ msg.dst \in ShardNodeMapping[msg.shard]
    /\ LeaderHandleAbort(msg.tn, msg.dst, msg)
   
+  RecvNewLeaderAborted(msg) == 
+   /\ msg.type = "aborted"
+   /\ msg.dst \in ShardNodeMapping[msg.shard]
+   /\ newLeaderHandleAbort(msg.tn, msg.dst, msg)
     
     
     
@@ -1253,9 +1278,10 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
   Retry(r, tn, shard) == 
   /\ tn \in localTransactionHistory[r]["prepared"]
   /\ rmState[tn, r, shard] = "follower"
+\*  /\ newCoordinator' = newCoordinator \union {r}
   /\ rmState' = [rmState EXCEPT ![tn, r, shard] = "leader"]
   /\ InterposedCoordinatorSendPrepares(tn, r, transactions[tn], {1}, shard)
-  /\ UNCHANGED <<catchUpID, clientRequests, failedNodes, failedNodesCount, localNodesGraph, localTransactionHistory, localTransactionalGraph, lostMsgCount, pendingTransactions, test>>
+  /\ UNCHANGED << catchUpID, clientRequests, failedNodes, failedNodesCount, localNodesGraph, localTransactionHistory, localTransactionalGraph, lostMsgCount, pendingTransactions, test>>
   
   
   
@@ -1304,7 +1330,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
     /\ rmState' = [rmState EXCEPT ![nextExecuteTx,i,1] = "leader"]
     /\ InterposedCoordinatorSendPrepares(nextExecuteTx, i, transactions[nextExecuteTx], {1}, 1)
     /\ pendingTransactions' = Tail(pendingTransactions)
-    /\ UNCHANGED <<lostMsgCount, failedNodesCount, failedNodes, transactionNumbers, 
+    /\ UNCHANGED << lostMsgCount, failedNodesCount, failedNodes, transactionNumbers, 
         localNodesGraph, test, clientRequests, catchUpID>>
   
   
@@ -1346,7 +1372,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
 \*   /\ lostMsgCount < NumLostMsg
 \*   /\ lostMsgCount' = lostMsgCount + 1
 \*   /\ test' = test + 1
-\*   /\ UNCHANGED <<rmState,msgs, clientRequests, localTransactionHistory, localTransactionalGraph,                        
+\*   /\ UNCHANGED <<newCoordinator,rmState,msgs, clientRequests, localTransactionHistory, localTransactionalGraph,                        
 \*            localNodesGraph, pendingTransactions, failedNodes, failedNodesCount, catchUpID>>
    
    MSGLost(m) == 
@@ -1355,7 +1381,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
    /\ lostMsgCount < NumLostMsg
    /\ lostMsgCount' = lostMsgCount + 1
    /\ test' = test + 1
-   /\ UNCHANGED<<rmState, clientRequests, localTransactionHistory, localTransactionalGraph,                        
+   /\ UNCHANGED <<rmState, clientRequests, localTransactionHistory, localTransactionalGraph,                        
             localNodesGraph, pendingTransactions, failedNodes, failedNodesCount, catchUpID>>
  
  
@@ -1382,6 +1408,7 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
   /\ failedNodesCount = 0
   /\ failedNodes = {}
   /\ lostMsgCount = 0
+\*  /\ newCoordinator = {}
   /\ test = 0
   
   
@@ -1403,10 +1430,14 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
             /\ ~(i \in failedNodes))
             
     \/ \E i \in NODES : 
-            /\ startTx(i)            
-            
-            
-               
+            /\ startTx(i)     
+\*            
+\*    
+\*    \/ (\E m \in ValidMessage(msgs) : 
+\*            /\ RecvNewLeaderAborted(m)
+\*            /\ ~(m.dst \in failedNodes))             
+
+       
             
 \*   \/ \E i \in NODES : 
 \*            /\ ClientRequest(i)
@@ -1472,11 +1503,20 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
     \/Cardinality(localNodesGraph[1]) = 1
     \/Cardinality(localNodesGraph[1]) = 2
     
+    
+    
+    
  DummyInvariant2 == 
     test < 20 /\ Cardinality(DOMAIN(msgs)) < 45
     
+    
+    
+    
   DummyInvariant3 == 
     Cardinality(localNodesGraph[1]) = 0 
+ 
+ 
+ 
  
   LeadingEdgeInvariant ==
   LET 
@@ -1487,12 +1527,17 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
     localTransactionHistory[n1]["leadingEdge"] = localTransactionHistory[n2]["leadingEdge"] =>
       committedTxDag(n1) = committedTxDag(n2)
       
+      
+      
+      
   DependencyInvariant == 
   LET
   setOfTx == { transactionNumbers[i] : i \in DOMAIN transactionNumbers }
   IN
   \A n1, n2 \in NODES :
     \A a, b \in setOfTx:
+\*        /\ ~(n1 \in failedNodes)
+\*        /\ ~(n2 \in failedNodes)
         /\ a \in DOMAIN localTransactionalGraph[n1]
         /\ b \in DOMAIN localTransactionalGraph[n1]
         /\ a \in DOMAIN localTransactionalGraph[n2]
@@ -1602,8 +1647,8 @@ PreparedTxInvariant2 ==
 
 
 
-GraphEqual1 == \A i, j \in NODES : localNodesGraph[i] = localNodesGraph[j]
-GraphEqual == \A i, j \in NODES : Cardinality(localNodesGraph[i]) = Cardinality(localNodesGraph[j])
+GraphEqual == \A i, j \in NODES : localNodesGraph[i] = localNodesGraph[j]
+GraphEqual1 == \A i, j \in NODES : Cardinality(localNodesGraph[i]) = Cardinality(localNodesGraph[j])
 \*
 
 messgaeDuplicateInvariant == \A m \in DOMAIN msgs : msgs[m] <= 1 
