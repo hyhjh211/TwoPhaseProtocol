@@ -171,46 +171,67 @@ GRAPHTypeOK ==
   
   
   
-  ApplyOp(op, nodeID, G) ==
+\*  ApplyOp(op, nodeID, G) ==
+\*    IF nodeID \in ShardNodeMapping[op.shard]
+\*    THEN
+\*        CASE op.type = "nodes" /\ op.Operation = "add"   -> G \union { [NodeID |-> op.sourceVertex, neighbours |-> {}]}
+\*        [] op.type = "nodes" /\ op.Operation = "remove"   -> 
+\*        LET 
+\*              G1 == G \  {[NodeID |-> op.sourceVertex, neighbours |->  (CHOOSE v \in G : v.NodeID = op.sourceVertex).neighbours]} \* Remove the node itself
+\*    \*          G2 == [ v \in DOMAIN G1 |-> v.neighbours \ {op.sourceVertex} ] \* Remove it from neighbors
+\*              GraphWithRemovedNodes == { v \in G1 :  op.sourceVertex \in v.neighbours}
+\*              GraphWithoutRemovedNodes == { v \in G1 :  op.sourceVertex \notin v.neighbours}
+\*              Gtemp == { [NodeID |-> v1.NodeID, neighbours |-> v1.neighbours \ {op.sourceVertex}] : v1 \in GraphWithRemovedNodes }
+\*              G2 == Gtemp \union GraphWithoutRemovedNodes
+\*        IN  
+\*              IF Cardinality({v \in G : v.NodeID = op.sourceVertex}) > 0 
+\*              THEN G2
+\*              ELSE G
+\*        [] op.type = "edges" /\ op.Operation = "add" ->
+\*        LET 
+\*            addEdge(v) == 
+\*                IF v.NodeID = op.sourceVertex THEN 
+\*                        [NodeID |-> v.NodeID, neighbours |-> v.neighbours \union {op.desVertex}]
+\*\*                    ELSE IF v.NodeID = op.desVertex THEN             
+\*\*                        [NodeID |-> v.NodeID, neighbours |-> v.neighbours \union {op.sourceVertex}]
+\*                    ELSE v
+\*        IN
+\*        {addEdge(v) : v \in G}
+\*        [] op.type = "edges" /\ op.Operation = "remove" -> 
+\*        LET
+\*            removeEdge(v) ==
+\*                IF v.NodeID = op.sourceVertex THEN 
+\*                                   [NodeID |-> v.NodeID, neighbours |-> v.neighbours \ {op.desVertex}]
+\*                              ELSE IF v.NodeID = op.desVertex THEN
+\*                                   [NodeID |-> v.NodeID, neighbours |-> v.neighbours \ {op.sourceVertex}]
+\*                                 ELSE v
+\*    \*        connectedNode == {CHOOSE v \in G : v[op.sourceVertex] = op.sourceVertex}
+\*    \*        G1  == G \ connectedNode
+\*    \*        G2 == G1 \union {[[NodeID |-> connectedNode.NodeID, neighbours |-> connectedNode.neighbours \ {desVertex}]}
+\*            
+\*         IN 
+\*             { removeEdge(v): v \in G }
+\*    ELSE
+\*        G
+   ApplyOp(op, nodeID, G) ==
     IF nodeID \in ShardNodeMapping[op.shard]
     THEN
-        CASE op.type = "nodes" /\ op.Operation = "add"   -> G \union { [NodeID |-> op.sourceVertex, neighbours |-> {}]}
+        CASE op.type = "nodes" /\ op.Operation = "add"   -> G @@  [i \in {op.sourceVertex} |-> {}]
         [] op.type = "nodes" /\ op.Operation = "remove"   -> 
-        LET 
-              G1 == G \  {[NodeID |-> op.sourceVertex, neighbours |->  (CHOOSE v \in G : v.NodeID = op.sourceVertex).neighbours]} \* Remove the node itself
-    \*          G2 == [ v \in DOMAIN G1 |-> v.neighbours \ {op.sourceVertex} ] \* Remove it from neighbors
-              GraphWithRemovedNodes == { v \in G1 :  op.sourceVertex \in v.neighbours}
-              GraphWithoutRemovedNodes == { v \in G1 :  op.sourceVertex \notin v.neighbours}
-              Gtemp == { [NodeID |-> v1.NodeID, neighbours |-> v1.neighbours \ {op.sourceVertex}] : v1 \in GraphWithRemovedNodes }
-              G2 == Gtemp \union GraphWithoutRemovedNodes
-        IN  
-              IF Cardinality({v \in G : v.NodeID = op.sourceVertex}) > 0 
-              THEN G2
-              ELSE G
+
+        [x \in (DOMAIN G \ {op.sourceVertex}) |-> (G[x] \ {op.sourceVertex})] \* Remove the node itself
         [] op.type = "edges" /\ op.Operation = "add" ->
-        LET 
-            addEdge(v) == 
-                IF v.NodeID = op.sourceVertex THEN 
-                        [NodeID |-> v.NodeID, neighbours |-> v.neighbours \union {op.desVertex}]
-\*                    ELSE IF v.NodeID = op.desVertex THEN             
-\*                        [NodeID |-> v.NodeID, neighbours |-> v.neighbours \union {op.sourceVertex}]
-                    ELSE v
-        IN
-        {addEdge(v) : v \in G}
+        [ n \in DOMAIN G |-> 
+            IF n = op.sourceVertex THEN G[n] \cup {op.desVertex}
+            ELSE IF n = op.desVertex THEN G[n] \cup {op.sourceVertex}
+            ELSE G[n]
+        ]
         [] op.type = "edges" /\ op.Operation = "remove" -> 
-        LET
-            removeEdge(v) ==
-                IF v.NodeID = op.sourceVertex THEN 
-                                   [NodeID |-> v.NodeID, neighbours |-> v.neighbours \ {op.desVertex}]
-                              ELSE IF v.NodeID = op.desVertex THEN
-                                   [NodeID |-> v.NodeID, neighbours |-> v.neighbours \ {op.sourceVertex}]
-                                 ELSE v
-    \*        connectedNode == {CHOOSE v \in G : v[op.sourceVertex] = op.sourceVertex}
-    \*        G1  == G \ connectedNode
-    \*        G2 == G1 \union {[[NodeID |-> connectedNode.NodeID, neighbours |-> connectedNode.neighbours \ {desVertex}]}
-            
-         IN 
-             { removeEdge(v): v \in G }
+        [ n \in DOMAIN G |-> 
+            IF n = op.sourceVertex THEN G[n] \ {op.desVertex}
+            ELSE IF n = op.desVertex THEN G[n] \ {op.sourceVertex}
+            ELSE G[n]
+        ]
     ELSE
         G
         
@@ -1323,7 +1344,8 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
   /\ msgsShards = [m \in {} |-> 0]
   /\ pendingTransactions = transactionNumbers
   /\ clientRequests = [r \in NODES |-> <<>>]
-  /\ localNodesGraph = [r \in NODES |-> {}]
+\*  /\ localNodesGraph = [r \in NODES |-> {}]
+  /\ localNodesGraph = [r \in NODES |-> [i \in {} |-> {}]]
   /\ localTransactionHistory = [r \in NODES |-> 
         [
             i \in {"committed","leadingEdge","prepared", "aborted", "heuristic" } |-> {}
@@ -1436,6 +1458,16 @@ RecvPhase1(tnInfo, r, s, depdencyInfo, tnOperations, shardsInfo, shardInfo) ==
       /\ ("tn" \in DOMAIN(m1))
       /\ ("tn" \in DOMAIN(m2))
       => m1.tn # m2.tn
+      
+      
+  ReciprocalConsistency == 
+  \A i, j \in NODES :
+  \A n1 \in DOMAIN localNodesGraph[i] :
+    \A n2 \in localNodesGraph[i][n1] :
+      /\ ~(n2 \in DOMAIN localNodesGraph[i])
+      /\ n2 \in DOMAIN localNodesGraph[j]
+      => n1 \in localNodesGraph[j][n2]
+  
         
     
 \*Spec == Init /\ [][Next]_<<localNodesGraph>>
@@ -1446,7 +1478,7 @@ LivenessDummy == <> (Cardinality(localNodesGraph[1]) = 1)
 GraphEqual == \A i, j \in NODES : localNodesGraph[i] = localNodesGraph[j]
 
 EventuallyEqualGraph == <>GraphEqual
-  
+EventuallyReciprocalConsistency == <>ReciprocalConsistency
 \*
     
 \*    \/ Cardinality(localTransactionHistory[1]["prepared"]) = 1) /\
